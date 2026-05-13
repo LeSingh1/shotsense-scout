@@ -252,14 +252,20 @@ const vectorSearchShotsHandler: ToolDefinition<
         pipeline.push({ $limit: params.k });
       }
       const rows = (await shotsColl.aggregate(pipeline).toArray()) as Shot[];
-      if (rows.length > 0) {
+      // Vector path counts as successful only if it returns the full k. With
+      // partial embedding coverage, $vectorSearch may return 0-1 results that
+      // happened to land in the embedded subset; the structured heuristic
+      // searches the FULL corpus and is the more relevant fallback.
+      if (rows.length >= params.k) {
         const safePipeline: unknown[] = JSON.parse(JSON.stringify(pipeline));
         // @ts-expect-error mutating display copy
         safePipeline[0].$vectorSearch.queryVector = `<768-dim embedding of: "${params.query_summary}">`;
         return { shots: rows, pipeline: safePipeline, mode: "vector", embedded_count };
       }
-      // Vector returned nothing — fall through to heuristic so we still
-      // surface something rather than an empty similar-shots panel.
+      console.log(
+        `vectorSearchShots: vector returned ${rows.length} of ${params.k} requested; falling back to heuristic over full corpus.`,
+      );
+      // Fall through to heuristic.
     } catch (err) {
       console.warn(
         "vectorSearchShots: vector path failed, falling back to heuristic:",

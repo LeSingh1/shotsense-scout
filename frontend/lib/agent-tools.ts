@@ -208,6 +208,13 @@ const runAggregationHandler: ToolDefinition<typeof runAggregationParams, { shots
  * the user can read than show an empty result because embeddings aren't done. */
 const MIN_EMBEDDED_FOR_VECTOR = 100;
 
+/** The BFF embeds queries at runtime using Gemini. If the corpus was embedded
+ * with a different provider (e.g. local sentence-transformers via the offline
+ * script), the two vector spaces don't align and $vectorSearch returns
+ * mathematically-nearest but semantically-irrelevant neighbors. Skip vector
+ * entirely when the corpus provider doesn't match the query provider. */
+const RUNTIME_EMBEDDING_PROVIDER = "gemini";
+
 type VectorSearchResult = {
   shots: Shot[];
   pipeline: unknown[];
@@ -228,7 +235,25 @@ const vectorSearchShotsHandler: ToolDefinition<
     {},
   );
 
-  if (embedded_count >= MIN_EMBEDDED_FOR_VECTOR) {
+  // Provider check: if the corpus was embedded with a non-Gemini provider,
+  // our runtime Gemini query vector lives in a different space. Skip vector.
+  let corpusProvider: string | null = null;
+  if (embedded_count > 0) {
+    const probe = (await shotsColl.findOne(
+      { summary_embedding: { $exists: true } },
+      { projection: { embedding_provider: 1 } },
+    )) as { embedding_provider?: string } | null;
+    corpusProvider = probe?.embedding_provider ?? null;
+  }
+  const providerMatch =
+    corpusProvider === null || corpusProvider === RUNTIME_EMBEDDING_PROVIDER;
+  if (!providerMatch) {
+    console.log(
+      `vectorSearchShots: corpus embedded with '${corpusProvider}', runtime is '${RUNTIME_EMBEDDING_PROVIDER}' — skipping vector path.`,
+    );
+  }
+
+  if (embedded_count >= MIN_EMBEDDED_FOR_VECTOR && providerMatch) {
     try {
       const queryVector = await ctx.embed(params.query_summary);
       // The vector index only includes docs where summary_embedding is set, so

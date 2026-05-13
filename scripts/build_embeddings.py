@@ -1,22 +1,45 @@
-"""Batched Gemini embeddings for the shots.summary field.
+"""Batched embeddings for the shots.summary field.
 
-Strategy (locked in /plan-eng-review Issue 5A):
-  - Batch up to EMBEDDING_BATCH_SIZE summaries per Gemini request.
-  - Exponential backoff on 429 / 5xx.
-  - Checkpoint progress every EMBEDDING_CHECKPOINT_EVERY shots so re-runs resume.
-  - Skip shots that already have an up-to-date summary_embedding.
+Two providers (select with EMBEDDING_PROVIDER):
 
-After this completes, create the Atlas Vector Search index on the field
+  gemini (default)
+    Calls the Gemini Developer API (gemini-embedding-001, 768 dims). Subject
+    to free-tier quotas (~100 RPM, daily token caps). Best embedding quality.
+
+  local_sentence_transformers
+    Runs sentence-transformers/all-mpnet-base-v2 locally on CPU/GPU. 768 dims,
+    matches the Atlas Vector Search index. No external API, no quotas, no key.
+    Slower per call but no rate-limit pauses; ~10-15 min for 10,503 shots on
+    a modern laptop CPU.
+
+Important: the BFF route embeds queries at runtime. Both sides MUST use the
+same provider or the vector spaces don't align. Each shot's embedding gets
+tagged with `embedding_provider` so the BFF can detect a mismatch and fall
+back to the structured heuristic.
+
+Common operations:
+  - Skip shots that already have summary_embedding (default).
+  - Batch summaries per request and checkpoint progress every N shots.
+  - On Gemini 429: parse retry hint, sleep, retry. On persistent quota
+    exhaustion, save checkpoint and exit cleanly so a rerun resumes.
+
+After this completes, create the Atlas Vector Search index on
 `summary_embedding` (768 dimensions, cosine similarity) named
-`shot_summary_vector_index`. The agent's vectorSearchShots tool reads from
-that exact index name.
+`shot_summary_vector_index`.
 
 Env:
   MONGODB_URI                   Atlas connection string (required)
-  MONGODB_DB                    target database (default: nba_shot_quality)
-  GEMINI_API_KEY                Gemini API key (required)
-  EMBEDDING_BATCH_SIZE          shots per request (default: 100)
-  EMBEDDING_CHECKPOINT_EVERY    flush + log every N shots (default: 500)
+  MONGODB_DB                    target database (default: shotsense)
+  EMBEDDING_PROVIDER            'gemini' or 'local_sentence_transformers'
+  GEMINI_API_KEY                required when provider=gemini
+  EMBEDDING_BATCH_SIZE          shots per request (default: 50)
+  EMBEDDING_CHECKPOINT_EVERY    flush every N shots (default: 500)
+  EMBEDDING_SLEEP_SECONDS       Gemini: pause between batches (default: 90)
+  EMBEDDING_429_SLEEP_SECONDS   Gemini: fallback 429 sleep (default: 70)
+  EMBEDDING_OVERWRITE           if 'true', re-embed ALL shots even if they
+                                already have summary_embedding. Use this when
+                                switching providers — mixing two providers in
+                                the same vector index silently breaks search.
 """
 
 from __future__ import annotations
@@ -35,18 +58,29 @@ from typing import Iterable
 logger = logging.getLogger("build_embeddings")
 
 CHECKPOINT_PATH = Path(__file__).resolve().parent / ".embedding-checkpoint.json"
-EMBEDDING_MODEL = "gemini-embedding-001"
 EMBEDDING_DIMS = 768  # must match Atlas Vector Search index
+
+# --- Provider configuration -------------------------------------------------
+PROVIDER_GEMINI = "gemini"
+PROVIDER_LOCAL = "local_sentence_transformers"
+VALID_PROVIDERS = (PROVIDER_GEMINI, PROVIDER_LOCAL)
+
+# Gemini
+GEMINI_MODEL = "gemini-embedding-001"
+# Local sentence-transformers
+LOCAL_MODEL = "sentence-transformers/all-mpnet-base-v2"  # 768 dims native
+
+# --- Retry / pacing ---------------------------------------------------------
 MAX_RETRIES = 8
 BASE_BACKOFF_S = 1.0
 BACKOFF_CAP_S = 32.0
-# Free-tier quota = 100 embed RPM. A batch counts as one request, so 50/batch
-# + 90s pacing gives us a healthy margin under that ceiling even when the
-# quota window doesn't reset cleanly at our 60s boundary.
+# Free-tier Gemini quota = 100 embed RPM. 50/batch + 90s pacing gives margin.
 DEFAULT_BATCH_SIZE = 50
 DEFAULT_INTER_BATCH_SLEEP_S = 90
-# When a 429 hits without a parseable retry hint, wait this long before retry.
 DEFAULT_429_SLEEP_S = 70
+# Local provider has no rate limit; bigger batches + no pacing are fine.
+LOCAL_DEFAULT_BATCH_SIZE = 128
+LOCAL_DEFAULT_SLEEP_S = 0
 
 
 class QuotaExhausted(RuntimeError):
@@ -74,7 +108,7 @@ def _chunks(seq: list, size: int) -> Iterable[list]:
         yield seq[i : i + size]
 
 
-def _get_genai_client(api_key: str):
+def _get_gemini_client(api_key: str):
     """Build a google-genai client pinned to the Gemini Developer API.
 
     google-genai supports two backends: the Gemini Developer API (API-key auth)
@@ -91,6 +125,38 @@ def _get_genai_client(api_key: str):
             "google-genai not installed. Run: pip install -r requirements-agent.txt"
         ) from e
     return genai.Client(api_key=api_key)
+
+
+def _get_local_model():
+    """Load sentence-transformers/all-mpnet-base-v2 once. Returns the model."""
+    try:
+        from sentence_transformers import SentenceTransformer
+    except ImportError as e:
+        raise RuntimeError(
+            "sentence-transformers not installed. Run: "
+            "pip install -r requirements-agent.txt"
+        ) from e
+    logger.info("Loading local model %s (first run downloads ~420MB)", LOCAL_MODEL)
+    return SentenceTransformer(LOCAL_MODEL)
+
+
+def _embed_batch_local(summaries: list[str], model) -> list[list[float]]:
+    """Run sentence-transformers locally. No rate limit, deterministic."""
+    import numpy as np  # noqa: E402 — only imported when local provider runs
+
+    # encode returns a numpy array of shape (batch, 768)
+    arr = model.encode(
+        summaries,
+        batch_size=min(64, len(summaries)),
+        show_progress_bar=False,
+        convert_to_numpy=True,
+        normalize_embeddings=True,  # cosine-friendly
+    )
+    if arr.shape[1] != EMBEDDING_DIMS:
+        raise RuntimeError(
+            f"Unexpected local embedding dimension: {arr.shape[1]} (want {EMBEDDING_DIMS})"
+        )
+    return [list(map(float, v)) for v in arr]
 
 
 def _vector_from_embedding(emb) -> list[float]:
@@ -136,7 +202,7 @@ def _parse_retry_delay_seconds(exc: Exception) -> float | None:
     return None
 
 
-def _embed_batch(summaries: list[str], client, default_429_sleep_s: float) -> list[list[float]]:
+def _embed_batch_gemini(summaries: list[str], client, default_429_sleep_s: float) -> list[list[float]]:
     """Call Gemini batch embedding via google-genai. One vector per input.
 
     On 429 RESOURCE_EXHAUSTED: parse the server-suggested retry delay if
@@ -149,7 +215,7 @@ def _embed_batch(summaries: list[str], client, default_429_sleep_s: float) -> li
     for attempt in range(MAX_RETRIES):
         try:
             response = client.models.embed_content(
-                model=EMBEDDING_MODEL,
+                model=GEMINI_MODEL,
                 contents=summaries,
                 config=types.EmbedContentConfig(
                     task_type="RETRIEVAL_DOCUMENT",
@@ -234,7 +300,20 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     uri = os.environ.get("MONGODB_URI", "").strip()
-    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    provider = (
+        os.environ.get("EMBEDDING_PROVIDER", "").strip().lower() or PROVIDER_GEMINI
+    )
+    overwrite = os.environ.get("EMBEDDING_OVERWRITE", "").strip().lower() in (
+        "1", "true", "yes",
+    )
+    if provider not in VALID_PROVIDERS:
+        print(
+            f"\n  X EMBEDDING_PROVIDER='{provider}' is not recognized.\n"
+            f"    Valid: {', '.join(VALID_PROVIDERS)}\n",
+            file=sys.stderr,
+        )
+        return 2
+
     if not uri:
         print(
             "\n  X MONGODB_URI is not set.\n"
@@ -244,21 +323,30 @@ def main(argv: list[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 2
-    if not api_key:
+
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if provider == PROVIDER_GEMINI and not api_key:
         print(
-            "\n  X GEMINI_API_KEY is not set.\n"
+            "\n  X GEMINI_API_KEY is not set (required for provider=gemini).\n"
             "    Get one at https://aistudio.google.com/app/apikey\n"
-            "    Then add it to .env: GEMINI_API_KEY=...\n",
+            "    Then add it to .env: GEMINI_API_KEY=...\n"
+            "    Or switch to local: EMBEDDING_PROVIDER=local_sentence_transformers\n",
             file=sys.stderr,
         )
         return 2
+
     db_name = os.environ.get("MONGODB_DB", "").strip() or "shotsense"
-    batch_size = int(os.environ.get("EMBEDDING_BATCH_SIZE", DEFAULT_BATCH_SIZE))
+    # Local provider runs on the same machine — no rate limit, bigger batches.
+    if provider == PROVIDER_LOCAL:
+        default_batch = LOCAL_DEFAULT_BATCH_SIZE
+        default_sleep = LOCAL_DEFAULT_SLEEP_S
+    else:
+        default_batch = DEFAULT_BATCH_SIZE
+        default_sleep = DEFAULT_INTER_BATCH_SLEEP_S
+    batch_size = int(os.environ.get("EMBEDDING_BATCH_SIZE", default_batch))
     checkpoint_every = int(os.environ.get("EMBEDDING_CHECKPOINT_EVERY", 500))
-    # Free-tier quota = 100 embed RPM. Sleep between successful batches to
-    # stay under it. Override to 0 if you're on a paid tier with no RPM cap.
     inter_batch_sleep_s = float(
-        os.environ.get("EMBEDDING_SLEEP_SECONDS", DEFAULT_INTER_BATCH_SLEEP_S)
+        os.environ.get("EMBEDDING_SLEEP_SECONDS", default_sleep)
     )
     fallback_429_sleep_s = float(
         os.environ.get("EMBEDDING_429_SLEEP_SECONDS", DEFAULT_429_SLEEP_S)
@@ -278,20 +366,36 @@ def main(argv: list[str] | None = None) -> int:
     client.admin.command("ping")
     coll = client[db_name]["shots"]
 
-    # Build the Gemini client once per run, not per batch.
-    try:
-        genai_client = _get_genai_client(api_key)
-    except RuntimeError as e:
-        print(f"\n  X {e}\n", file=sys.stderr)
-        return 2
+    # Build the embedding backend once per run.
+    gemini_client = None
+    local_model = None
+    if provider == PROVIDER_GEMINI:
+        try:
+            gemini_client = _get_gemini_client(api_key)
+        except RuntimeError as e:
+            print(f"\n  X {e}\n", file=sys.stderr)
+            return 2
+    else:  # PROVIDER_LOCAL
+        try:
+            local_model = _get_local_model()
+        except RuntimeError as e:
+            print(f"\n  X {e}\n", file=sys.stderr)
+            return 2
 
-    done = set() if args.force else _read_checkpoint()
+    logger.info("Provider: %s", provider)
+    if overwrite:
+        logger.warning(
+            "EMBEDDING_OVERWRITE=true — recomputing every shot's summary_embedding."
+        )
+
+    # When overwriting, clear the checkpoint so we walk the whole corpus again.
+    done = set() if (args.force or overwrite) else _read_checkpoint()
     if done:
         logger.info("Resuming. %d shots already done per checkpoint.", len(done))
 
     # Pull shots that need an embedding
     needs_filter: dict = {"_id": {"$nin": list(done)}} if done else {}
-    if not args.force:
+    if not (args.force or overwrite):
         # also skip shots that have an embedding already (post-hoc safety net)
         needs_filter["summary_embedding"] = {"$exists": False}
 
@@ -310,17 +414,23 @@ def main(argv: list[str] | None = None) -> int:
     completed = 0
     embedded_since_checkpoint = 0
     batches = list(_chunks(todo, batch_size))
-    logger.info(
-        "Free-tier safe mode: sleeping %.0fs between batches (~%d batches, ~%.1f min)",
-        inter_batch_sleep_s,
-        len(batches),
-        (len(batches) * inter_batch_sleep_s) / 60.0,
-    )
+    if inter_batch_sleep_s > 0:
+        logger.info(
+            "Pacing: sleeping %.0fs between batches (~%d batches, ~%.1f min)",
+            inter_batch_sleep_s,
+            len(batches),
+            (len(batches) * inter_batch_sleep_s) / 60.0,
+        )
+    else:
+        logger.info("No inter-batch pacing (provider has no rate limit).")
 
     for batch_idx, batch in enumerate(batches):
         summaries = [d["summary"] for d in batch]
         try:
-            vectors = _embed_batch(summaries, genai_client, fallback_429_sleep_s)
+            if provider == PROVIDER_GEMINI:
+                vectors = _embed_batch_gemini(summaries, gemini_client, fallback_429_sleep_s)
+            else:
+                vectors = _embed_batch_local(summaries, local_model)
         except KeyboardInterrupt:
             logger.warning("Interrupted. Flushing checkpoint with %d shots done.", len(done))
             _write_checkpoint(done)
@@ -360,7 +470,18 @@ def main(argv: list[str] | None = None) -> int:
             return 1
 
         ops = [
-            UpdateOne({"_id": d["_id"]}, {"$set": {"summary_embedding": v}})
+            UpdateOne(
+                {"_id": d["_id"]},
+                {
+                    "$set": {
+                        "summary_embedding": v,
+                        "embedding_provider": provider,
+                        "embedding_model": (
+                            GEMINI_MODEL if provider == PROVIDER_GEMINI else LOCAL_MODEL
+                        ),
+                    }
+                },
+            )
             for d, v in zip(batch, vectors)
         ]
         coll.bulk_write(ops, ordered=False)

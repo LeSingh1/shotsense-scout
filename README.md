@@ -155,6 +155,43 @@ Every `make smoke` is read-only and safe to run as often as you want. Each
 script also has friendly errors if `MONGODB_URI`, `MONGODB_DB`, or
 `GEMINI_API_KEY` is missing — the message tells you exactly what to do next.
 
+### Two embedding providers
+
+`make embeddings` reads `EMBEDDING_PROVIDER` from `.env`:
+
+| Provider | Pros | Cons |
+|---|---|---|
+| `gemini` (default) | Best embedding quality; no local resource use. | Free-tier quota (~100 RPM, daily token caps) often caps a full run partway through 10,503 shots. |
+| `local_sentence_transformers` | No API quotas, no key, no internet after first download. Embeds all 10,503 shots in ~10-15 min on a modern CPU. | One-time ~420MB model download (`sentence-transformers/all-mpnet-base-v2`); larger `pip install` (torch). Different vector space from Gemini. |
+
+Both produce 768-dim vectors so the same Atlas Vector Search index works.
+
+**Switching providers requires a full re-embed** because the two vector
+spaces don't align — mixing them silently breaks similarity search:
+
+```bash
+# Switch in .env first:
+#   EMBEDDING_PROVIDER=local_sentence_transformers
+#   EMBEDDING_OVERWRITE=true
+make embeddings   # rebuilds all 10,503 from scratch with the local model
+make smoke
+# Then unset EMBEDDING_OVERWRITE=false so future runs only fill gaps.
+```
+
+The BFF route detects which provider produced the corpus (each shot is
+tagged with `embedding_provider` at write time). If the corpus provider
+doesn't match the runtime provider (currently always `gemini`), the agent
+skips Vector Search and uses the structured Mongo heuristic. So:
+
+| Corpus provider | Runtime | Similar-shot beat uses |
+|---|---|---|
+| `gemini` | `gemini` | Atlas Vector Search (real semantic similarity) |
+| `local_sentence_transformers` | `gemini` | Heuristic only (real Mongo aggregation over distance / zone / xfg) |
+
+Both render real, readable Mongo pipelines in the agent panel. To enable
+true vector search with the local provider, the BFF would need a matching
+local embedding service — out of scope for the hackathon.
+
 ### Partial embeddings are fine for the demo
 
 Gemini free-tier quotas (100 RPM, daily token caps) often make embedding

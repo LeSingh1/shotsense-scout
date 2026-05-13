@@ -62,7 +62,15 @@ def _chunks(seq: list, size: int) -> Iterable[list]:
 
 
 def _get_genai_client(api_key: str):
-    """Import and instantiate the current google-genai SDK client."""
+    """Build a google-genai client pinned to the Gemini Developer API.
+
+    google-genai supports two backends: the Gemini Developer API (API-key auth)
+    and Vertex AI (project/location + ADC). If GOOGLE_GENAI_USE_VERTEXAI is set
+    in the env, the client silently routes to Vertex AI and an API-key call
+    fails with 401 from aiplatform.googleapis.com. For this hackathon we want
+    the Developer API, so pop that flag before constructing the client.
+    """
+    os.environ.pop("GOOGLE_GENAI_USE_VERTEXAI", None)
     try:
         from google import genai
     except ImportError as e:
@@ -93,15 +101,17 @@ def _embed_batch(summaries: list[str], client) -> list[list[float]]:
     Retries with exponential backoff on transient errors. Raises on persistent
     failure so the caller can decide whether to checkpoint and exit.
     """
+    from google.genai import types
+
     for attempt in range(MAX_RETRIES):
         try:
             response = client.models.embed_content(
                 model=EMBEDDING_MODEL,
                 contents=summaries,
-                config={
-                    "task_type": "RETRIEVAL_DOCUMENT",
-                    "output_dimensionality": EMBEDDING_DIMS,
-                },
+                config=types.EmbedContentConfig(
+                    task_type="RETRIEVAL_DOCUMENT",
+                    output_dimensionality=EMBEDDING_DIMS,
+                ),
             )
             embeddings = getattr(response, "embeddings", None)
             if embeddings is None and isinstance(response, dict):

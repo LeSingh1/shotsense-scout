@@ -136,19 +136,39 @@ recordable without any live-API risk.
    GEMINI_API_KEY=<your Gemini API key>
    ```
 
-5. **Import shots + players:**
+5. **Install agent-layer Python deps:**
 
    ```bash
    python -m venv .venv && source .venv/bin/activate
-   pip install -e .
-   pip install pymongo google-generativeai
+   pip install -r requirements-agent.txt
+   ```
+
+   These three packages (pymongo + python-dotenv + google-generativeai) are
+   all the agent layer needs. No XGBoost / pandas / numpy required — the
+   import reads directly from the pre-exported JSON in `frontend/lib/data/`.
+
+6. **Smoke-test Atlas connectivity** (recommended before the heavy import):
+
+   ```bash
+   python scripts/check_atlas.py
+   ```
+
+   This pings Atlas, lists which of the four expected collections exist,
+   shows current document counts, and checks for the Vector Search index.
+
+7. **Import shots + players:**
+
+   ```bash
    python scripts/import_to_mongodb.py
    ```
 
-   The import is idempotent (upserts on `shot_id`). It also creates the
-   necessary indexes on `shots` (player + xfg, three-point hot path, game_id).
+   The import is idempotent (upserts on `shot_id`). It reads from
+   `frontend/lib/data/shots_by_game.json` joined against `shots.json` for
+   xFG values, so no model training needed. Also creates indexes on
+   `shots` for the hot paths the agent queries (player + xfg, three-point
+   filter, game_id).
 
-6. **Generate embeddings:**
+8. **Generate embeddings:**
 
    ```bash
    python scripts/build_embeddings.py
@@ -157,6 +177,15 @@ recordable without any live-API risk.
    Batched up to 100 summaries per Gemini request, exponential backoff on
    429/5xx, checkpoint file every 500 shots so re-runs resume from where
    they stopped.
+
+9. **Verify end-to-end** by re-running the smoke test:
+
+   ```bash
+   python scripts/check_atlas.py
+   ```
+
+   It should now show all four collections present, shot count > 0, all
+   shots embedded, and the Vector Search index queryable.
 
 ---
 

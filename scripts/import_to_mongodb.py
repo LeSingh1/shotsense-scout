@@ -1,11 +1,11 @@
-"""Import scored playoff shots into MongoDB Atlas for the ShotSense Scout agent.
+"""Import playoff shots and players into MongoDB Atlas.
 
-Reuses the same xFG model + feature pipeline as `export_for_frontend.py` so the
-Mongo `shots` collection carries identical xfg values to what the frontend
-dashboard displays. No new model run.
+Reads from the already-exported frontend JSON files in `frontend/lib/data/`,
+so this script has zero dependency on running the XGBoost pipeline. It only
+needs pymongo and the JSON tree that ships with the repo.
 
 Writes:
-  - shots          one document per scored shot, _id = shot_id
+  - shots          one document per shot, _id = "<game_id>_<event_id>"
   - players        one document per ranked player, _id = player_id
 
 Each shot also gets a natural-language `summary` field used as the embedding
@@ -15,112 +15,124 @@ Idempotent: re-running upserts on _id, no duplicates.
 
 Env:
   MONGODB_URI   Atlas connection string (required)
-  MONGODB_DB    target database (default: nba_shot_quality)
+  MONGODB_DB    target database (default: shotsense)
 
 Usage:
-  python scripts/import_to_mongodb.py            # full reimport
+  python scripts/import_to_mongodb.py            # full import
   python scripts/import_to_mongodb.py --limit 50 # smoke test
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import os
 import sys
 from pathlib import Path
 
-_PKG_ROOT = Path(__file__).resolve().parents[1]
-if str(_PKG_ROOT) not in sys.path:
-    sys.path.insert(0, str(_PKG_ROOT))
-
-import pandas as pd  # noqa: E402
-
-from nba_shot_quality.features import engineer_features  # noqa: E402
-from nba_shot_quality.features.engineer import ALL_FEATURE_COLS  # noqa: E402
-from nba_shot_quality.model import load_latest  # noqa: E402
-
-from scripts.export_for_frontend import (  # noqa: E402
-    _load_latest_ranking_csv,
-    _load_all_shots,
-    _load_games,
-)
-
 logger = logging.getLogger("import_to_mongodb")
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = REPO_ROOT / "frontend" / "lib" / "data"
 
-def _shot_summary(row) -> str:
-    """One-sentence natural-language description used as the embedding source.
 
-    The summary determines what "semantically similar" means in vector search.
-    Keep it short, specific, and built only from fields a viewer would notice.
+def _load_json(name: str) -> object:
+    path = DATA_DIR / name
+    if not path.exists():
+        raise FileNotFoundError(
+            f"Missing {path}. Make sure you cloned the repo with the data tree intact."
+        )
+    with path.open() as f:
+        return json.load(f)
+
+
+def _build_xfg_lookup(shots_by_player: dict) -> dict:
+    """Map (player_id, x, y, made_int) -> xfg from the per-player shots tree.
+
+    The frontend JSON downsamples to <=500 shots/player, so not every
+    (player, location) tuple in shots_by_game.json will have a match.
+    Shots without an xfg match get skipped in the import.
     """
-    made = "made" if int(row.SHOT_MADE_FLAG) else "missed"
-    period = int(row.PERIOD)
-    seconds_left = (
-        int(row.MINUTES_REMAINING) * 60 + int(row.SECONDS_REMAINING)
-        if "MINUTES_REMAINING" in row._fields
-        else 0
-    )
+    lookup: dict[tuple, float] = {}
+    for pid_str, entry in shots_by_player.items():
+        pid = int(pid_str)
+        for s in entry.get("shots", []):
+            key = (pid, int(s["x"]), int(s["y"]), int(s["made"]))
+            # If two shots collide on the key (rare), keep the first.
+            lookup.setdefault(key, float(s["xfg"]))
+    return lookup
+
+
+def _shot_summary(s: dict, player_name: str, period: int, seconds_left: int, xfg: float) -> str:
+    made = "made" if s.get("made") else "missed"
     clock_phrase = "clutch" if period >= 4 and seconds_left <= 120 else f"period {period}"
-    distance = int(row.SHOT_DISTANCE)
-    zone = str(row.SHOT_ZONE_BASIC).lower()
-    action = str(row.ACTION_TYPE).lower()
-    xfg_pct = round(float(row.xfg_pred) * 100)
+    distance = int(s.get("shot_distance", 0))
+    zone = str(s.get("shot_zone", "")).lower()
+    action = str(s.get("action_type", "")).lower()
+    xfg_pct = round(xfg * 100)
     return (
-        f"{row.PLAYER_NAME} {made} a {distance}-ft {action} from the {zone} "
+        f"{player_name} {made} a {distance}-ft {action} from the {zone} "
         f"during {clock_phrase} with an estimated xFG of {xfg_pct} percent."
     )
 
 
-def _shot_doc(row, summary: str) -> dict:
-    """Map a scored shot row to the Mongo document schema."""
-    shot_id = f"{row.GAME_ID}_{row.GAME_EVENT_ID}"
-    is_three = int(row.SHOT_TYPE.startswith("3"))
+def _shot_doc(s: dict, game_id: str, xfg: float) -> dict:
+    """Map a shot from shots_by_game.json + its joined xFG to the Mongo schema."""
+    event_id = s.get("shot_id")
+    _id = f"{game_id}_{event_id}"
+    made = bool(s.get("made"))
+    period = int(s.get("period", 0))
+    # The exporter's `seconds_remaining` is canonical total-seconds-left-in-period
+    # (range 0-720), not the 0-59 seconds-of-clock value. `minutes_remaining` is
+    # just floor(seconds_remaining / 60), kept for human-friendly display.
+    seconds_left = int(s.get("seconds_remaining", 0))
+    minutes_left = seconds_left // 60
+    is_three = str(s.get("shot_type", "")).startswith("3")
+    summary = _shot_summary(s, s.get("player_name", ""), period, seconds_left, xfg)
     return {
-        "_id": shot_id,
-        "shot_id": shot_id,
-        "game_id": str(row.GAME_ID),
-        "player_id": int(row.PLAYER_ID),
-        "player": str(row.PLAYER_NAME),
-        "team_id": int(row.TEAM_ID),
-        "team": str(row.TEAM_NAME),
-        "period": int(row.PERIOD),
-        "minutes_remaining": int(row.MINUTES_REMAINING),
-        "seconds_remaining": int(row.SECONDS_REMAINING),
-        "loc_x": int(row.LOC_X),
-        "loc_y": int(row.LOC_Y),
-        "shot_distance": int(row.SHOT_DISTANCE),
-        "shot_zone": str(row.SHOT_ZONE_BASIC),
-        "shot_zone_area": str(row.SHOT_ZONE_AREA),
-        "action_type": str(row.ACTION_TYPE),
-        "shot_type": str(row.SHOT_TYPE),
-        "shot_made": bool(int(row.SHOT_MADE_FLAG)),
-        "is_three_point": bool(is_three),
-        "xfg": round(float(row.xfg_pred), 4),
-        "fg_over_expected": round(
-            float(row.SHOT_MADE_FLAG) - float(row.xfg_pred), 4
-        ),
+        "_id": _id,
+        "shot_id": _id,
+        "event_id": int(event_id) if event_id is not None else None,
+        "game_id": game_id,
+        "player_id": int(s["player_id"]),
+        "player": str(s.get("player_name", "")),
+        "team_id": int(s.get("team_id", 0)),
+        "team": str(s.get("team_abbrev", "")),
+        "period": period,
+        "minutes_left_in_period": minutes_left,
+        "seconds_left_in_period": seconds_left,
+        "loc_x": int(s.get("x", 0)),
+        "loc_y": int(s.get("y", 0)),
+        "shot_distance": int(s.get("shot_distance", 0)),
+        "shot_angle": float(s.get("shot_angle", 0.0)),
+        "shot_zone": str(s.get("shot_zone", "")),
+        "action_type": str(s.get("action_type", "")),
+        "shot_type": str(s.get("shot_type", "")),
+        "shot_made": made,
+        "is_three_point": is_three,
+        "xfg": round(xfg, 4),
+        "fg_over_expected": round((1.0 if made else 0.0) - xfg, 4),
         "summary": summary,
     }
 
 
-def _player_doc(row) -> dict:
-    """Player ranking row → Mongo player document."""
+def _player_doc(r: dict) -> dict:
     return {
-        "_id": int(row["PLAYER_ID"]),
-        "player_id": int(row["PLAYER_ID"]),
-        "name": str(row["PLAYER_NAME"]),
-        "team": str(row.get("TEAM_NAME", "")) if "TEAM_NAME" in row else None,
-        "n_shots": int(row.get("N_SHOTS", 0)),
-        "fg_pct": float(row.get("FG_PCT", 0.0)),
-        "xfg_pct": float(row.get("XFG_PCT", 0.0)),
-        "shrunk_delta": float(row.get("shrunk_delta", 0.0)),
+        "_id": int(r["player_id"]),
+        "player_id": int(r["player_id"]),
+        "name": str(r.get("player_name", "")),
+        "n_shots": int(r.get("n_shots", 0)),
+        "actual_fg": float(r.get("actual_fg", 0.0)),
+        "mean_xfg": float(r.get("mean_xfg", 0.0)),
+        "raw_delta": float(r.get("raw_delta", 0.0)),
+        "shrunk_delta": float(r.get("shrunk_delta", 0.0)),
+        "ci_lo": float(r.get("ci_lo", 0.0)),
+        "ci_hi": float(r.get("ci_hi", 0.0)),
     }
 
 
 def _bulk_upsert(coll, docs: list[dict], batch_size: int = 500) -> tuple[int, int]:
-    """Upsert in batches. Returns (matched, upserted) counts."""
     from pymongo import UpdateOne
 
     matched = 0
@@ -131,23 +143,16 @@ def _bulk_upsert(coll, docs: list[dict], batch_size: int = 500) -> tuple[int, in
         result = coll.bulk_write(ops, ordered=False)
         matched += result.matched_count
         upserted += result.upserted_count
-        logger.info("  upserted batch %d-%d", i, i + len(chunk))
+        if (i // batch_size) % 5 == 0:
+            logger.info("  ...batch %d-%d (matched=%d upserted=%d)", i, i + len(chunk), matched, upserted)
     return matched, upserted
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--limit",
-        type=int,
-        default=None,
-        help="Cap on number of shots to import. Useful for smoke tests.",
-    )
-    parser.add_argument(
-        "--skip-players",
-        action="store_true",
-        help="Skip importing the players collection.",
-    )
+    parser.add_argument("--limit", type=int, default=None, help="Cap on shot count (smoke test).")
+    parser.add_argument("--skip-players", action="store_true")
+    parser.add_argument("--skip-shots", action="store_true")
     args = parser.parse_args(argv)
 
     logging.basicConfig(
@@ -159,60 +164,87 @@ def main(argv: list[str] | None = None) -> int:
     if not uri:
         logger.error("MONGODB_URI is required. See .env.example.")
         return 2
-    db_name = os.environ.get("MONGODB_DB", "nba_shot_quality")
+    db_name = os.environ.get("MONGODB_DB", "shotsense")
 
     try:
         from pymongo import MongoClient
     except ImportError:
-        logger.error("pymongo not installed. Run: pip install pymongo")
+        logger.error("pymongo not installed. Run: pip install pymongo python-dotenv")
         return 2
 
+    # Optional .env loading so the user doesn't have to export by hand.
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(REPO_ROOT / ".env")
+        uri = os.environ.get("MONGODB_URI", uri)
+        db_name = os.environ.get("MONGODB_DB", db_name)
+    except ImportError:
+        pass
+
     client = MongoClient(uri, serverSelectionTimeoutMS=15_000)
-    client.admin.command("ping")  # fail fast on bad URI
+    client.admin.command("ping")
     db = client[db_name]
-    logger.info("Connected to %s.%s", db_name, "shots/players")
+    logger.info("Connected to %s", db_name)
 
-    # Reuse the same data + model pipeline as export_for_frontend
-    logger.info("Loading ranking + raw shots + model...")
-    _, ranking_df = _load_latest_ranking_csv()
-    shots_raw = _load_all_shots()
-    games = _load_games()
-    engineered = engineer_features(shots_raw, games)
-    model = load_latest()
-    proba = model.predict_proba(engineered[list(ALL_FEATURE_COLS)])[:, 1]
-    scored = engineered.assign(xfg_pred=proba)
-    logger.info("Scored %d shots across %d players", len(scored), scored["PLAYER_ID"].nunique())
+    # ---------------- Shots ----------------
+    if not args.skip_shots:
+        logger.info("Loading shots_by_game.json + shots.json ...")
+        shots_by_game = _load_json("shots_by_game.json")
+        shots_by_player = _load_json("shots.json")
+        xfg_lookup = _build_xfg_lookup(shots_by_player)  # type: ignore[arg-type]
+        logger.info("xFG lookup built: %d (player_id, x, y, made) entries", len(xfg_lookup))
 
-    if args.limit:
-        scored = scored.head(args.limit)
-        logger.info("Limited to %d shots for smoke test", len(scored))
+        docs: list[dict] = []
+        skipped_no_xfg = 0
+        for game_id, game_shots in shots_by_game.items():  # type: ignore[union-attr]
+            for s in game_shots:
+                key = (int(s["player_id"]), int(s["x"]), int(s["y"]), 1 if s.get("made") else 0)
+                xfg = xfg_lookup.get(key)
+                if xfg is None:
+                    skipped_no_xfg += 1
+                    continue
+                docs.append(_shot_doc(s, str(game_id), xfg))
+        logger.info(
+            "Built %d shot docs across %d games (%d shots skipped: not in xfg lookup downsample)",
+            len(docs),
+            len(shots_by_game),  # type: ignore[arg-type]
+            skipped_no_xfg,
+        )
+        if args.limit:
+            docs = docs[: args.limit]
+            logger.info("Limited to %d shots for smoke test", len(docs))
 
-    # Build shot docs
-    logger.info("Building shot documents with summaries...")
-    shot_docs: list[dict] = []
-    for row in scored.itertuples():
-        summary = _shot_summary(row)
-        shot_docs.append(_shot_doc(row, summary))
-    logger.info("Built %d shot docs", len(shot_docs))
+        logger.info("Upserting shots ...")
+        matched, upserted = _bulk_upsert(db["shots"], docs)
+        logger.info("shots: %d updated, %d inserted (total %d)", matched, upserted, matched + upserted)
 
-    # Upsert
-    logger.info("Upserting shots...")
-    matched, upserted = _bulk_upsert(db["shots"], shot_docs)
-    logger.info("shots: %d updated, %d inserted", matched, upserted)
+        db["shots"].create_index([("player_id", 1), ("xfg", 1)])
+        db["shots"].create_index([("player", 1), ("is_three_point", 1), ("shot_made", 1), ("xfg", 1)])
+        db["shots"].create_index([("is_three_point", 1), ("shot_made", 1), ("xfg", 1)])
+        db["shots"].create_index([("game_id", 1)])
+        logger.info("Indexes ensured on shots")
 
-    # Indexes that the agent's queries will hit
-    db["shots"].create_index([("player_id", 1), ("xfg", 1)])
-    db["shots"].create_index([("is_three_point", 1), ("shot_made", 1), ("xfg", 1)])
-    db["shots"].create_index([("game_id", 1)])
-    logger.info("Indexes ensured on shots")
-
+    # ---------------- Players ----------------
     if not args.skip_players:
-        logger.info("Upserting players...")
-        player_docs = [_player_doc(r) for _, r in ranking_df.iterrows()]
+        logger.info("Loading ranking.json ...")
+        ranking = _load_json("ranking.json")
+        player_docs = [_player_doc(r) for r in ranking]  # type: ignore[union-attr]
+        logger.info("Built %d player docs", len(player_docs))
         m, u = _bulk_upsert(db["players"], player_docs)
         logger.info("players: %d updated, %d inserted", m, u)
 
-    logger.info("Import complete. Next step: python scripts/build_embeddings.py")
+    # ---------------- Initial collections ----------------
+    # Ensure the agent_memory and reports collections exist (even empty) so judges
+    # see all four collections in Atlas immediately after import.
+    db["reports"].create_index([("created_at", -1)])
+    if "agent_memory" not in db.list_collection_names():
+        db.create_collection("agent_memory")
+    if "reports" not in db.list_collection_names():
+        db.create_collection("reports")
+
+    counts = {c: db[c].estimated_document_count() for c in ["shots", "players", "reports", "agent_memory"]}
+    logger.info("Final counts: %s", counts)
+    logger.info("Next step: python scripts/build_embeddings.py")
     return 0
 
 

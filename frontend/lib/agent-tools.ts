@@ -29,7 +29,6 @@ export const ShotSchema = z.object({
   loc_y: z.number().int(),
   shot_distance: z.number().int(),
   shot_zone: z.string(),
-  shot_zone_area: z.string(),
   action_type: z.string(),
   shot_type: z.string(),
   shot_made: z.boolean(),
@@ -37,6 +36,10 @@ export const ShotSchema = z.object({
   xfg: z.number(),
   fg_over_expected: z.number(),
   summary: z.string(),
+  // Optional clock fields — present in imported docs, omitted by replay samples.
+  period: z.number().int().optional(),
+  minutes_left_in_period: z.number().int().optional(),
+  seconds_left_in_period: z.number().int().optional(),
 });
 export type Shot = z.infer<typeof ShotSchema>;
 
@@ -182,9 +185,7 @@ const runAggregationHandler: ToolDefinition<typeof runAggregationParams, { shots
     if (params.shot_made !== undefined) match.shot_made = params.shot_made;
     if (params.clutch_only) {
       match.period = { $gte: 4 };
-      match.$expr = {
-        $lte: [{ $add: [{ $multiply: ["$minutes_remaining", 60] }, "$seconds_remaining"] }, 120],
-      };
+      match.seconds_left_in_period = { $lte: 120 };
     }
     const sortMap: Record<string, Record<string, 1 | -1>> = {
       xfg_asc: { xfg: 1 },

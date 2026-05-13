@@ -24,12 +24,56 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "node:fs";
+import { promises as fs, existsSync } from "node:fs";
 import path from "node:path";
 import { invokeTool, type ToolContext, type ToolName, type Shot } from "@/lib/agent-tools";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+// ---------- Env loading -----------------------------------------------------
+// Next.js auto-loads .env from the project root (here: frontend/). The repo
+// convention puts .env at the workspace root one level up so the same file
+// serves both Python scripts and this Node BFF. Load it explicitly on cold
+// start so MONGODB_URI / GEMINI_API_KEY / AGENT_BUILDER_ENDPOINT are always
+// available regardless of where next dev was invoked from.
+(function loadParentEnv() {
+  if (process.env.MONGODB_URI) return;
+  const candidates = [
+    path.join(process.cwd(), "..", ".env"),  // dev: cd frontend && npm run dev
+    path.join(process.cwd(), ".env"),         // also try cwd
+  ];
+  for (const file of candidates) {
+    if (!existsSync(file)) continue;
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const dotenv = require("dotenv") as { config: (o: { path: string }) => void };
+      dotenv.config({ path: file });
+      if (process.env.MONGODB_URI) {
+        console.log(`[shotsense] loaded env from ${file}`);
+        return;
+      }
+    } catch {
+      // dotenv not installed — fall back to a tiny manual parse
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const fs = require("node:fs") as { readFileSync: (p: string, e: string) => string };
+        const content = fs.readFileSync(file, "utf8");
+        for (const line of content.split("\n")) {
+          const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*)\s*$/);
+          if (!m) continue;
+          const key = m[1];
+          if (process.env[key]) continue;
+          process.env[key] = m[2].replace(/^["']|["']$/g, "");
+        }
+        if (process.env.MONGODB_URI) {
+          console.log(`[shotsense] loaded env from ${file} (manual parse)`);
+          return;
+        }
+      } catch { /* keep going */ }
+    }
+  }
+})();
 
 type ToolCallRecord = {
   name: ToolName;

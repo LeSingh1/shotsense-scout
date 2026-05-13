@@ -8,6 +8,7 @@ import { PlayerHero } from "@/components/nike/PlayerHero";
 import { WhereTheyShot } from "@/components/nike/WhereTheyShot";
 import { HeavySections } from "@/components/nike/HeavySections";
 import { Reveal } from "@/components/nike/Reveal";
+import { AgentPanel } from "@/components/AgentPanel";
 
 export default function Page() {
   const data = getAppData();
@@ -16,6 +17,7 @@ export default function Page() {
     <main id="main-content" className="bg-[#0a0a0a]">
       <NikeTopbar />
       <PlayerHero shots={data.shots} ranking={data.ranking} meta={data.meta} />
+      <Reveal><AgentPanel /></Reveal>
       <Reveal><WhereTheyShot shots={data.shots} /></Reveal>
       <HeavySections
         shots={data.shots}

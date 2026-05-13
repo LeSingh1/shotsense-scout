@@ -40,11 +40,18 @@ EMBEDDING_DIMS = 768  # must match Atlas Vector Search index
 MAX_RETRIES = 8
 BASE_BACKOFF_S = 1.0
 BACKOFF_CAP_S = 32.0
-# Free-tier quota is 100 embed requests/min. With batch size 100 that's one
-# batch per minute. Sleep 65s after each successful batch to stay safely under.
-DEFAULT_INTER_BATCH_SLEEP_S = 65
+# Free-tier quota = 100 embed RPM. A batch counts as one request, so 50/batch
+# + 90s pacing gives us a healthy margin under that ceiling even when the
+# quota window doesn't reset cleanly at our 60s boundary.
+DEFAULT_BATCH_SIZE = 50
+DEFAULT_INTER_BATCH_SLEEP_S = 90
 # When a 429 hits without a parseable retry hint, wait this long before retry.
 DEFAULT_429_SLEEP_S = 70
+
+
+class QuotaExhausted(RuntimeError):
+    """Raised when 429s persist past MAX_RETRIES. Caller should checkpoint
+    and exit cleanly so the user can resume after the quota window resets."""
 
 
 def _read_checkpoint() -> set[str]:
@@ -166,6 +173,10 @@ def _embed_batch(summaries: list[str], client, default_429_sleep_s: float) -> li
         except Exception as e:  # broad: covers transport, rate-limit, transient 5xx
             is_last = attempt == MAX_RETRIES - 1
             if _is_rate_limit(e):
+                if is_last:
+                    # Stop instead of looping forever. Caller handles the
+                    # clean-exit + rerun-instruction path.
+                    raise QuotaExhausted(str(e)) from e
                 hint = _parse_retry_delay_seconds(e)
                 # +5s buffer over the server-suggested retry delay to make
                 # sure we're past the quota window before the next call.
@@ -242,7 +253,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 2
     db_name = os.environ.get("MONGODB_DB", "").strip() or "shotsense"
-    batch_size = int(os.environ.get("EMBEDDING_BATCH_SIZE", 100))
+    batch_size = int(os.environ.get("EMBEDDING_BATCH_SIZE", DEFAULT_BATCH_SIZE))
     checkpoint_every = int(os.environ.get("EMBEDDING_CHECKPOINT_EVERY", 500))
     # Free-tier quota = 100 embed RPM. Sleep between successful batches to
     # stay under it. Override to 0 if you're on a paid tier with no RPM cap.
@@ -314,6 +325,34 @@ def main(argv: list[str] | None = None) -> int:
             logger.warning("Interrupted. Flushing checkpoint with %d shots done.", len(done))
             _write_checkpoint(done)
             return 130
+        except QuotaExhausted as e:
+            # Quota truly depleted past our retry budget. Don't crash — save
+            # progress, print where we are, and tell the user how to resume.
+            _write_checkpoint(done)
+            try:
+                embedded_now = coll.count_documents({"summary_embedding": {"$exists": True}})
+                remaining = coll.count_documents({"summary_embedding": {"$exists": False}})
+            except Exception:
+                embedded_now = len(done)
+                remaining = total_to_do - completed
+            print()
+            print("=" * 60)
+            print("  ! Gemini quota exhausted. Stopping cleanly.")
+            print("=" * 60)
+            print(f"  Embedded this run:  {completed:,} shots")
+            print(f"  Total in Atlas:     {embedded_now:,} shots have summary_embedding")
+            print(f"  Still to embed:     {remaining:,} shots")
+            print(f"  Last error:         {e}")
+            print()
+            print("  Free-tier quota is 100 embed RPM. The window typically")
+            print("  resets after about a minute. Wait ~2 minutes, then resume:")
+            print()
+            print("    make embeddings    # picks up where this left off")
+            print()
+            print("  Or, if this keeps happening, slow it down further:")
+            print("    EMBEDDING_BATCH_SIZE=25 EMBEDDING_SLEEP_SECONDS=120 make embeddings")
+            print("=" * 60)
+            return 0
         except Exception as e:
             logger.error("Batch %d failed: %s", batch_idx, e)
             logger.warning("Flushing checkpoint (%d done) and exiting. Re-run to resume.", len(done))

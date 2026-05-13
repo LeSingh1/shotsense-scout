@@ -88,18 +88,21 @@ async function buildToolContext(): Promise<ToolContext> {
   await client.connect();
   const dbName = process.env.MONGODB_DB ?? "nba_shot_quality";
 
-  // Gemini embeddings
+  // Gemini embeddings — must use the same model + dims as the offline batch
+  // script (gemini-embedding-001 at 768 dims) so the query vector lives in the
+  // same space as the indexed shot embeddings.
   const embed = async (text: string): Promise<number[]> => {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY not set");
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           content: { parts: [{ text }] },
-          task_type: "RETRIEVAL_QUERY",
+          taskType: "RETRIEVAL_QUERY",
+          outputDimensionality: 768,
         }),
       },
     );

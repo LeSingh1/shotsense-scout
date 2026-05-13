@@ -209,7 +209,7 @@ tests/                Python tests for the model + data layer
   Motion, Three Fiber for 3D shot replays, Zod for tool schemas.
 - **Agent:** Google Cloud Agent Builder + Gemini.
 - **Data layer:** MongoDB Atlas with Vector Search.
-- **Embeddings:** Gemini `text-embedding-004` (768 dims, cosine).
+- **Embeddings:** Gemini `gemini-embedding-001` (768 dims, cosine, via `google-genai`).
 - **Model:** XGBoost xFG model trained on playoff shot tracking data
   (pre-existing artifact from the `nba_shot_quality/` Python package).
 

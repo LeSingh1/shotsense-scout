@@ -34,8 +34,8 @@ from typing import Iterable
 logger = logging.getLogger("build_embeddings")
 
 CHECKPOINT_PATH = Path(__file__).resolve().parent / ".embedding-checkpoint.json"
-EMBEDDING_MODEL = "models/text-embedding-004"
-EMBEDDING_DIMS = 768
+EMBEDDING_MODEL = "gemini-embedding-001"
+EMBEDDING_DIMS = 768  # must match Atlas Vector Search index
 MAX_RETRIES = 6
 BASE_BACKOFF_S = 1.0
 BACKOFF_CAP_S = 32.0
@@ -61,36 +61,57 @@ def _chunks(seq: list, size: int) -> Iterable[list]:
         yield seq[i : i + size]
 
 
-def _embed_batch(summaries: list[str], api_key: str) -> list[list[float]]:
-    """Call Gemini batch embedding. Returns one vector per input.
+def _get_genai_client(api_key: str):
+    """Import and instantiate the current google-genai SDK client."""
+    try:
+        from google import genai
+    except ImportError as e:
+        raise RuntimeError(
+            "google-genai not installed. Run: pip install -r requirements-agent.txt"
+        ) from e
+    return genai.Client(api_key=api_key)
+
+
+def _vector_from_embedding(emb) -> list[float]:
+    """Extract the float list from a google-genai ContentEmbedding object.
+
+    The SDK returns objects with a `.values` attribute (list of floats). Older
+    response shapes used dicts with a 'values' key. Handle both defensively.
+    """
+    if hasattr(emb, "values"):
+        return list(emb.values)
+    if isinstance(emb, dict) and "values" in emb:
+        return list(emb["values"])
+    if isinstance(emb, (list, tuple)):
+        return list(emb)
+    raise RuntimeError(f"Cannot extract vector from embedding object: {type(emb).__name__}")
+
+
+def _embed_batch(summaries: list[str], client) -> list[list[float]]:
+    """Call Gemini batch embedding via google-genai. One vector per input.
 
     Retries with exponential backoff on transient errors. Raises on persistent
     failure so the caller can decide whether to checkpoint and exit.
     """
-    try:
-        import google.generativeai as genai
-    except ImportError as e:
-        raise RuntimeError(
-            "google-generativeai not installed. Run: pip install google-generativeai"
-        ) from e
-
-    genai.configure(api_key=api_key)
-
     for attempt in range(MAX_RETRIES):
         try:
-            # batch_embed_contents accepts a list and returns a list of embeddings
-            result = genai.embed_content(
+            response = client.models.embed_content(
                 model=EMBEDDING_MODEL,
-                content=summaries,
-                task_type="RETRIEVAL_DOCUMENT",
+                contents=summaries,
+                config={
+                    "task_type": "RETRIEVAL_DOCUMENT",
+                    "output_dimensionality": EMBEDDING_DIMS,
+                },
             )
-            # SDK returns {"embedding": [[...], [...], ...]} for list input
-            vectors = result.get("embedding") if isinstance(result, dict) else result["embedding"]
-            if not vectors or len(vectors) != len(summaries):
+            embeddings = getattr(response, "embeddings", None)
+            if embeddings is None and isinstance(response, dict):
+                embeddings = response.get("embeddings")
+            if not embeddings or len(embeddings) != len(summaries):
                 raise RuntimeError(
                     f"Embedding count mismatch: requested {len(summaries)}, got "
-                    f"{0 if not vectors else len(vectors)}"
+                    f"{0 if not embeddings else len(embeddings)}"
                 )
+            vectors = [_vector_from_embedding(e) for e in embeddings]
             if len(vectors[0]) != EMBEDDING_DIMS:
                 raise RuntimeError(
                     f"Unexpected embedding dimension: {len(vectors[0])} (want {EMBEDDING_DIMS})"
@@ -178,6 +199,13 @@ def main(argv: list[str] | None = None) -> int:
     client.admin.command("ping")
     coll = client[db_name]["shots"]
 
+    # Build the Gemini client once per run, not per batch.
+    try:
+        genai_client = _get_genai_client(api_key)
+    except RuntimeError as e:
+        print(f"\n  X {e}\n", file=sys.stderr)
+        return 2
+
     done = set() if args.force else _read_checkpoint()
     if done:
         logger.info("Resuming. %d shots already done per checkpoint.", len(done))
@@ -202,7 +230,7 @@ def main(argv: list[str] | None = None) -> int:
     embedded_since_checkpoint = 0
     for batch in _chunks(todo, batch_size):
         summaries = [d["summary"] for d in batch]
-        vectors = _embed_batch(summaries, api_key)
+        vectors = _embed_batch(summaries, genai_client)
         ops = [
             UpdateOne({"_id": d["_id"]}, {"$set": {"summary_embedding": v}})
             for d, v in zip(batch, vectors)

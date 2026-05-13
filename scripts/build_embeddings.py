@@ -129,25 +129,52 @@ def main(argv: list[str] | None = None) -> int:
         format="%(asctime)s %(levelname)s %(name)s | %(message)s",
     )
 
-    uri = os.environ.get("MONGODB_URI")
-    api_key = os.environ.get("GEMINI_API_KEY")
+    # Load .env BEFORE the required-var check so .env actually works.
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+    except ImportError:
+        print(
+            "\n  X python-dotenv not installed.\n"
+            "    Run: pip install -r requirements-agent.txt\n",
+            file=sys.stderr,
+        )
+        return 2
+
+    uri = os.environ.get("MONGODB_URI", "").strip()
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
     if not uri:
-        logger.error("MONGODB_URI is required.")
+        print(
+            "\n  X MONGODB_URI is not set.\n"
+            "    1. Copy .env.example to .env\n"
+            "    2. Fill in your Atlas connection string\n"
+            "    3. Re-run: make embeddings\n",
+            file=sys.stderr,
+        )
         return 2
     if not api_key:
-        logger.error("GEMINI_API_KEY is required.")
+        print(
+            "\n  X GEMINI_API_KEY is not set.\n"
+            "    Get one at https://aistudio.google.com/app/apikey\n"
+            "    Then add it to .env: GEMINI_API_KEY=...\n",
+            file=sys.stderr,
+        )
         return 2
-    db_name = os.environ.get("MONGODB_DB", "nba_shot_quality")
+    db_name = os.environ.get("MONGODB_DB", "").strip() or "shotsense"
     batch_size = int(os.environ.get("EMBEDDING_BATCH_SIZE", 100))
     checkpoint_every = int(os.environ.get("EMBEDDING_CHECKPOINT_EVERY", 500))
 
     try:
         from pymongo import MongoClient, UpdateOne
     except ImportError:
-        logger.error("pymongo not installed. Run: pip install pymongo")
+        print(
+            "\n  X pymongo not installed.\n"
+            "    Run: pip install -r requirements-agent.txt\n",
+            file=sys.stderr,
+        )
         return 2
 
-    client = MongoClient(uri, serverSelectionTimeoutMS=15_000)
+    client = MongoClient(uri, serverSelectionTimeoutMS=15_000, appname="shotsense-embed")
     client.admin.command("ping")
     coll = client[db_name]["shots"]
 

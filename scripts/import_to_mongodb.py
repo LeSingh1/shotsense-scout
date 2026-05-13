@@ -160,31 +160,46 @@ def main(argv: list[str] | None = None) -> int:
         format="%(asctime)s %(levelname)s %(name)s | %(message)s",
     )
 
-    uri = os.environ.get("MONGODB_URI")
-    if not uri:
-        logger.error("MONGODB_URI is required. See .env.example.")
+    # Load .env BEFORE checking required vars, so the user's .env file works
+    # without needing to `source` it in the shell first.
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(REPO_ROOT / ".env")
+    except ImportError:
+        print(
+            "\n  X python-dotenv not installed.\n"
+            "    Run: pip install -r requirements-agent.txt\n",
+            file=sys.stderr,
+        )
         return 2
-    db_name = os.environ.get("MONGODB_DB", "shotsense")
+
+    uri = os.environ.get("MONGODB_URI", "").strip()
+    db_name = os.environ.get("MONGODB_DB", "").strip() or "shotsense"
+
+    if not uri:
+        print(
+            "\n  X MONGODB_URI is not set.\n"
+            "    1. Copy .env.example to .env\n"
+            "    2. Fill in your Atlas connection string\n"
+            "    3. Re-run: make import\n",
+            file=sys.stderr,
+        )
+        return 2
 
     try:
         from pymongo import MongoClient
     except ImportError:
-        logger.error("pymongo not installed. Run: pip install pymongo python-dotenv")
+        print(
+            "\n  X pymongo not installed.\n"
+            "    Run: pip install -r requirements-agent.txt\n",
+            file=sys.stderr,
+        )
         return 2
 
-    # Optional .env loading so the user doesn't have to export by hand.
-    try:
-        from dotenv import load_dotenv
-        load_dotenv(REPO_ROOT / ".env")
-        uri = os.environ.get("MONGODB_URI", uri)
-        db_name = os.environ.get("MONGODB_DB", db_name)
-    except ImportError:
-        pass
-
-    client = MongoClient(uri, serverSelectionTimeoutMS=15_000)
+    client = MongoClient(uri, serverSelectionTimeoutMS=15_000, appname="shotsense-import")
     client.admin.command("ping")
     db = client[db_name]
-    logger.info("Connected to %s", db_name)
+    logger.info("Connected to database '%s'", db_name)
 
     # ---------------- Shots ----------------
     if not args.skip_shots:

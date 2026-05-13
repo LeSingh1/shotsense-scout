@@ -98,94 +98,62 @@ recordable without any live-API risk.
 
 ## MongoDB Atlas setup
 
-1. **Create a free Atlas cluster.** Note the connection string.
-2. **Create the database and collections:**
+The repo ships with `make` targets so the whole flow is five commands. The
+order matters — don't skip the smoke test, it catches 95% of setup mistakes
+before they cost you twenty minutes of import time.
 
+### Atlas checklist (one-time, ~10 minutes)
+
+1. **Create a free Atlas cluster.** Project name `ShotSense Scout`, M0 free
+   shared cluster. Copy the connection string when prompted.
+2. **Create database + collections** named exactly:
    ```
-   Database: shotsense
-   Collections:
-     shots
-     players
-     reports
-     agent_memory
+   Database:    shotsense
+   Collections: shots, players, reports, agent_memory
    ```
-
-3. **Create the Vector Search index** on `shots.summary_embedding`:
-
+   (You can skip this — the import will create them on first write.)
+3. **Add a database user** with read+write on the `shotsense` DB. Whitelist
+   your IP (or `0.0.0.0/0` for hackathon dev).
+4. **Fill `.env`:**
+   ```bash
+   cp .env.example .env
+   ```
+   Then edit `.env`:
+   ```
+   MONGODB_URI=mongodb+srv://<user>:<pw>@<cluster>.mongodb.net/?retryWrites=true
+   MONGODB_DB=shotsense
+   GEMINI_API_KEY=<from https://aistudio.google.com/app/apikey>
+   ```
+5. **Create the Vector Search index** (Atlas UI → Atlas Search → Create
+   Search Index → JSON Editor). Do this AFTER `make import` so the field
+   exists:
    ```
    Index name:   shot_summary_vector_index
-   Collection:   shots
+   Collection:   shotsense.shots
+   Type:         Vector Search
    Field:        summary_embedding
    Dimensions:   768
    Similarity:   cosine
    ```
-
    The `vectorSearchShots` agent tool reads from this exact index name.
 
-4. **Fill `.env`:**
+### Commands in order
 
-   ```bash
-   cp .env.example .env
-   ```
+```bash
+make install          # 1. Python deps into .venv (one-time)
+make smoke            # 2. Validate URI + auth + IP allowlist
+make import           # 3. Insert 10,503 shots + 217 players into Atlas
+make smoke            # 4. Confirm shots collection populated
+# --- now create the Vector Search index in Atlas UI (step 5 above) ---
+make embeddings       # 5. Generate Gemini embeddings (~3-5 min)
+make smoke            # 6. Confirm 100% embedded, index queryable
+make dev              # 7. Run Next.js dev server
+make replay           # 8. Open the replay-mode demo URL
+```
 
-   Set:
-
-   ```
-   MONGODB_URI=<your atlas connection string>
-   MONGODB_DB=shotsense
-   GEMINI_API_KEY=<your Gemini API key>
-   ```
-
-5. **Install agent-layer Python deps:**
-
-   ```bash
-   python -m venv .venv && source .venv/bin/activate
-   pip install -r requirements-agent.txt
-   ```
-
-   These three packages (pymongo + python-dotenv + google-generativeai) are
-   all the agent layer needs. No XGBoost / pandas / numpy required — the
-   import reads directly from the pre-exported JSON in `frontend/lib/data/`.
-
-6. **Smoke-test Atlas connectivity** (recommended before the heavy import):
-
-   ```bash
-   python scripts/check_atlas.py
-   ```
-
-   This pings Atlas, lists which of the four expected collections exist,
-   shows current document counts, and checks for the Vector Search index.
-
-7. **Import shots + players:**
-
-   ```bash
-   python scripts/import_to_mongodb.py
-   ```
-
-   The import is idempotent (upserts on `shot_id`). It reads from
-   `frontend/lib/data/shots_by_game.json` joined against `shots.json` for
-   xFG values, so no model training needed. Also creates indexes on
-   `shots` for the hot paths the agent queries (player + xfg, three-point
-   filter, game_id).
-
-8. **Generate embeddings:**
-
-   ```bash
-   python scripts/build_embeddings.py
-   ```
-
-   Batched up to 100 summaries per Gemini request, exponential backoff on
-   429/5xx, checkpoint file every 500 shots so re-runs resume from where
-   they stopped.
-
-9. **Verify end-to-end** by re-running the smoke test:
-
-   ```bash
-   python scripts/check_atlas.py
-   ```
-
-   It should now show all four collections present, shot count > 0, all
-   shots embedded, and the Vector Search index queryable.
+Every `make smoke` is read-only and safe to run as often as you want. Each
+script also has friendly errors if `MONGODB_URI`, `MONGODB_DB`, or
+`GEMINI_API_KEY` is missing — the message tells you exactly what to do next.
 
 ---
 

@@ -26,6 +26,7 @@ import json
 import logging
 import os
 import random
+import re
 import sys
 import time
 from pathlib import Path
@@ -36,9 +37,14 @@ logger = logging.getLogger("build_embeddings")
 CHECKPOINT_PATH = Path(__file__).resolve().parent / ".embedding-checkpoint.json"
 EMBEDDING_MODEL = "gemini-embedding-001"
 EMBEDDING_DIMS = 768  # must match Atlas Vector Search index
-MAX_RETRIES = 6
+MAX_RETRIES = 8
 BASE_BACKOFF_S = 1.0
 BACKOFF_CAP_S = 32.0
+# Free-tier quota is 100 embed requests/min. With batch size 100 that's one
+# batch per minute. Sleep 65s after each successful batch to stay safely under.
+DEFAULT_INTER_BATCH_SLEEP_S = 65
+# When a 429 hits without a parseable retry hint, wait this long before retry.
+DEFAULT_429_SLEEP_S = 70
 
 
 def _read_checkpoint() -> set[str]:
@@ -95,11 +101,41 @@ def _vector_from_embedding(emb) -> list[float]:
     raise RuntimeError(f"Cannot extract vector from embedding object: {type(emb).__name__}")
 
 
-def _embed_batch(summaries: list[str], client) -> list[list[float]]:
+def _is_rate_limit(exc: Exception) -> bool:
+    """Detect a quota / 429 exhaustion from the google-genai error surface."""
+    msg = str(exc)
+    if "429" in msg or "RESOURCE_EXHAUSTED" in msg or "rate limit" in msg.lower():
+        return True
+    code = getattr(exc, "status_code", None) or getattr(exc, "code", None)
+    if code == 429:
+        return True
+    return False
+
+
+def _parse_retry_delay_seconds(exc: Exception) -> float | None:
+    """Try to pull a retry-delay hint out of a google-genai error.
+
+    Gemini returns details like:
+      {"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"42s"}
+    embedded in the error message. Pull the first such value if present.
+    """
+    msg = str(exc)
+    match = re.search(r'"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"', msg)
+    if match:
+        try:
+            return float(match.group(1))
+        except ValueError:
+            return None
+    return None
+
+
+def _embed_batch(summaries: list[str], client, default_429_sleep_s: float) -> list[list[float]]:
     """Call Gemini batch embedding via google-genai. One vector per input.
 
-    Retries with exponential backoff on transient errors. Raises on persistent
-    failure so the caller can decide whether to checkpoint and exit.
+    On 429 RESOURCE_EXHAUSTED: parse the server-suggested retry delay if
+    present, otherwise sleep `default_429_sleep_s`, then retry. Other
+    transient errors get capped exponential backoff. Persistent failure
+    raises so the caller can checkpoint progress and exit cleanly.
     """
     from google.genai import types
 
@@ -129,6 +165,18 @@ def _embed_batch(summaries: list[str], client) -> list[list[float]]:
             return vectors
         except Exception as e:  # broad: covers transport, rate-limit, transient 5xx
             is_last = attempt == MAX_RETRIES - 1
+            if _is_rate_limit(e):
+                hint = _parse_retry_delay_seconds(e)
+                sleep_s = (hint + 2.0) if hint is not None else default_429_sleep_s
+                logger.warning(
+                    "Quota hit (429). Sleeping %.1fs%s before retry (attempt %d/%d).",
+                    sleep_s,
+                    f" per server retry hint" if hint is not None else "",
+                    attempt + 1,
+                    MAX_RETRIES,
+                )
+                time.sleep(sleep_s)
+                continue
             if is_last:
                 logger.error("Gemini embed failed after %d retries: %s", MAX_RETRIES, e)
                 raise
@@ -194,6 +242,14 @@ def main(argv: list[str] | None = None) -> int:
     db_name = os.environ.get("MONGODB_DB", "").strip() or "shotsense"
     batch_size = int(os.environ.get("EMBEDDING_BATCH_SIZE", 100))
     checkpoint_every = int(os.environ.get("EMBEDDING_CHECKPOINT_EVERY", 500))
+    # Free-tier quota = 100 embed RPM. Sleep between successful batches to
+    # stay under it. Override to 0 if you're on a paid tier with no RPM cap.
+    inter_batch_sleep_s = float(
+        os.environ.get("EMBEDDING_SLEEP_SECONDS", DEFAULT_INTER_BATCH_SLEEP_S)
+    )
+    fallback_429_sleep_s = float(
+        os.environ.get("EMBEDDING_429_SLEEP_SECONDS", DEFAULT_429_SLEEP_S)
+    )
 
     try:
         from pymongo import MongoClient, UpdateOne
@@ -237,10 +293,31 @@ def main(argv: list[str] | None = None) -> int:
         logger.info("Nothing to do. Vector index step is next.")
         return 0
 
+    total_to_do = len(todo)
+    completed = 0
     embedded_since_checkpoint = 0
-    for batch in _chunks(todo, batch_size):
+    batches = list(_chunks(todo, batch_size))
+    logger.info(
+        "Free-tier safe mode: sleeping %.0fs between batches (~%d batches, ~%.1f min)",
+        inter_batch_sleep_s,
+        len(batches),
+        (len(batches) * inter_batch_sleep_s) / 60.0,
+    )
+
+    for batch_idx, batch in enumerate(batches):
         summaries = [d["summary"] for d in batch]
-        vectors = _embed_batch(summaries, genai_client)
+        try:
+            vectors = _embed_batch(summaries, genai_client, fallback_429_sleep_s)
+        except KeyboardInterrupt:
+            logger.warning("Interrupted. Flushing checkpoint with %d shots done.", len(done))
+            _write_checkpoint(done)
+            return 130
+        except Exception as e:
+            logger.error("Batch %d failed: %s", batch_idx, e)
+            logger.warning("Flushing checkpoint (%d done) and exiting. Re-run to resume.", len(done))
+            _write_checkpoint(done)
+            return 1
+
         ops = [
             UpdateOne({"_id": d["_id"]}, {"$set": {"summary_embedding": v}})
             for d, v in zip(batch, vectors)
@@ -248,17 +325,32 @@ def main(argv: list[str] | None = None) -> int:
         coll.bulk_write(ops, ordered=False)
         for d in batch:
             done.add(d["_id"])
+        completed += len(batch)
         embedded_since_checkpoint += len(batch)
         logger.info(
-            "Embedded batch of %d (running total: %d / %d)",
+            "Batch %d/%d: embedded %d (this run: %d / %d, %.1f%%)",
+            batch_idx + 1,
+            len(batches),
             len(batch),
-            len(done),
-            len(todo) + (len(done) - len(batch)),
+            completed,
+            total_to_do,
+            completed * 100.0 / total_to_do,
         )
         if embedded_since_checkpoint >= checkpoint_every:
             _write_checkpoint(done)
             embedded_since_checkpoint = 0
-            logger.info("Checkpoint flushed (%d done).", len(done))
+            logger.info("Checkpoint flushed (%d done overall).", len(done))
+
+        # Stay under free-tier RPM quota. Skip the sleep after the last batch.
+        is_last_batch = batch_idx == len(batches) - 1
+        if inter_batch_sleep_s > 0 and not is_last_batch:
+            logger.info("Sleeping %.0fs to stay under embedding RPM quota...", inter_batch_sleep_s)
+            try:
+                time.sleep(inter_batch_sleep_s)
+            except KeyboardInterrupt:
+                logger.warning("Interrupted during quota sleep. Checkpoint already saved.")
+                _write_checkpoint(done)
+                return 130
 
     _write_checkpoint(done)
     logger.info("All embeddings complete. %d shots embedded.", len(done))

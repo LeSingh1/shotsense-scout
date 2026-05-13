@@ -256,33 +256,10 @@ function summarizeResult(name: ToolName, result: Record<string, unknown>): strin
   return "ok";
 }
 
-// ---------- Vector index health check (eng review critical gap) -------------
-
-let vectorIndexHealthy: boolean | null = null;
-
-async function ensureVectorIndexHealthy(ctx: ToolContext): Promise<boolean> {
-  if (vectorIndexHealthy !== null) return vectorIndexHealthy;
-  try {
-    // Run a known-good probe. If it returns 0 results, the index is missing.
-    const probe = (await invokeTool(
-      "vectorSearchShots",
-      { query_summary: "a contested jump shot from the perimeter", k: 1 },
-      ctx,
-    )) as { shots: Shot[] };
-    vectorIndexHealthy = (probe.shots?.length ?? 0) > 0;
-  } catch {
-    vectorIndexHealthy = false;
-  }
-  if (!vectorIndexHealthy) {
-    console.error(
-      "VECTOR_INDEX_NOT_READY: Atlas Vector Search index 'shot_summary_vector_index' " +
-        "returned 0 results on a known-good probe. Create the index or re-run build_embeddings.py.",
-    );
-  }
-  return vectorIndexHealthy;
-}
-
 // ---------- Route handlers ---------------------------------------------------
+// (vector-search health: handled inside the vectorSearchShots tool itself,
+//  which transparently falls back to a structured Mongo heuristic when fewer
+//  than 100 shots are embedded. The BFF just always tries the beat.)
 
 export async function GET(req: NextRequest) {
   const replaySession = req.nextUrl.searchParams.get("replay");
@@ -326,18 +303,24 @@ export async function POST(req: NextRequest) {
     const agentResult = await callAgentBuilder(prompt);
     const { records, evidence, saved_report_id } = await executeToolCalls(agentResult, ctx);
 
-    // Optional similar-shot beat: if we have evidence and Vector Search is up,
-    // surface 3 similar shots based on the toughest evidence shot's summary.
+    // Similar-shot beat: vector search if enough shots are embedded,
+    // otherwise a structured Mongo heuristic. Either way the agent panel
+    // gets a real pipeline to render and judges see meaningful Mongo work.
     let similar: Shot[] | null = null;
-    if (evidence.length > 0 && (await ensureVectorIndexHealthy(ctx))) {
+    if (evidence.length > 0) {
       try {
         const seed = evidence[0];
         const similarResult = (await invokeTool(
           "vectorSearchShots",
           { query_summary: seed.summary, exclude_shot_id: seed.shot_id, k: 3 },
           ctx,
-        )) as { shots: Shot[]; pipeline: unknown };
+        )) as { shots: Shot[]; pipeline: unknown; mode?: string; embedded_count?: number };
         similar = similarResult.shots;
+        if (similarResult.mode === "heuristic") {
+          console.log(
+            `vectorSearchShots: heuristic mode (only ${similarResult.embedded_count} shots embedded)`,
+          );
+        }
         records.push({
           name: "vectorSearchShots",
           params: { query_summary: seed.summary, exclude_shot_id: seed.shot_id, k: 3 },

@@ -145,8 +145,8 @@ make smoke            # 2. Validate URI + auth + IP allowlist
 make import           # 3. Insert 10,503 shots + 217 players into Atlas
 make smoke            # 4. Confirm shots collection populated
 # --- now create the Vector Search index in Atlas UI (step 5 above) ---
-make embeddings       # 5. Generate Gemini embeddings (~3-5 min)
-make smoke            # 6. Confirm 100% embedded, index queryable
+make embeddings       # 5. Generate Gemini embeddings (can stop early — see below)
+make smoke            # 6. Confirm partial or full embedding coverage
 make dev              # 7. Run Next.js dev server
 make replay           # 8. Open the replay-mode demo URL
 ```
@@ -154,6 +154,27 @@ make replay           # 8. Open the replay-mode demo URL
 Every `make smoke` is read-only and safe to run as often as you want. Each
 script also has friendly errors if `MONGODB_URI`, `MONGODB_DB`, or
 `GEMINI_API_KEY` is missing — the message tells you exactly what to do next.
+
+### Partial embeddings are fine for the demo
+
+Gemini free-tier quotas (100 RPM, daily token caps) often make embedding
+all 10,503 shots impractical. The demo is designed to work with whatever
+coverage you get:
+
+| Embedded shots | Similar-shot beat |
+|---|---|
+| `0` to `99` | **Heuristic mode** — Mongo aggregation ranks candidates by `shot_distance`, `shot_zone`, `action_type`, `is_three_point`, and `xfg` similarity to the seed shot. No embeddings needed. Real pipeline JSON still renders. |
+| `100` to `total-1` | **Partial vector mode** — Atlas Vector Search over whatever's been embedded. Candidate count auto-scales. |
+| `total` | **Full vector mode** — vanilla Atlas Vector Search across the corpus. |
+
+Both modes return real shots from real MongoDB aggregations, and the agent
+panel renders the actual pipeline that ran. Stop `make embeddings` whenever
+you hit a quota wall — the existing checkpoint resumes cleanly later, and
+the demo works in the meantime.
+
+The live prompt `find the toughest clutch makes and save a scouting report`
+works against any of the three modes because the primary `runAggregation`
++ `insertReport` flow doesn't depend on embeddings at all.
 
 ---
 

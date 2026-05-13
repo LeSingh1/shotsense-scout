@@ -22,9 +22,6 @@ export const ShotSchema = z.object({
   player_id: z.number().int(),
   player: z.string(),
   team: z.string(),
-  period: z.number().int(),
-  minutes_remaining: z.number().int(),
-  seconds_remaining: z.number().int(),
   loc_x: z.number().int(),
   loc_y: z.number().int(),
   shot_distance: z.number().int(),
@@ -36,7 +33,7 @@ export const ShotSchema = z.object({
   xfg: z.number(),
   fg_over_expected: z.number(),
   summary: z.string(),
-  // Optional clock fields — present in imported docs, omitted by replay samples.
+  // Clock fields — present in imported docs, omitted by replay samples.
   period: z.number().int().optional(),
   minutes_left_in_period: z.number().int().optional(),
   seconds_left_in_period: z.number().int().optional(),
@@ -113,9 +110,13 @@ export interface ToolContext {
   mongo: {
     db: (name: string) => {
       collection: (name: string) => {
-        find: (filter: unknown, options?: unknown) => { toArray: () => Promise<unknown[]> };
+        find: (filter: unknown, options?: unknown) => {
+          toArray: () => Promise<unknown[]>;
+        };
+        findOne: (filter: unknown, options?: unknown) => Promise<unknown>;
         aggregate: (pipeline: unknown[]) => { toArray: () => Promise<unknown[]> };
         insertOne: (doc: unknown) => Promise<{ insertedId: unknown }>;
+        countDocuments: (filter: unknown, options?: unknown) => Promise<number>;
       };
     };
   };
@@ -201,31 +202,154 @@ const runAggregationHandler: ToolDefinition<typeof runAggregationParams, { shots
     return { shots: rows as Shot[], pipeline };
   };
 
-const vectorSearchShotsHandler: ToolDefinition<typeof vectorSearchShotsParams, { shots: Shot[]; pipeline: unknown[] }>["handler"] =
-  async (params, ctx) => {
-    const queryVector = await ctx.embed(params.query_summary);
-    const pipeline: unknown[] = [
+/** Below this embedded-shot count, vector search is replaced by a structured
+ * MongoDB heuristic ranking. The hackathon flow runs entirely off the agent
+ * being able to surface similar shots; we'd rather show a real Mongo pipeline
+ * the user can read than show an empty result because embeddings aren't done. */
+const MIN_EMBEDDED_FOR_VECTOR = 100;
+
+type VectorSearchResult = {
+  shots: Shot[];
+  pipeline: unknown[];
+  mode: "vector" | "heuristic";
+  embedded_count: number;
+};
+
+const vectorSearchShotsHandler: ToolDefinition<
+  typeof vectorSearchShotsParams,
+  VectorSearchResult
+>["handler"] = async (params, ctx) => {
+  const shotsColl = ctx.mongo.db(ctx.dbName).collection("shots");
+
+  // Count how many docs actually carry an embedding. If too few, vector search
+  // will either fail or return nothing useful — go straight to heuristic.
+  const embedded_count = await shotsColl.countDocuments(
+    { summary_embedding: { $exists: true } },
+    {},
+  );
+
+  if (embedded_count >= MIN_EMBEDDED_FOR_VECTOR) {
+    try {
+      const queryVector = await ctx.embed(params.query_summary);
+      // The vector index only includes docs where summary_embedding is set, so
+      // the $exists filter is implicit. We still scope the candidate count
+      // proportionally to what's actually embedded so smaller corpora don't
+      // over-spend on numCandidates.
+      const numCandidates = Math.min(200, Math.max(20, embedded_count));
+      const pipeline: unknown[] = [
+        {
+          $vectorSearch: {
+            index: "shot_summary_vector_index",
+            path: "summary_embedding",
+            queryVector,
+            numCandidates,
+            limit: params.k + (params.exclude_shot_id ? 1 : 0),
+          },
+        },
+      ];
+      if (params.exclude_shot_id) {
+        pipeline.push({ $match: { shot_id: { $ne: params.exclude_shot_id } } });
+        pipeline.push({ $limit: params.k });
+      }
+      const rows = (await shotsColl.aggregate(pipeline).toArray()) as Shot[];
+      if (rows.length > 0) {
+        const safePipeline: unknown[] = JSON.parse(JSON.stringify(pipeline));
+        // @ts-expect-error mutating display copy
+        safePipeline[0].$vectorSearch.queryVector = `<768-dim embedding of: "${params.query_summary}">`;
+        return { shots: rows, pipeline: safePipeline, mode: "vector", embedded_count };
+      }
+      // Vector returned nothing — fall through to heuristic so we still
+      // surface something rather than an empty similar-shots panel.
+    } catch (err) {
+      console.warn(
+        "vectorSearchShots: vector path failed, falling back to heuristic:",
+        err,
+      );
+    }
+  }
+
+  return await heuristicSimilarShots(params, ctx, embedded_count);
+};
+
+/** Structured MongoDB similarity ranking that doesn't need any embeddings.
+ *
+ * Looks up the seed shot by exclude_shot_id and ranks remaining shots by a
+ * weighted distance over the fields the user explicitly cares about:
+ * shot_distance, shot_zone, action_type, is_three_point, xfg. The pipeline
+ * is a real aggregation the agent panel can render so judges still see
+ * meaningful Mongo work.
+ *
+ * Filter is relaxed progressively if a strict match returns too few rows. */
+async function heuristicSimilarShots(
+  params: z.infer<typeof vectorSearchShotsParams>,
+  ctx: ToolContext,
+  embedded_count: number,
+): Promise<VectorSearchResult> {
+  const shotsColl = ctx.mongo.db(ctx.dbName).collection("shots");
+
+  // Look up the seed shot if we have an exclude_shot_id (which IS the seed
+  // in the BFF's calling pattern). If we don't, we can't run a meaningful
+  // heuristic — return empty with the embedded_count so the caller knows.
+  let seed: Shot | null = null;
+  if (params.exclude_shot_id) {
+    seed = (await shotsColl.findOne({ shot_id: params.exclude_shot_id })) as Shot | null;
+  }
+  if (!seed) {
+    return { shots: [], pipeline: [], mode: "heuristic", embedded_count };
+  }
+
+  // Progressive filter relaxation: strictest first, broaden until we have k.
+  const baseFilter: Record<string, unknown> = {
+    shot_id: { $ne: seed.shot_id },
+    is_three_point: seed.is_three_point ?? false,
+  };
+  const filterTiers: Array<Record<string, unknown>> = [
+    { ...baseFilter, shot_zone: seed.shot_zone, action_type: seed.action_type },
+    { ...baseFilter, shot_zone: seed.shot_zone },
+    { ...baseFilter },
+    { shot_id: { $ne: seed.shot_id } },
+  ];
+
+  const seedDist = seed.shot_distance ?? 0;
+  const seedXfg = seed.xfg ?? 0;
+
+  let chosenFilter: Record<string, unknown> = filterTiers[0];
+  let rows: Shot[] = [];
+  let pipeline: unknown[] = [];
+
+  for (const f of filterTiers) {
+    pipeline = [
+      { $match: f },
       {
-        $vectorSearch: {
-          index: "shot_summary_vector_index",
-          path: "summary_embedding",
-          queryVector,
-          numCandidates: 200,
-          limit: params.k + (params.exclude_shot_id ? 1 : 0),
+        $addFields: {
+          _similarity: {
+            $add: [
+              { $abs: { $subtract: ["$shot_distance", seedDist] } },
+              { $multiply: [{ $abs: { $subtract: ["$xfg", seedXfg] } }, 100] },
+            ],
+          },
         },
       },
+      { $sort: { _similarity: 1 } },
+      { $limit: params.k },
+      { $project: { _similarity: 0 } },
     ];
-    if (params.exclude_shot_id) {
-      pipeline.push({ $match: { shot_id: { $ne: params.exclude_shot_id } } });
-      pipeline.push({ $limit: params.k });
-    }
-    const rows = await ctx.mongo.db(ctx.dbName).collection("shots").aggregate(pipeline).toArray();
-    // Echo pipeline back without the giant queryVector for visibility
-    const safePipeline: unknown[] = JSON.parse(JSON.stringify(pipeline));
-    // @ts-expect-error mutating display copy
-    safePipeline[0].$vectorSearch.queryVector = `<768-dim embedding of: "${params.query_summary}">`;
-    return { shots: rows as Shot[], pipeline: safePipeline };
-  };
+    rows = (await shotsColl.aggregate(pipeline).toArray()) as Shot[];
+    chosenFilter = f;
+    if (rows.length >= params.k) break;
+  }
+
+  // Echo back the pipeline that actually ran, with a comment block at the
+  // top describing the seed so the judge-facing JSON tells the whole story.
+  const annotated: unknown[] = [
+    {
+      $comment: `heuristic similar-shot ranking (embeddings: ${embedded_count} docs, threshold ${MIN_EMBEDDED_FOR_VECTOR})`,
+    },
+    ...pipeline,
+  ];
+  void chosenFilter; // surfaced via the $match in the pipeline already
+  return { shots: rows, pipeline: annotated, mode: "heuristic", embedded_count };
+}
 
 const insertReportHandler: ToolDefinition<typeof insertReportParams, { report_id: string }>["handler"] =
   async (params, ctx) => {
@@ -265,11 +389,11 @@ export const tools = {
   vectorSearchShots: {
     name: "vectorSearchShots",
     description:
-      "Find shots semantically similar to a natural-language description. Use after surfacing a notable shot to show related plays from the rest of the playoffs.",
+      "Find shots similar to a natural-language description. Uses Atlas Vector Search when enough shots are embedded; transparently falls back to a structured MongoDB heuristic (shot_distance + shot_zone + action_type + is_three_point + xfg) when embeddings are partial. Use after surfacing a notable shot to show related plays.",
     parameters: vectorSearchShotsParams,
     jsonSchema: zodToJsonSchema(vectorSearchShotsParams),
     handler: vectorSearchShotsHandler,
-  } as ToolDefinition<typeof vectorSearchShotsParams, { shots: Shot[]; pipeline: unknown[] }>,
+  } as ToolDefinition<typeof vectorSearchShotsParams, VectorSearchResult>,
 
   insertReport: {
     name: "insertReport",

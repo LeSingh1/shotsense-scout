@@ -170,6 +170,11 @@ def main() -> int:
             _info("unable to query search-index API:", index_status)
 
     # --- 6. Embedding coverage ---
+    # Partial embeddings are acceptable for demo mode. The vectorSearchShots
+    # tool transparently falls back to a structured MongoDB heuristic when
+    # fewer than 100 shots are embedded, so the demo always renders a real
+    # Mongo pipeline either way.
+    MIN_VECTOR_THRESHOLD = 100
     print("\nEmbeddings:")
     if "shots" not in existing or db["shots"].estimated_document_count() == 0:
         _warn("N/A - shots empty.")
@@ -179,11 +184,24 @@ def main() -> int:
         pct = (embedded / total * 100) if total else 0.0
         label = f"{embedded:,} / {total:,} shots embedded"
         if embedded == 0:
-            _warn(label, "Run: make embeddings")
+            _warn(label, "demo will use HEURISTIC mode (no embeddings yet)")
+        elif embedded < MIN_VECTOR_THRESHOLD:
+            _warn(
+                label,
+                f"{pct:.1f}% - demo will use HEURISTIC mode (need >={MIN_VECTOR_THRESHOLD} for vector)",
+            )
         elif embedded < total:
-            _warn(label, f"{pct:.1f}% - run `make embeddings` to fill the rest")
+            _ok(
+                label,
+                f"{pct:.1f}% - PARTIAL vector mode active (demo works as-is)",
+            )
         else:
-            _ok(label, "(100%)")
+            _ok(label, "(100%) - full vector mode")
+        print()
+        _info(
+            "Demo modes:",
+            "vector >= 100 embedded shots; heuristic < 100. Both render real Mongo pipelines.",
+        )
 
     print()
     print("=" * 50)

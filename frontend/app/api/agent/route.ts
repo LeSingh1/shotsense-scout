@@ -51,17 +51,27 @@ type AgentResponse = {
 
 // ---------- Replay mode ------------------------------------------------------
 
-const REPLAY_DIR = path.join(process.cwd(), "scripts", ".replay-sessions");
+const REPLAY_DIRS = [
+  // Live-recorded sessions live here, gitignored.
+  path.join(process.cwd(), "scripts", ".replay-sessions"),
+  // Checked-in demo samples live here. Frontend ships with these.
+  path.join(process.cwd(), "lib", "replay-samples"),
+  // When dev server runs from frontend/, scripts/ is one level up.
+  path.join(process.cwd(), "..", "scripts", ".replay-sessions"),
+];
 
 async function loadReplay(sessionId: string): Promise<AgentResponse | null> {
-  const file = path.join(REPLAY_DIR, `${sessionId}.json`);
-  try {
-    const raw = await fs.readFile(file, "utf8");
-    const parsed = JSON.parse(raw) as AgentResponse;
-    return { ...parsed, replay: true, replay_session: sessionId };
-  } catch {
-    return null;
+  for (const dir of REPLAY_DIRS) {
+    const file = path.join(dir, `${sessionId}.json`);
+    try {
+      const raw = await fs.readFile(file, "utf8");
+      const parsed = JSON.parse(raw) as AgentResponse;
+      return { ...parsed, replay: true, replay_session: sessionId };
+    } catch {
+      // try the next directory
+    }
   }
+  return null;
 }
 
 // ---------- Live agent path --------------------------------------------------

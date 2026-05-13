@@ -1,0 +1,161 @@
+{
+  "answer": "Jalen Brunson made 5 of the toughest playoff threes by xFG. The most difficult was a 27-foot pull-up above the break with 1.2 seconds left on the shot clock — model xFG of 18 percent. Saved as a scouting report.",
+  "tool_calls": [
+    {
+      "name": "runAggregation",
+      "params": {
+        "player": "Jalen Brunson",
+        "is_three_point": true,
+        "shot_made": true,
+        "sort_by": "xfg_asc",
+        "limit": 5
+      },
+      "pipeline": [
+        { "$match": { "player": "Jalen Brunson", "is_three_point": true, "shot_made": true } },
+        { "$sort": { "xfg": 1 } },
+        { "$limit": 5 }
+      ],
+      "result_summary": "5 shots returned"
+    },
+    {
+      "name": "insertReport",
+      "params": {
+        "title": "Brunson · toughest playoff threes",
+        "player": "Jalen Brunson",
+        "body_markdown": "Brunson's five toughest made threes ranged from 18 to 32 percent xFG. Four came off the dribble; three were contested above the break.",
+        "evidence_shot_ids": [
+          "0042400201_412",
+          "0042400201_338",
+          "0042400184_287",
+          "0042400184_191",
+          "0042400175_502"
+        ]
+      },
+      "result_summary": "report saved with id 660fa1b2d4e8f3a9c7e1b8d2"
+    },
+    {
+      "name": "vectorSearchShots",
+      "params": {
+        "query_summary": "Jalen Brunson made a 27-ft pull-up jump shot from the above the break 3 during clutch with an estimated xFG of 18 percent.",
+        "exclude_shot_id": "0042400201_412",
+        "k": 3
+      },
+      "pipeline": [
+        {
+          "$vectorSearch": {
+            "index": "shot_summary_vector_index",
+            "path": "summary_embedding",
+            "queryVector": "<768-dim embedding of: \"Jalen Brunson made a 27-ft pull-up jump shot from the above the break 3 during clutch with an estimated xFG of 18 percent.\">",
+            "numCandidates": 200,
+            "limit": 4
+          }
+        },
+        { "$match": { "shot_id": { "$ne": "0042400201_412" } } },
+        { "$limit": 3 }
+      ],
+      "result_summary": "3 similar shots found"
+    }
+  ],
+  "evidence_shots": [
+    {
+      "shot_id": "0042400201_412",
+      "player": "Jalen Brunson",
+      "team": "New York Knicks",
+      "shot_distance": 27,
+      "shot_zone": "Above the Break 3",
+      "action_type": "Pull-Up Jump Shot",
+      "shot_made": true,
+      "xfg": 0.18,
+      "fg_over_expected": 0.82,
+      "summary": "Jalen Brunson made a 27-ft pull-up jump shot from the above the break 3 during clutch with an estimated xFG of 18 percent."
+    },
+    {
+      "shot_id": "0042400201_338",
+      "player": "Jalen Brunson",
+      "team": "New York Knicks",
+      "shot_distance": 26,
+      "shot_zone": "Above the Break 3",
+      "action_type": "Step Back Jump Shot",
+      "shot_made": true,
+      "xfg": 0.22,
+      "fg_over_expected": 0.78,
+      "summary": "Jalen Brunson made a 26-ft step back jump shot from the above the break 3 during period 4 with an estimated xFG of 22 percent."
+    },
+    {
+      "shot_id": "0042400184_287",
+      "player": "Jalen Brunson",
+      "team": "New York Knicks",
+      "shot_distance": 28,
+      "shot_zone": "Above the Break 3",
+      "action_type": "Pull-Up Jump Shot",
+      "shot_made": true,
+      "xfg": 0.27,
+      "fg_over_expected": 0.73,
+      "summary": "Jalen Brunson made a 28-ft pull-up jump shot from the above the break 3 during period 3 with an estimated xFG of 27 percent."
+    },
+    {
+      "shot_id": "0042400184_191",
+      "player": "Jalen Brunson",
+      "team": "New York Knicks",
+      "shot_distance": 25,
+      "shot_zone": "Left Corner 3",
+      "action_type": "Jump Shot",
+      "shot_made": true,
+      "xfg": 0.30,
+      "fg_over_expected": 0.70,
+      "summary": "Jalen Brunson made a 25-ft jump shot from the left corner 3 during period 2 with an estimated xFG of 30 percent."
+    },
+    {
+      "shot_id": "0042400175_502",
+      "player": "Jalen Brunson",
+      "team": "New York Knicks",
+      "shot_distance": 26,
+      "shot_zone": "Above the Break 3",
+      "action_type": "Pull-Up Jump Shot",
+      "shot_made": true,
+      "xfg": 0.32,
+      "fg_over_expected": 0.68,
+      "summary": "Jalen Brunson made a 26-ft pull-up jump shot from the above the break 3 during period 4 with an estimated xFG of 32 percent."
+    }
+  ],
+  "similar_shots": [
+    {
+      "shot_id": "0042400186_402",
+      "player": "Stephen Curry",
+      "team": "Golden State Warriors",
+      "shot_distance": 28,
+      "shot_zone": "Above the Break 3",
+      "action_type": "Pull-Up Jump Shot",
+      "shot_made": true,
+      "xfg": 0.21,
+      "fg_over_expected": 0.79,
+      "summary": "Stephen Curry made a 28-ft pull-up jump shot from the above the break 3 during clutch with an estimated xFG of 21 percent."
+    },
+    {
+      "shot_id": "0042400192_355",
+      "player": "Anthony Edwards",
+      "team": "Minnesota Timberwolves",
+      "shot_distance": 27,
+      "shot_zone": "Above the Break 3",
+      "action_type": "Pull-Up Jump Shot",
+      "shot_made": true,
+      "xfg": 0.25,
+      "fg_over_expected": 0.75,
+      "summary": "Anthony Edwards made a 27-ft pull-up jump shot from the above the break 3 during clutch with an estimated xFG of 25 percent."
+    },
+    {
+      "shot_id": "0042400178_244",
+      "player": "Shai Gilgeous-Alexander",
+      "team": "Oklahoma City Thunder",
+      "shot_distance": 26,
+      "shot_zone": "Above the Break 3",
+      "action_type": "Step Back Jump Shot",
+      "shot_made": true,
+      "xfg": 0.29,
+      "fg_over_expected": 0.71,
+      "summary": "Shai Gilgeous-Alexander made a 26-ft step back jump shot from the above the break 3 during clutch with an estimated xFG of 29 percent."
+    }
+  ],
+  "saved_report_id": "660fa1b2d4e8f3a9c7e1b8d2",
+  "replay": true
+}

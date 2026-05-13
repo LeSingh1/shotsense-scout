@@ -40,6 +40,9 @@ type ToolCallRecord = {
 };
 
 type AgentResponse = {
+  /** The user's prompt. Optional on live responses; present on replay sessions
+   * so the frontend can render the input pre-filled when judges land on the page. */
+  prompt?: string;
   answer: string;
   tool_calls: ToolCallRecord[];
   evidence_shots: Shot[];

@@ -36,6 +36,7 @@ type ToolCallRecord = {
 };
 
 type AgentResponse = {
+  prompt?: string;
   answer: string;
   tool_calls: ToolCallRecord[];
   evidence_shots: Shot[];
@@ -67,13 +68,56 @@ export function AgentPanel() {
   const [replaySession, setReplaySession] = useState<string | null>(null);
   const [showHint, setShowHint] = useState(false);
 
-  // Detect ?replay= on mount
+  // Detect ?replay= on mount AND auto-populate the full demo state so the
+  // MongoDB-proof beat is visible without requiring the user to submit. Judges
+  // landing on a replay URL should see answer + pipeline + evidence + similar
+  // + saved report within the first scroll.
   useEffect(() => {
     const url = new URL(window.location.href);
     const r = url.searchParams.get("replay");
-    if (r) setReplaySession(r);
-    const timer = setTimeout(() => setShowHint(true), 200);
-    return () => clearTimeout(timer);
+    if (!r) {
+      const timer = setTimeout(() => setShowHint(true), 200);
+      return () => clearTimeout(timer);
+    }
+    setReplaySession(r);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/agent?replay=${encodeURIComponent(r)}`, {
+          method: "GET",
+        });
+        if (!res.ok) throw new Error(`replay load failed: ${res.status}`);
+        const data = (await res.json()) as AgentResponse;
+        if (cancelled) return;
+        const promptText = data.prompt ?? "";
+        if (inputRef.current && promptText) {
+          inputRef.current.value = promptText;
+        }
+        const kind: UiState["kind"] = data.evidence_shots.length === 0 ? "empty" : "success";
+        setState(
+          kind === "empty"
+            ? { kind: "empty", prompt: promptText, data }
+            : { kind: "success", prompt: promptText, data, justSavedId: data.saved_report_id },
+        );
+        if (data.saved_report_id) {
+          const title =
+            (data.tool_calls.find((c) => c.name === "insertReport")?.params as {
+              title?: string;
+            } | undefined)?.title ?? "Scouting report";
+          setSavedReports([{ id: data.saved_report_id, title, saved_at: "just now" }]);
+        }
+      } catch (e) {
+        if (cancelled) return;
+        setState({
+          kind: "error",
+          prompt: "",
+          message: e instanceof Error ? e.message : "Replay load failed.",
+        });
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const submit = useCallback(
@@ -149,7 +193,7 @@ export function AgentPanel() {
   return (
     <section
       id="ask-the-scout"
-      className="relative px-6 pt-24 pb-20 md:px-20 md:pt-32 md:pb-28"
+      className="relative px-6 pt-16 pb-16 md:px-20 md:pt-20 md:pb-24"
       aria-labelledby="scout-heading"
     >
       {/* Replay-mode chip (state 7) */}
@@ -168,10 +212,10 @@ export function AgentPanel() {
       </span>
 
       {/* Headline */}
-      <div className="mt-10 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+      <div className="mt-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <motion.h2
           id="scout-heading"
-          className="font-display text-[56px] font-medium leading-[0.94] tracking-[-0.04em] md:text-[88px] lg:text-[104px]"
+          className="font-display text-[44px] font-medium leading-[0.94] tracking-[-0.04em] md:text-[72px] lg:text-[88px]"
           initial={reduce ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -189,7 +233,7 @@ export function AgentPanel() {
       </p>
 
       {/* Row 1 — editorial display-input */}
-      <div className="relative mt-16">
+      <div className="relative mt-10">
         <label htmlFor="scout-prompt" className="sr-only">
           Ask the scout
         </label>
@@ -210,7 +254,7 @@ export function AgentPanel() {
             disabled={state.kind === "loading"}
             onKeyDown={onKeyDown}
             onChange={onChange}
-            className="font-display flex-1 bg-transparent text-[40px] font-medium leading-[1.05] tracking-[-0.03em] text-text outline-none placeholder:text-muted md:text-[48px] lg:text-[56px]"
+            className="font-display flex-1 bg-transparent text-[28px] font-medium leading-[1.05] tracking-[-0.03em] text-text outline-none placeholder:text-muted md:text-[36px] lg:text-[44px]"
             style={{ caretColor: "var(--color-accent)" }}
             aria-describedby="scout-hint"
           />
@@ -252,7 +296,7 @@ export function AgentPanel() {
         aria-live="polite"
         aria-atomic="false"
         aria-busy={state.kind === "loading"}
-        className="mt-20 min-h-[8rem] outline-none"
+        className="mt-12 min-h-[6rem] outline-none"
       >
         {state.kind === "loading" && (
           <div className="font-mono text-[13px] uppercase tracking-[0.08em] text-muted">
@@ -303,7 +347,7 @@ export function AgentPanel() {
 
       {/* Row 2 — Pipeline JSON + Evidence shots */}
       {(state.kind === "loading" || state.kind === "success" || state.kind === "empty") && (
-        <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
           {/* Pipeline panel */}
           <div className="flex flex-col">
             <div className="mb-3 font-mono text-[13px] uppercase tracking-[0.08em] text-muted">
@@ -351,7 +395,7 @@ export function AgentPanel() {
 
       {/* Row 3 — Saved scouting reports */}
       {savedReports.length > 0 && (
-        <div className="mt-20">
+        <div className="mt-12">
           <div className="mb-4 flex items-baseline justify-between">
             <h3 className="font-mono text-[13px] uppercase tracking-[0.08em] text-muted">
               Saved scouting reports

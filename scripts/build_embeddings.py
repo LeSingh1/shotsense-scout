@@ -167,11 +167,13 @@ def _embed_batch(summaries: list[str], client, default_429_sleep_s: float) -> li
             is_last = attempt == MAX_RETRIES - 1
             if _is_rate_limit(e):
                 hint = _parse_retry_delay_seconds(e)
-                sleep_s = (hint + 2.0) if hint is not None else default_429_sleep_s
+                # +5s buffer over the server-suggested retry delay to make
+                # sure we're past the quota window before the next call.
+                sleep_s = (hint + 5.0) if hint is not None else default_429_sleep_s
                 logger.warning(
                     "Quota hit (429). Sleeping %.1fs%s before retry (attempt %d/%d).",
                     sleep_s,
-                    f" per server retry hint" if hint is not None else "",
+                    " per server retry hint + 5s buffer" if hint is not None else "",
                     attempt + 1,
                     MAX_RETRIES,
                 )

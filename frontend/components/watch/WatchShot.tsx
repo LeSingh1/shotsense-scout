@@ -11,7 +11,7 @@ import {
 import { SKELETON, type Keypoint } from "./pose-types";
 import { ShotDetailCard } from "./ShotDetailCard";
 import { ReleaseProfile } from "./ReleaseProfile";
-import { WATCH_CLIPS, pickRandomClip, type WatchClip } from "@/lib/watchClips";
+import { WATCH_CLIPS, type WatchClip } from "@/lib/watchClips";
 
 /**
  * Watch a shot — section that pairs a video with the model's read on it.
@@ -88,15 +88,9 @@ export function WatchShot({ shots }: { shots: ShotsMap }) {
     resetBall();
   }, [resetBall]);
 
-  const onShuffleClip = useCallback(() => {
-    if (WATCH_CLIPS.length === 0) return;
-    // Functional updater reads the freshest currentClip — guards against the
-    // stale-closure bug where rapid clicks all see the same `currentClip`.
-    setCurrentClip((prev) => {
-      const next = pickRandomClip(prev?.id);
-      setVideoSrc(next.url);
-      return next;
-    });
+  const onPickClip = useCallback((next: WatchClip) => {
+    setCurrentClip(next);
+    setVideoSrc(next.url);
     setDefaultMissing(false);
     detectorRef.current.reset();
     resetBall();
@@ -292,7 +286,12 @@ export function WatchShot({ shots }: { shots: ShotsMap }) {
                 children carrying over from the prior clip). */}
             {currentClip && (
               <div className="mt-6">
-                <ShotDetailCard key={currentClip.id} clip={currentClip} onShuffle={onShuffleClip} />
+                <ShotDetailCard
+                  key={currentClip.id}
+                  clip={currentClip}
+                  library={WATCH_CLIPS}
+                  onPick={onPickClip}
+                />
               </div>
             )}
           </div>

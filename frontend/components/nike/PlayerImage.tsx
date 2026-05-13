@@ -16,15 +16,16 @@ import { headshotUrl } from "@/lib/playerMeta";
  * Each stage is tried in order via `onError`. A shimmer skeleton renders
  * while the chosen src is loading so the user never sees an empty box.
  */
-type Stage = "action" | "legacy" | "headshot" | "silhouette";
+type Stage = "headshot" | "silhouette";
 
 export function PlayerImage({ player }: { player: FeaturedPlayer }) {
-  const [stage, setStage] = useState<Stage>("action");
+  // Skip local /players/*.png slots — they don't exist and each 404 round-trip
+  // delays the image by ~200ms × 2. Go straight to the NBA CDN headshot.
+  const [stage, setStage] = useState<Stage>("headshot");
   const [loaded, setLoaded] = useState(false);
 
-  // Reset to the top of the chain whenever the player changes.
   useEffect(() => {
-    setStage("action");
+    setStage("headshot");
     setLoaded(false);
   }, [player.id]);
 
@@ -41,17 +42,11 @@ export function PlayerImage({ player }: { player: FeaturedPlayer }) {
   };
   const handleLeave = () => { mx.set(0); my.set(0); };
 
-  const src =
-    stage === "action"   ? `/players/${player.id}-action.png` :
-    stage === "legacy"   ? `/players/${player.id}.png` :
-    stage === "headshot" ? headshotUrl(player.id) :
-    null;
+  const src = stage === "headshot" ? headshotUrl(player.id) : null;
 
   const handleError = () => {
     setLoaded(false);
-    if (stage === "action")   setStage("legacy");
-    else if (stage === "legacy") setStage("headshot");
-    else if (stage === "headshot") setStage("silhouette");
+    if (stage === "headshot") setStage("silhouette");
   };
 
   return (
@@ -120,6 +115,9 @@ export function PlayerImage({ player }: { player: FeaturedPlayer }) {
                 alt={player.fullName}
                 onLoad={() => setLoaded(true)}
                 onError={handleError}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
                 className="select-none pointer-events-none"
                 style={{
                   height: "100%",

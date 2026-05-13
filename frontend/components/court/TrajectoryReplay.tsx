@@ -17,13 +17,11 @@ import type { ShotDatum } from "./ShotMap";
  * baseline.
  */
 
-// Extended viewBox: same width and height as the court PLUS extra vertical
-// space above the baseline so the arc apex isn't clipped on long shots.
-const PAD_ABOVE = 320;
-const VB_X = COURT.X_MIN;
-const VB_Y = COURT.Y_MIN - PAD_ABOVE;
-const VB_W = COURT.W;
-const VB_H = COURT.H + PAD_ABOVE;
+// Container is height-capped via inline style so it never balloons on wide
+// grids and is immune to Tailwind purging quirks. The SVG inside still uses
+// preserveAspectRatio="xMidYMid meet" so the arc stays centered.
+const CONTAINER_CLASS = "w-full rounded-xl ring-1 ring-white/5 bg-[#0a0a0a] self-start";
+const CONTAINER_STYLE: React.CSSProperties = { height: 360, maxHeight: 420 };
 
 export function TrajectoryReplay({
   shot,
@@ -35,8 +33,8 @@ export function TrajectoryReplay({
   if (!shot) {
     return (
       <div
-        className="w-full rounded-xl ring-1 ring-white/5 bg-[#0a0a0a] grid place-items-center text-white/30 text-xs uppercase tracking-[0.18em]"
-        style={{ aspectRatio: `${VB_W} / ${VB_H}` }}
+        className={`${CONTAINER_CLASS} grid place-items-center text-white/30 text-xs uppercase tracking-[0.18em]`}
+        style={CONTAINER_STYLE}
       >
         Pick a shot to watch it fly.
       </div>
@@ -58,6 +56,17 @@ export function TrajectoryReplay({
 
   const path = `M ${shotX} ${shotY} Q ${midX} ${peakY} ${hoopX} ${hoopY}`;
 
+  // Tight viewBox: top fits the arc apex, bottom shows enough court for
+  // context (paint + a bit beyond the shooter). Width stays full half-court.
+  const VB_PAD_TOP = 40;
+  const VB_PAD_BOTTOM = 80;
+  const minY = Math.min(shotY, peakY, hoopY) - VB_PAD_TOP;
+  const maxY = Math.max(shotY, hoopY, COURT.PAINT_TOP_Y) + VB_PAD_BOTTOM;
+  const VB_X = COURT.X_MIN;
+  const VB_Y = minY;
+  const VB_W = COURT.W;
+  const VB_H = maxY - minY;
+
   // Identity key — remounts the SVG and replays the animation on every pick.
   const key = `${shot.x}-${shot.y}-${shot.made}-${shot.xfg}`;
   const dist = shotDistFt(shot.x, shot.y);
@@ -65,8 +74,8 @@ export function TrajectoryReplay({
 
   return (
     <div
-      className="relative w-full rounded-xl ring-1 ring-white/5 overflow-hidden bg-[#0a0a0a]"
-      style={{ aspectRatio: `${VB_W} / ${VB_H}` }}
+      className={`relative ${CONTAINER_CLASS} overflow-hidden`}
+      style={CONTAINER_STYLE}
     >
       <AnimatePresence mode="wait">
         <motion.svg

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { HalfCourt } from "./HalfCourt";
 import { COURT, isThreePointer, shotDistFt } from "./court-dimensions";
@@ -176,7 +176,6 @@ export function ShotMap({
   tilted?: boolean;
   arcs?: boolean;
 }) {
-  // Debug overlay toggled via ?debug=1
   const [debug, setDebug] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -190,6 +189,76 @@ export function ShotMap({
   const loopDuration = arcList.length
     ? ARC_DURATION + (arcList.length - 1) * ARC_INTERVAL + ARC_HOLD
     : 0;
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const draw = () => {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width;
+      const h = rect.height;
+      const scaleX = w / COURT.W;
+      const scaleY = h / COURT.H;
+      const dotR = 6 * Math.min(scaleX, scaleY);
+      const selR = 9 * Math.min(scaleX, scaleY);
+
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < shots.length; i++) {
+        const s = shots[i];
+        const px = (s.x - COURT.X_MIN) * scaleX;
+        const py = (s.y - COURT.Y_MIN) * scaleY;
+        const r = selectedIndex === i ? selR : dotR;
+
+        ctx.beginPath();
+        ctx.arc(px, py, r, 0, Math.PI * 2);
+        ctx.fillStyle = colorFor(s, effectiveMode);
+        ctx.globalAlpha = 0.85;
+        ctx.fill();
+        ctx.strokeStyle = "#0a0a0a";
+        ctx.lineWidth = 1.4 * Math.min(scaleX, scaleY);
+        ctx.globalAlpha = 1;
+        ctx.stroke();
+      }
+    };
+
+    draw();
+    const ro = new ResizeObserver(draw);
+    ro.observe(canvas);
+    return () => ro.disconnect();
+  }, [shots, effectiveMode, selectedIndex]);
+
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!onSelect || !canvasRef.current) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const scaleX = rect.width / COURT.W;
+    const scaleY = rect.height / COURT.H;
+    const threshold = 14;
+
+    let closest = -1;
+    let minDist = threshold;
+    for (let i = 0; i < shots.length; i++) {
+      const px = (shots[i].x - COURT.X_MIN) * scaleX;
+      const py = (shots[i].y - COURT.Y_MIN) * scaleY;
+      const dist = Math.hypot(mx - px, my - py);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    }
+    if (closest >= 0) onSelect(closest);
+  };
 
   return (
     <div
@@ -238,7 +307,6 @@ export function ShotMap({
 
           <HalfCourt stroke={tilted ? "rgba(255,255,255,0.28)" : "rgba(255,255,255,0.22)"} />
 
-          {/* Rim emphasis in accent (always — this is the static SVG hoop) */}
           <circle
             cx={COURT.HOOP_X}
             cy={COURT.HOOP_Y}
@@ -256,36 +324,15 @@ export function ShotMap({
               <line x1={COURT.CORNER_X} y1={COURT.BASELINE_Y} x2={COURT.CORNER_X} y2={COURT.MIDCOURT_Y} />
             </g>
           )}
-
-          {/* Shots */}
-          {shots.map((s, i) => {
-            const isSelected = selectedIndex === i;
-            const fill = colorFor(s, effectiveMode);
-            const r = isSelected ? 9 : 6;
-            const stagger = Math.min(0.9, i * 0.003);
-            return (
-              <motion.circle
-                key={i}
-                cx={s.x}
-                cy={s.y}
-                fill={fill}
-                stroke="#0a0a0a"
-                strokeWidth={1.4}
-                opacity={0.85}
-                initial={{ r: 0, opacity: 0 }}
-                animate={{ r, opacity: 0.85 }}
-                transition={{ duration: 0.35, delay: stagger, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ r: 9, opacity: 1 }}
-                style={{ cursor: onSelect ? "pointer" : "default" }}
-                onClick={onSelect ? () => onSelect(i) : undefined}
-              >
-                <title>
-                  {`${s.made === 1 ? "MAKE" : "MISS"} · ${isThreePointer(s.x, s.y) ? "3PT" : "2PT"} · xFG ${(s.xfg * 100).toFixed(0)}% · ${shotDistFt(s.x, s.y).toFixed(1)}ft`}
-                </title>
-              </motion.circle>
-            );
-          })}
         </svg>
+
+        {/* Canvas for shot dots — single paint call instead of 10k+ SVG elements */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full"
+          style={{ cursor: onSelect ? "pointer" : "default" }}
+          onClick={onSelect ? handleCanvasClick : undefined}
+        />
       </div>
 
       {/* Animated arcs + 3D hoop — non-rotated overlay so vertical motion isn't

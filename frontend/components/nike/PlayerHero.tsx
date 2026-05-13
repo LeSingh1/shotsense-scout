@@ -361,12 +361,15 @@ function RailLeft({
       {/* Name + xPPS */}
       <div>
         <h1
-          className="font-black tracking-tight text-white leading-[0.86]"
+          className="font-black tracking-tight text-white leading-[0.86] break-words hyphens-auto"
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(40px, 4.6vw, 80px)",
+            // Scale down for long surnames so they don't overflow the 280-340px rail.
+            fontSize: `clamp(32px, ${Math.max(2.4, 4.8 - player.lastName.length * 0.18)}vw, ${player.lastName.length > 8 ? 56 : 72}px)`,
             letterSpacing: "-0.02em",
             textShadow: "0 6px 30px rgba(0,0,0,0.85)",
+            wordBreak: "break-word",
+            overflowWrap: "anywhere",
           }}
         >
           {player.firstName}

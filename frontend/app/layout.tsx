@@ -47,7 +47,7 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${interTight.variable} ${jetBrainsMono.variable}`}
     >
-      <body className="bg-bg text-text antialiased">
+      <body className="bg-bg text-text antialiased" suppressHydrationWarning>
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

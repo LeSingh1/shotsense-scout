@@ -1,12 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { WatchClip } from "@/lib/watchClips";
 import { WatchMiniCourt } from "./WatchMiniCourt";
 
 type Props = {
   clip: WatchClip;
-  onShuffle: () => void;
+  library: readonly WatchClip[];
+  onPick: (next: WatchClip) => void;
 };
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -24,8 +26,9 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * The right-rail ReleaseProfile still owns the headline xFG number, so this
  * card stays focused on context and copy.
  */
-export function ShotDetailCard({ clip, onShuffle }: Props) {
+export function ShotDetailCard({ clip, library, onPick }: Props) {
   const reduce = useReducedMotion();
+  const [libraryOpen, setLibraryOpen] = useState(false);
 
   const tone = clip.made
     ? {
@@ -111,11 +114,25 @@ export function ShotDetailCard({ clip, onShuffle }: Props) {
           {/* RIGHT — content */}
           <div className="flex flex-col">
             {/* Top strip */}
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-start gap-3 flex-wrap">
               <ResultChip made={clip.made} tone={tone} />
-              <GradeChip grade={clip.grade} />
               <SeriesLabel series={clip.series} />
-              <ShuffleButton onClick={onShuffle} />
+              <div className="ml-auto flex flex-col items-end gap-2">
+                <ShuffleButton
+                  onClick={() => {
+                    // Pick a random clip from the library other than the
+                    // currently displayed one.
+                    const others = library.filter((c) => c.id !== clip.id);
+                    const next = others[Math.floor(Math.random() * others.length)];
+                    if (next) onPick(next);
+                  }}
+                />
+                <LibraryButton
+                  count={library.length}
+                  open={libraryOpen}
+                  onClick={() => setLibraryOpen((v) => !v)}
+                />
+              </div>
             </div>
 
             {/* Headline */}
@@ -205,6 +222,17 @@ export function ShotDetailCard({ clip, onShuffle }: Props) {
             </motion.div>
           </div>
         </div>
+
+        {libraryOpen && (
+          <LibraryPanel
+            library={library}
+            currentId={clip.id}
+            onPick={(c) => {
+              onPick(c);
+              setLibraryOpen(false);
+            }}
+          />
+        )}
       </motion.article>
   );
 }
@@ -299,21 +327,15 @@ function GradeChip({ grade }: { grade: string }) {
 function ResultChip({ made, tone }: { made: boolean; tone: Tone }) {
   return (
     <motion.span
-      initial={{ opacity: 0, scale: 0.94 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: "spring", stiffness: 320, damping: 22 }}
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-[0.22em]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35, ease: EASE }}
+      className="inline-flex items-center px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.22em]"
       style={{
         border: `1px solid ${tone.chipBorder}`,
-        background: tone.chipBg,
         color: tone.chipFg,
       }}
     >
-      <span
-        aria-hidden
-        className="h-1.5 w-1.5 rounded-full"
-        style={{ background: tone.chipFg }}
-      />
       {made ? "Make" : "Miss"}
     </motion.span>
   );
@@ -340,8 +362,8 @@ function ShuffleButton({ onClick }: { onClick: () => void }) {
       whileHover={{ y: -1 }}
       whileTap={{ scale: 0.96 }}
       transition={{ type: "spring", stiffness: 320, damping: 18 }}
-      className="ml-auto inline-flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] text-white/75 hover:text-white hover:border-white/40 transition-colors"
-      aria-label="Shuffle to a different clip"
+      className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] text-white/75 hover:text-white hover:border-white/40 transition-colors"
+      aria-label="Shuffle to a random clip"
     >
       <motion.svg
         viewBox="0 0 16 16"
@@ -360,4 +382,119 @@ function ShuffleButton({ onClick }: { onClick: () => void }) {
       Shuffle clip
     </motion.button>
   );
+}
+
+function LibraryButton({
+  count,
+  open,
+  onClick,
+}: {
+  count: number;
+  open: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      whileHover={{ y: -1 }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ type: "spring", stiffness: 320, damping: 18 }}
+      className="ml-auto inline-flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] text-white/75 hover:text-white hover:border-white/40 transition-colors"
+      aria-expanded={open}
+      aria-label={open ? "Close clip library" : "Browse clip library"}
+    >
+      <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden>
+        <path d="M2.5 3.5h11M2.5 8h11M2.5 12.5h11" />
+      </svg>
+      {open ? "Close library" : `Browse ${count} clips`}
+    </motion.button>
+  );
+}
+
+function LibraryPanel({
+  library,
+  currentId,
+  onPick,
+}: {
+  library: readonly WatchClip[];
+  currentId: string;
+  onPick: (clip: WatchClip) => void;
+}) {
+  // Group clips by their series header so the user can navigate by game.
+  const groups = library.reduce<Record<string, WatchClip[]>>((acc, c) => {
+    (acc[c.series] ||= []).push(c);
+    return acc;
+  }, {});
+  const seriesKeys = Object.keys(groups).sort();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.3, ease: EASE }}
+      className="border-t border-white/10 bg-black/30"
+    >
+      <div className="max-h-[420px] overflow-y-auto px-6 md:px-8 py-5 space-y-5">
+        <div className="text-[10px] uppercase tracking-[0.24em] font-mono text-white/45">
+          Library · {library.length} clips · {seriesKeys.length} games
+        </div>
+        {seriesKeys.map((series) => (
+          <div key={series}>
+            <div className="text-[10px] uppercase tracking-[0.2em] font-mono text-white/55 mb-2">
+              {series}
+            </div>
+            <ul className="divide-y divide-white/5 rounded-md border border-white/8 bg-white/[0.02]">
+              {groups[series].map((c) => {
+                const isCurrent = c.id === currentId;
+                return (
+                  <li key={c.id}>
+                    <button
+                      type="button"
+                      onClick={() => onPick(c)}
+                      disabled={isCurrent}
+                      className="
+                        w-full flex items-center gap-3 px-3 py-2 text-left text-[12px]
+                        hover:bg-white/[0.04] transition-colors
+                        disabled:bg-white/[0.06] disabled:cursor-default
+                      "
+                    >
+                      <span className="font-medium text-white/90 min-w-[110px] truncate">
+                        {c.player}
+                      </span>
+                      <span className="text-white/55 truncate flex-1">{c.action}</span>
+                      <span
+                        className="text-[10px] font-mono uppercase tracking-[0.18em] px-1.5 py-0.5 rounded shrink-0"
+                        style={{ color: gradeColor(c.grade), borderColor: gradeColor(c.grade) + "55", border: "1px solid " + gradeColor(c.grade) + "33" }}
+                      >
+                        {c.grade}
+                      </span>
+                      {isCurrent && (
+                        <span className="text-[9px] uppercase tracking-[0.2em] text-white/45 shrink-0">
+                          playing
+                        </span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function gradeColor(grade: string): string {
+  return grade === "A+" || grade === "A"
+    ? "#34D399"
+    : grade === "B"
+    ? "#A3E635"
+    : grade === "C"
+    ? "#FBBF24"
+    : grade === "D"
+    ? "#F87171"
+    : "#EF4444";
 }

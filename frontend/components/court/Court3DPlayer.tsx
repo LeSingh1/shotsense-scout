@@ -236,9 +236,12 @@ function buildArc(
   return pts;
 }
 
-const ARC_STAGGER_MS = 220;
+const ARC_STAGGER_MS = 90;
 const ARC_HOLD_MS = 320;
-const ARC_MAX = 18;
+// Bumped from 18 → 80 so most makes emit a streak. Stagger tightened so
+// the loop still finishes in a reasonable time. Trail particle count also
+// dropped (see TRAIL_PARTICLES) to keep frame budget healthy at this count.
+const ARC_MAX = 80;
 
 function buildArcs(shots: ShotDatum[]): { arcs: ArcDef[]; cycleMs: number } {
   // Use ALL makes — the user wants paint shots to have arcs too. We only
@@ -286,8 +289,9 @@ function buildArcs(shots: ShotDatum[]): { arcs: ArcDef[]; cycleMs: number } {
   return { arcs, cycleMs };
 }
 
-// Number of trailing sparkle particles behind the ball head.
-const TRAIL_PARTICLES = 12;
+// Number of trailing sparkle particles behind the ball head. Kept lean since
+// ARC_MAX is now 80 — this multiplies into total scene mesh count.
+const TRAIL_PARTICLES = 5;
 // How many path segments behind the head the comet trail spans.
 const COMET_LENGTH = 22;
 // Easing applied to the arc head's t so it decelerates into the rim — gives

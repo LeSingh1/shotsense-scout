@@ -77,8 +77,12 @@ const courtTheme: CSSProperties & Record<string, string> = {
   ["--court-paper-2" as string]: "#111111",
   ["--court-paper-3" as string]: "#181818",
   ["--court-ink" as string]: "#fafafa",
+  // Borders / surfaces — kept dim so they don't compete with content.
   ["--court-walnut" as string]: "#2a2a2a",
   ["--court-walnut-2" as string]: "#3a3a3a",
+  // Readable text tiers — use these for any color: text. Borders/bg keep walnut.
+  ["--court-label" as string]: "#cfcfcf",
+  ["--court-sublabel" as string]: "#888888",
   ["--court-burnt" as string]: "#FF2D6F",
   ["--court-burnt-2" as string]: "#ff5a8a",
   ["--court-muted" as string]: "#a1a1a1",
@@ -262,7 +266,7 @@ export function AgentPanel() {
         <div>
           <span
             className="font-mono text-[12px] uppercase tracking-[0.12em]"
-            style={{ color: "var(--court-walnut-2)" }}
+            style={{ color: "var(--court-sublabel)" }}
           >
             02 / Ask the Scout
           </span>
@@ -279,7 +283,7 @@ export function AgentPanel() {
           </motion.h2>
           <p
             className="mt-2 font-mono text-[12px] uppercase tracking-[0.12em]"
-            style={{ color: "var(--court-walnut-2)" }}
+            style={{ color: "var(--court-sublabel)" }}
           >
             Live agent · MongoDB Atlas aggregation + vector search
           </p>
@@ -287,11 +291,11 @@ export function AgentPanel() {
         <div className="flex items-center gap-2">
           {replaySession && (
             <span
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em]"
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em]"
               style={{
                 background: "var(--court-burnt)",
                 color: "var(--court-paper-2)",
-                border: "1px solid var(--court-walnut)",
+                border: "1px solid var(--court-burnt)",
               }}
               role="status"
             >
@@ -299,8 +303,8 @@ export function AgentPanel() {
             </span>
           )}
           <span
-            className="inline-flex items-center gap-1.5 border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em]"
-            style={{ borderColor: "var(--court-walnut-2)", color: "var(--court-walnut)" }}
+            className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em]"
+            style={{ borderColor: "var(--court-walnut-2)", color: "var(--court-label)" }}
           >
             Saved · {String(savedReports.length).padStart(2, "0")}
           </span>
@@ -340,7 +344,7 @@ export function AgentPanel() {
             type="button"
             onClick={() => submit(inputRef.current?.value ?? "")}
             disabled={state.kind === "loading"}
-            className="rounded-none px-3 py-2 font-mono text-[12px] uppercase tracking-[0.12em] transition-colors"
+            className="rounded-lg px-3.5 py-2 font-mono text-[12px] uppercase tracking-[0.12em] transition-colors"
             style={{
               background:
                 state.kind === "typing" || state.kind === "loading"
@@ -370,7 +374,7 @@ export function AgentPanel() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
               className="absolute -bottom-6 left-0 font-mono text-[12px] uppercase tracking-[0.12em]"
-              style={{ color: "var(--court-walnut-2)" }}
+              style={{ color: "var(--court-sublabel)" }}
             >
               {HINT}
             </motion.span>
@@ -391,7 +395,7 @@ export function AgentPanel() {
         {state.kind === "error" && (
           <div
             role="alert"
-            className="border p-5"
+            className="rounded-xl border p-5"
             style={{
               borderColor: "var(--court-bad)",
               background: "var(--court-paper-2)",
@@ -405,14 +409,14 @@ export function AgentPanel() {
             </div>
             <p
               className="mt-2 font-mono text-[13px]"
-              style={{ color: "var(--court-walnut)" }}
+              style={{ color: "var(--court-label)" }}
             >
               {state.message}
             </p>
             <button
               type="button"
               onClick={() => submit(state.prompt)}
-              className="mt-4 border px-4 py-2 font-mono text-[12px] uppercase tracking-[0.12em] transition-colors"
+              className="mt-4 rounded-lg border px-4 py-2 font-mono text-[12px] uppercase tracking-[0.12em] transition-colors"
               style={{
                 borderColor: "var(--court-burnt)",
                 color: "var(--court-burnt)",
@@ -465,7 +469,7 @@ export function AgentPanel() {
           <div className="flex flex-col gap-6">
             {/* Query used */}
             <article
-              className="border"
+              className="overflow-hidden rounded-2xl border"
               style={{
                 background: "var(--court-paper-2)",
                 borderColor: "var(--court-walnut)",
@@ -483,7 +487,7 @@ export function AgentPanel() {
                   type="button"
                   onClick={() => setJsonOpen((v) => !v)}
                   className="font-mono text-[11px] uppercase tracking-[0.12em] underline-offset-2 hover:underline"
-                  style={{ color: "var(--court-walnut)" }}
+                  style={{ color: "var(--court-label)" }}
                   aria-expanded={jsonOpen}
                   aria-controls="query-json-full"
                 >
@@ -493,7 +497,7 @@ export function AgentPanel() {
               <div className="px-4 py-3">
                 <p
                   className="font-mono text-[12px] leading-[1.45]"
-                  style={{ color: "var(--court-walnut-2)" }}
+                  style={{ color: "var(--court-sublabel)" }}
                 >
                   {summarizePipeline(pipelineCall)}
                 </p>
@@ -506,7 +510,7 @@ export function AgentPanel() {
                       exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                       tabIndex={0}
-                      className="mt-3 overflow-x-auto p-3 font-mono text-[12px] leading-[1.55]"
+                      className="mt-3 overflow-x-auto rounded-lg p-3 font-mono text-[12px] leading-[1.55]"
                       style={{
                         background: "var(--court-mono-bg)",
                         color: "var(--court-mono-text)",
@@ -523,7 +527,7 @@ export function AgentPanel() {
             {/* Similar shots */}
             {state.kind === "success" && state.data.similar_shots && state.data.similar_shots.length > 0 && (
               <article
-                className="border"
+                className="overflow-hidden rounded-2xl border"
                 style={{
                   background: "var(--court-paper-2)",
                   borderColor: "var(--court-walnut)",
@@ -569,7 +573,7 @@ export function AgentPanel() {
         <div className="mt-12">
           <SectionLabel>Saved scouting reports · {String(savedReports.length).padStart(2, "0")}</SectionLabel>
           <ul
-            className="mt-4 divide-y border"
+            className="mt-4 divide-y overflow-hidden rounded-xl border"
             style={{ borderColor: "var(--court-walnut-2)", background: "var(--court-paper-2)" }}
           >
             <AnimatePresence initial={false}>
@@ -587,7 +591,7 @@ export function AgentPanel() {
                   </span>
                   <span
                     className="font-mono text-[11px] uppercase tracking-[0.12em]"
-                    style={{ color: "var(--court-walnut-2)" }}
+                    style={{ color: "var(--court-sublabel)" }}
                   >
                     {r.saved_at} · {r.id.slice(-6)}
                   </span>
@@ -616,7 +620,7 @@ function SectionLabel({
   return (
     <span
       className={`${inline ? "inline-block" : "block"} font-mono text-[11px] uppercase tracking-[0.14em]`}
-      style={{ color: "var(--court-walnut)" }}
+      style={{ color: "var(--court-label)" }}
     >
       {children}
     </span>
@@ -635,10 +639,10 @@ function Chip({
       ? { background: "var(--court-burnt)", color: "var(--court-paper-2)", border: "1px solid var(--court-burnt)" }
       : variant === "good"
         ? { background: "var(--court-good)", color: "var(--court-paper-2)", border: "1px solid var(--court-good)" }
-        : { background: "transparent", color: "var(--court-walnut)", border: "1px solid var(--court-walnut-2)" };
+        : { background: "transparent", color: "var(--court-label)", border: "1px solid var(--court-walnut-2)" };
   return (
     <span
-      className="inline-flex items-center px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+      className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
       style={styles}
     >
       {children}
@@ -662,7 +666,7 @@ function AnswerHero({
       initial={reduce ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45 }}
-      className="relative border"
+      className="relative overflow-hidden rounded-2xl border"
       style={{
         background: "var(--court-paper-2)",
         borderColor: "var(--court-walnut)",
@@ -680,7 +684,7 @@ function AnswerHero({
         </div>
         <span
           className="font-mono text-[11px] uppercase tracking-[0.12em]"
-          style={{ color: "var(--court-walnut-2)" }}
+          style={{ color: "var(--court-sublabel)" }}
         >
           xfg model · 2025-26 playoffs
         </span>
@@ -724,16 +728,16 @@ function TimelineStrip({
       {items.map((it, idx) => (
         <li key={it.label} className="flex items-center gap-3">
           <span
-            className="flex items-center gap-2 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em]"
+            className="flex items-center gap-2 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em]"
             style={{
-              background: it.done ? "var(--court-walnut)" : "transparent",
-              color: it.done ? "var(--court-paper-2)" : "var(--court-walnut-2)",
-              border: `1px solid ${it.done ? "var(--court-walnut)" : "var(--court-walnut-2)"}`,
+              background: it.done ? "var(--court-label)" : "transparent",
+              color: it.done ? "var(--court-paper)" : "var(--court-sublabel)",
+              border: `1px solid ${it.done ? "var(--court-label)" : "var(--court-walnut-2)"}`,
             }}
           >
             <span
               aria-hidden
-              style={{ color: it.done ? "var(--court-burnt-2)" : "var(--court-walnut-2)" }}
+              style={{ color: it.done ? "var(--court-burnt)" : "var(--court-sublabel)" }}
             >
               {it.done ? "✓" : "○"}
             </span>
@@ -755,7 +759,7 @@ function TimelineStrip({
 function LoadingStrip({ reduce }: { reduce: boolean }) {
   return (
     <div
-      className="border px-5 py-6"
+      className="rounded-xl border px-5 py-6"
       style={{ background: "var(--court-paper-2)", borderColor: "var(--court-walnut-2)" }}
     >
       <div className="flex items-center gap-3">
@@ -768,7 +772,7 @@ function LoadingStrip({ reduce }: { reduce: boolean }) {
         />
         <span
           className="font-mono text-[12px] uppercase tracking-[0.14em]"
-          style={{ color: "var(--court-walnut)" }}
+          style={{ color: "var(--court-label)" }}
         >
           Scout querying Atlas…
         </span>
@@ -805,7 +809,7 @@ function RichShotCard({
       initial={reduce ? false : { opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: reduce ? 0 : index * 0.05 }}
-      className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border px-4 py-3 md:px-5 md:py-4"
+      className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-xl border px-4 py-3 md:px-5 md:py-4"
       style={{
         background: "var(--court-paper-2)",
         borderColor: "var(--court-walnut-2)",
@@ -813,10 +817,10 @@ function RichShotCard({
     >
       {/* Rank */}
       <div
-        className="flex h-12 w-12 items-center justify-center font-mono text-[14px] uppercase tracking-[0.08em]"
+        className="flex h-12 w-12 items-center justify-center rounded-lg font-mono text-[14px] uppercase tracking-[0.08em]"
         style={{
           background: "var(--court-paper-3)",
-          color: "var(--court-walnut)",
+          color: "var(--court-label)",
           border: "1px solid var(--court-walnut-2)",
         }}
       >
@@ -834,7 +838,7 @@ function RichShotCard({
           </h4>
           <span
             className="font-mono text-[11px] uppercase tracking-[0.12em]"
-            style={{ color: "var(--court-walnut-2)" }}
+            style={{ color: "var(--court-sublabel)" }}
           >
             {teamAbbrev(shot.team)}
           </span>
@@ -846,13 +850,13 @@ function RichShotCard({
         </div>
         <p
           className="mt-1 font-body text-[13px] leading-[1.4]"
-          style={{ color: "var(--court-walnut)" }}
+          style={{ color: "var(--court-label)" }}
         >
           {shot.shot_distance}ft · {shot.shot_zone} · {shot.action_type}
           {time && (
             <>
               {" "}
-              <span style={{ color: "var(--court-walnut-2)" }}>· {time}</span>
+              <span style={{ color: "var(--court-sublabel)" }}>· {time}</span>
             </>
           )}
         </p>
@@ -862,7 +866,7 @@ function RichShotCard({
       <div className="text-right">
         <div
           className="font-mono text-[10px] uppercase tracking-[0.14em]"
-          style={{ color: "var(--court-walnut-2)" }}
+          style={{ color: "var(--court-sublabel)" }}
         >
           xFG
         </div>
@@ -871,7 +875,7 @@ function RichShotCard({
           style={{ color: "var(--court-burnt)" }}
         >
           {xfgPct}
-          <span className="text-[14px] md:text-[16px]" style={{ color: "var(--court-walnut-2)" }}>
+          <span className="text-[14px] md:text-[16px]" style={{ color: "var(--court-sublabel)" }}>
             %
           </span>
         </div>
@@ -923,7 +927,7 @@ function SimilarCard({
             {facts.map((f) => (
               <span
                 key={f.label}
-                className="inline-flex items-center px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em]"
+                className="inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em]"
                 style={{
                   background: f.match ? "var(--court-burnt)" : "transparent",
                   color: f.match ? "var(--court-paper)" : "var(--court-muted)",
@@ -976,7 +980,7 @@ function SavedReportCard({
       initial={reduce ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="relative border"
+      className="relative overflow-hidden rounded-2xl border"
       style={{
         background: "var(--court-paper-2)",
         borderColor: "var(--court-walnut)",
@@ -993,7 +997,7 @@ function SavedReportCard({
         </div>
         <span
           className="font-mono text-[10px] uppercase tracking-[0.12em]"
-          style={{ color: "var(--court-walnut-2)" }}
+          style={{ color: "var(--court-sublabel)" }}
         >
           _id · {id.slice(-8)}
         </span>
@@ -1008,7 +1012,7 @@ function SavedReportCard({
         {player && (
           <div
             className="mt-1 font-mono text-[11px] uppercase tracking-[0.12em]"
-            style={{ color: "var(--court-walnut-2)" }}
+            style={{ color: "var(--court-sublabel)" }}
           >
             subject · {player}
           </div>
@@ -1016,7 +1020,7 @@ function SavedReportCard({
         {excerpt && (
           <p
             className="mt-3 font-body text-[13px] leading-[1.5]"
-            style={{ color: "var(--court-walnut)" }}
+            style={{ color: "var(--court-label)" }}
           >
             {excerpt}
           </p>

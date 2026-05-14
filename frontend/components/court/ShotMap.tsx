@@ -197,24 +197,23 @@ export function ShotMap({
     if (!canvas) return;
 
     const draw = () => {
-      // Use offsetWidth/offsetHeight (the layout box, unaffected by CSS
-      // transforms). getBoundingClientRect returns the AXIS-ALIGNED bounding
-      // box AFTER any CSS transform — in tilted mode the parent has
-      // rotateX(55deg), which foreshortens the rect height. The SVG renders in
-      // its untransformed viewBox space, so using the rect here makes the
-      // canvas draw dots at a different scale than the court lines, then both
-      // get rotated together and the dots no longer sit on the court.
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      if (w === 0 || h === 0) return;
+      // Use getBoundingClientRect — in tilted mode the projected box (after
+      // rotateX + perspective + translateY) is what the user sees, and we
+      // want dots to spread across that visible area rather than be confined
+      // to the unrotated layout box. Aesthetic preference over strict pixel
+      // alignment with the SVG court lines.
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
 
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       ctx.scale(dpr, dpr);
 
+      const w = rect.width;
+      const h = rect.height;
       // Match the SVG's preserveAspectRatio="xMidYMid meet" so dots align with
       // the court lines instead of being stretched non-uniformly.
       const scale = Math.min(w / COURT.W, h / COURT.H);
@@ -227,6 +226,10 @@ export function ShotMap({
 
       for (let i = 0; i < shots.length; i++) {
         const s = shots[i];
+        // Skip half-court heaves / data-entry outliers that would plot below
+        // the court's visible bounds — there are only a handful of these and
+        // they're indistinguishable from rendering bugs to a viewer.
+        if (s.y < COURT.Y_MIN || s.y > COURT.Y_MIN + COURT.H) continue;
         const px = (s.x - COURT.X_MIN) * scale + offX;
         const py = (s.y - COURT.Y_MIN) * scale + offY;
         const r = selectedIndex === i ? selR : dotR;
@@ -251,20 +254,12 @@ export function ShotMap({
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!onSelect || !canvasRef.current) return;
-    const c = canvasRef.current;
-    // Mouse position is in screen pixels relative to the rotated rect, but the
-    // dots were drawn in the untransformed layout box. Use offsetWidth/Height
-    // for the scale math; clientX/Y minus the rect origin still works because
-    // both are in the same (rotated) pixel space — the relative offsets
-    // happen to come out close enough for a click-tolerance of 14px.
-    const rect = c.getBoundingClientRect();
+    const rect = canvasRef.current.getBoundingClientRect();
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
-    const w = c.offsetWidth;
-    const h = c.offsetHeight;
-    const scale = Math.min(w / COURT.W, h / COURT.H);
-    const offX = (w - COURT.W * scale) / 2;
-    const offY = (h - COURT.H * scale) / 2;
+    const scale = Math.min(rect.width / COURT.W, rect.height / COURT.H);
+    const offX = (rect.width - COURT.W * scale) / 2;
+    const offY = (rect.height - COURT.H * scale) / 2;
     const threshold = 14;
 
     let closest = -1;

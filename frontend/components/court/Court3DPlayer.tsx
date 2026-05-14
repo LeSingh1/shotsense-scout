@@ -649,20 +649,43 @@ export function Court3DPlayer({ shots, mode = "result" }: Props) {
   const reduce = usePrefersReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // R3F's internal ResizeObserver occasionally misses the first layout when
-  // the canvas mounts offscreen. Watch our container and fire a window resize
-  // so R3F re-fits.
+  // R3F's internal react-use-measure caches the canvas size on first mount.
+  // When this component is lazy-loaded inside a motion Reveal wrapper, the
+  // first measure can resolve before the parent grid has reached its final
+  // width — leaving the canvas frozen at ~350px even after the layout
+  // settles. We force a re-measure by directly resizing the canvas inline
+  // style to the container's current width/height and dispatching the
+  // resize event R3F listens to.
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
-    const fire = () => window.dispatchEvent(new Event("resize"));
-    fire();
-    const ro = new ResizeObserver(fire);
-    ro.observe(el);
-    const t = window.setTimeout(fire, 100);
+    const host = containerRef.current;
+    if (!host) return;
+    const sync = () => {
+      const inner = host.firstElementChild as HTMLElement | null;
+      const canvas = host.querySelector("canvas") as HTMLCanvasElement | null;
+      if (!inner || !canvas) return;
+      const w = inner.clientWidth;
+      const h = inner.clientHeight;
+      if (w === 0 || h === 0) return;
+      if (canvas.clientWidth !== w || canvas.clientHeight !== h) {
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+      }
+      window.dispatchEvent(new Event("resize"));
+    };
+    sync();
+    const raf1 = requestAnimationFrame(() => {
+      requestAnimationFrame(sync);
+    });
+    const timers = [80, 240, 600, 1200].map((d) => window.setTimeout(sync, d));
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(sync);
+      ro.observe(host);
+    }
     return () => {
-      ro.disconnect();
-      window.clearTimeout(t);
+      cancelAnimationFrame(raf1);
+      timers.forEach((t) => window.clearTimeout(t));
+      ro?.disconnect();
     };
   }, []);
 

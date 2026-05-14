@@ -209,17 +209,20 @@ export function ShotMap({
 
       const w = rect.width;
       const h = rect.height;
-      const scaleX = w / COURT.W;
-      const scaleY = h / COURT.H;
-      const dotR = 6 * Math.min(scaleX, scaleY);
-      const selR = 9 * Math.min(scaleX, scaleY);
+      // Match the SVG's preserveAspectRatio="xMidYMid meet" so dots align with
+      // the court lines instead of being stretched non-uniformly.
+      const scale = Math.min(w / COURT.W, h / COURT.H);
+      const offX = (w - COURT.W * scale) / 2;
+      const offY = (h - COURT.H * scale) / 2;
+      const dotR = 6 * scale;
+      const selR = 9 * scale;
 
       ctx.clearRect(0, 0, w, h);
 
       for (let i = 0; i < shots.length; i++) {
         const s = shots[i];
-        const px = (s.x - COURT.X_MIN) * scaleX;
-        const py = (s.y - COURT.Y_MIN) * scaleY;
+        const px = (s.x - COURT.X_MIN) * scale + offX;
+        const py = (s.y - COURT.Y_MIN) * scale + offY;
         const r = selectedIndex === i ? selR : dotR;
 
         ctx.beginPath();
@@ -228,7 +231,7 @@ export function ShotMap({
         ctx.globalAlpha = 0.85;
         ctx.fill();
         ctx.strokeStyle = "#0a0a0a";
-        ctx.lineWidth = 1.4 * Math.min(scaleX, scaleY);
+        ctx.lineWidth = 1.4 * scale;
         ctx.globalAlpha = 1;
         ctx.stroke();
       }
@@ -245,15 +248,16 @@ export function ShotMap({
     const rect = canvasRef.current.getBoundingClientRect();
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
-    const scaleX = rect.width / COURT.W;
-    const scaleY = rect.height / COURT.H;
+    const scale = Math.min(rect.width / COURT.W, rect.height / COURT.H);
+    const offX = (rect.width - COURT.W * scale) / 2;
+    const offY = (rect.height - COURT.H * scale) / 2;
     const threshold = 14;
 
     let closest = -1;
     let minDist = threshold;
     for (let i = 0; i < shots.length; i++) {
-      const px = (shots[i].x - COURT.X_MIN) * scaleX;
-      const py = (shots[i].y - COURT.Y_MIN) * scaleY;
+      const px = (shots[i].x - COURT.X_MIN) * scale + offX;
+      const py = (shots[i].y - COURT.Y_MIN) * scale + offY;
       const dist = Math.hypot(mx - px, my - py);
       if (dist < minDist) { minDist = dist; closest = i; }
     }

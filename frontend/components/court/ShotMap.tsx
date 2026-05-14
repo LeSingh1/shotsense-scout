@@ -190,6 +190,15 @@ export function ShotMap({
     ? ARC_DURATION + (arcList.length - 1) * ARC_INTERVAL + ARC_HOLD
     : 0;
 
+  // Tilted mode crops the viewBox vertically: 99% of shots are within y=278,
+  // but the full court extends to y=417.5. Showing the full court wastes ~30%
+  // of vertical real estate on a near-empty half-court area and shrinks the
+  // shot cluster into a thumbnail. Crop to the action zone.
+  const vbH = tilted ? 350 : COURT.H;
+  const vbY = COURT.Y_MIN;
+  const vbX = COURT.X_MIN;
+  const vbW = COURT.W;
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -197,41 +206,38 @@ export function ShotMap({
     if (!canvas) return;
 
     const draw = () => {
-      // Use getBoundingClientRect — in tilted mode the projected box (after
-      // rotateX + perspective + translateY) is what the user sees, and we
-      // want dots to spread across that visible area rather than be confined
-      // to the unrotated layout box. Aesthetic preference over strict pixel
-      // alignment with the SVG court lines.
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return;
+      // Use offsetWidth/Height (the layout box) so dot scale matches the SVG's
+      // preserveAspectRatio="meet" fit. getBoundingClientRect would return the
+      // post-rotation projected box which mismatches the SVG and slides dots
+      // off the court lines after the parent CSS transform is re-applied.
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      if (w === 0 || h === 0) return;
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
 
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       ctx.scale(dpr, dpr);
 
-      const w = rect.width;
-      const h = rect.height;
-      // Match the SVG's preserveAspectRatio="xMidYMid meet" so dots align with
-      // the court lines instead of being stretched non-uniformly.
-      const scale = Math.min(w / COURT.W, h / COURT.H);
-      const offX = (w - COURT.W * scale) / 2;
-      const offY = (h - COURT.H * scale) / 2;
-      const dotR = 6 * scale;
-      const selR = 9 * scale;
+      // Same viewBox the SVG uses (cropped vertically in tilted mode).
+      const scale = Math.min(w / vbW, h / vbH);
+      const offX = (w - vbW * scale) / 2;
+      const offY = (h - vbH * scale) / 2;
+      const dotR = (tilted ? 7 : 6) * scale;
+      const selR = (tilted ? 10 : 9) * scale;
 
       ctx.clearRect(0, 0, w, h);
 
+      const yMax = vbY + vbH;
       for (let i = 0; i < shots.length; i++) {
         const s = shots[i];
-        // Skip half-court heaves / data-entry outliers that would plot below
-        // the court's visible bounds — there are only a handful of these and
-        // they're indistinguishable from rendering bugs to a viewer.
-        if (s.y < COURT.Y_MIN || s.y > COURT.Y_MIN + COURT.H) continue;
-        const px = (s.x - COURT.X_MIN) * scale + offX;
-        const py = (s.y - COURT.Y_MIN) * scale + offY;
+        // Skip shots outside the visible viewBox (cropped half-court heaves
+        // and any data-entry outliers).
+        if (s.y < vbY || s.y > yMax) continue;
+        const px = (s.x - vbX) * scale + offX;
+        const py = (s.y - vbY) * scale + offY;
         const r = selectedIndex === i ? selR : dotR;
 
         ctx.beginPath();
@@ -254,19 +260,22 @@ export function ShotMap({
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!onSelect || !canvasRef.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
+    const c = canvasRef.current;
+    const rect = c.getBoundingClientRect();
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
-    const scale = Math.min(rect.width / COURT.W, rect.height / COURT.H);
-    const offX = (rect.width - COURT.W * scale) / 2;
-    const offY = (rect.height - COURT.H * scale) / 2;
+    const w = c.offsetWidth;
+    const h = c.offsetHeight;
+    const scale = Math.min(w / vbW, h / vbH);
+    const offX = (w - vbW * scale) / 2;
+    const offY = (h - vbH * scale) / 2;
     const threshold = 14;
 
     let closest = -1;
     let minDist = threshold;
     for (let i = 0; i < shots.length; i++) {
-      const px = (shots[i].x - COURT.X_MIN) * scale + offX;
-      const py = (shots[i].y - COURT.Y_MIN) * scale + offY;
+      const px = (shots[i].x - vbX) * scale + offX;
+      const py = (shots[i].y - vbY) * scale + offY;
       const dist = Math.hypot(mx - px, my - py);
       if (dist < minDist) { minDist = dist; closest = i; }
     }
@@ -277,7 +286,7 @@ export function ShotMap({
     <div
       className="relative w-full bg-[#0a0a0a] rounded-xl overflow-hidden ring-1 ring-white/5"
       style={{
-        aspectRatio: tilted ? "16 / 9" : "500 / 470",
+        aspectRatio: tilted ? `${vbW} / ${vbH}` : "500 / 470",
         perspective: tilted ? "1500px" : undefined,
       }}
     >
@@ -291,7 +300,7 @@ export function ShotMap({
         }}
       >
         <svg
-          viewBox={`${COURT.X_MIN} ${COURT.Y_MIN} ${COURT.W} ${COURT.H}`}
+          viewBox={`${vbX} ${vbY} ${vbW} ${vbH}`}
           preserveAspectRatio="xMidYMid meet"
           className="absolute inset-0 w-full h-full"
         >

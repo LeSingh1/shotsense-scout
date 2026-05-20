@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { Inter_Tight, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["500", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-display",
-  display: "swap",
-});
-
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-body",
   display: "swap",
 });
 
@@ -25,14 +18,14 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shot quality, calibrated · nba_shot_quality",
+  title: "ShotSense Scout — AI Basketball Intelligence",
   description:
-    "Calibrated NBA expected field goal percentage (xFG%) on the 2025-26 playoffs. Methodology-first: GroupKFold cross-validation, target encoding in a sklearn Pipeline, empirical-Bayes shrinkage on player ranking.",
+    "AI-powered NBA shot quality analysis with pattern detection, scouting reports, and interactive court visualization for the 2025-26 playoffs.",
   authors: [{ name: "shaurya" }],
   openGraph: {
-    title: "Shot quality, calibrated",
+    title: "ShotSense Scout — AI Basketball Intelligence",
     description:
-      "Free-data NBA xFG% with proper CV hygiene and shrunk player ranking.",
+      "AI-powered NBA shot quality analysis with pattern detection and scouting reports.",
     type: "website",
   },
 };
@@ -45,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${interTight.variable} ${jetBrainsMono.variable}`}
+      className={`${inter.variable} ${jetBrainsMono.variable}`}
     >
       <body className="bg-bg text-text antialiased" suppressHydrationWarning>
         <a href="#main-content" className="skip-link">

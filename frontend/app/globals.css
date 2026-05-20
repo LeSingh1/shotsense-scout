@@ -1,24 +1,27 @@
 @import "tailwindcss";
 
-/* --- Design tokens: SINGLE SOURCE (Issue 2A from /plan-eng-review).
- * Tailwind v4's @theme block generates both CSS variables AND utility classes
- * from this one declaration. Don't duplicate these anywhere else.
- */
 @theme {
-  --color-bg: #0a0a0a;
-  --color-surface: #141414;
-  --color-text: #fafafa;
-  --color-muted: #a1a1a1;
-  --color-border: #262626;
-  --color-accent: #9fff6b;
-  --color-neg: #ff6b6b;
+  --color-bg: #1a1410;
+  --color-surface: #241e17;
+  --color-surface-2: #2e2620;
+  --color-text: #f5e6d3;
+  --color-muted: #a89580;
+  --color-dim: #6b5d4f;
+  --color-border: #3d332a;
+  --color-accent: #e8732a;
+  --color-accent-hover: #f58a3e;
+  --color-navy: #2d4a7a;
+  --color-navy-light: #4a6fa5;
+  --color-positive: #e8732a;
+  --color-negative: #4a6fa5;
+  --color-confidence: #c4933d;
+  --color-warning: #d4783a;
 
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-body: "Inter Tight", system-ui, sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Single motion curve for the whole site (Apple expo-out). */
-  --ease-brutalist: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -37,21 +40,18 @@
     background: var(--color-bg);
   }
 
-  /* Tabular numerals for all numeric content rendered through <NumberDisplay>. */
   .num {
     font-family: var(--font-mono);
     font-feature-settings: "tnum" 1;
     letter-spacing: -0.01em;
   }
 
-  /* Focus visible: 2px lime outline, 4px offset. */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
     border-radius: 2px;
   }
 
-  /* Skip link: hidden until focused. */
   .skip-link {
     position: absolute;
     top: -100px;
@@ -65,16 +65,11 @@
     letter-spacing: 0.08em;
     z-index: 100;
   }
-  .skip-link:focus {
-    top: 16px;
-  }
+  .skip-link:focus { top: 16px; }
 }
 
-/* Respect reduced motion globally. */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

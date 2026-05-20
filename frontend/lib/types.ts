@@ -1,63 +1,123 @@
-// Shared types for the inline data tree.
-// These match the contract written by scripts/export_for_frontend.py.
+// Shared types for the ShotSense Scout dashboard.
 
-export type RankingRow = {
-  player_id: number;
+export type ZoneKey =
+  | "restricted_area"
+  | "paint_non_ra"
+  | "midrange"
+  | "above_break_3"
+  | "left_corner_3"
+  | "right_corner_3";
+
+export type ZoneStats = {
+  attempts: number;
+  makes: number;
+  fg_pct: number;
+  xfg: number;
+  recent: { attempts: number; makes: number; fg_pct: number };
+  delta: number;
+};
+
+export type PlayerProfile = {
   player_name: string;
-  n_shots: number;
-  actual_fg: number;
+  player_id: number;
+  team: string;
+  games_played: number;
+  total_shots: number;
+  overall_fg_pct: number;
+  overall_xfg: number;
+  zones: Record<ZoneKey, ZoneStats>;
+};
+
+export type TeamZoneStats = {
+  attempts: number;
+  makes: number;
+  fg_pct: number;
+};
+
+export type TeamProfile = {
+  team_name: string;
+  team_abbr: string;
+  games_played: number;
+  total_shots: number;
+  overall_fg_pct: number;
+  zones: Record<ZoneKey, TeamZoneStats>;
+  shot_distribution: Record<ZoneKey, number>;
+  paint_attempts_per_game: number;
+  three_point_rate: number;
+};
+
+export type GameLogEntry = {
+  player_name: string;
+  player_id: number;
+  game_date: string;
+  opponent: string;
+  game_id: string;
+  shots_attempted: number;
+  shots_made: number;
+  fg_pct: number;
   mean_xfg: number;
-  raw_delta: number;
-  weight: number;
-  shrunk_delta: number;
-  ci_lo: number | null;
-  ci_hi: number | null;
+  zone_breakdown: Record<string, { attempts: number; makes: number }>;
+  quarter_breakdown: Record<
+    string,
+    { attempts: number; makes: number; fg_pct: number }
+  >;
+};
+
+export type PatternType =
+  | "efficiency_drop"
+  | "cold_zone"
+  | "hot_zone"
+  | "shot_selection_shift"
+  | "clutch_performance"
+  | "consistency";
+
+export type Pattern = {
+  player_name: string;
+  player_id: number;
+  pattern_type: PatternType;
+  zone: ZoneKey | null;
+  severity: number;
+  direction: "positive" | "negative";
+  evidence: Record<string, unknown>;
+  summary: string;
+  games_window: string[];
+};
+
+export type ShotDot = {
+  x: number;
+  y: number;
+  made: 0 | 1;
+  xfg: number;
 };
 
 export type PlayerShots = {
   name: string;
-  shots: Array<{ x: number; y: number; made: 0 | 1; xfg: number }>;
+  shots: ShotDot[];
 };
 
 export type ShotsMap = Record<string, PlayerShots>;
 
-export type HexCell = {
-  cx: number;
-  cy: number;
-  n: number;
-  fg: number;
-  xfg: number;
+export type ScoutReport = {
+  main_finding: string;
+  why_it_matters: string;
+  evidence: Array<{ label: string; value: string }>;
+  suggested_adjustment: string;
+  confidence: number;
+  confidence_rationale: string;
 };
 
-export type HexData = {
-  hex_size: number;
-  court_bounds: { x_min: number; x_max: number; y_min: number; y_max: number };
-  bins: HexCell[];
+export type ChatMessage = {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  timestamp: number;
+  evidence?: Array<{ label: string; data: unknown }>;
 };
 
-export type FoldRow = {
-  fold: number;
-  log_loss: number;
-  auc: number;
-  brier: number;
-};
-
-export type FoldMetrics = {
-  baseline: FoldRow[];
-  xgb: FoldRow[];
-  lift: { log_loss: number };
-};
-
-export type CalibrationDecile = {
-  bin_center: number;
-  pred_mean: number;
-  actual_rate: number;
-};
-
-export type CalibrationData = {
-  n_bins: number;
-  deciles: CalibrationDecile[];
-  max_deviation: number;
+export type ShotFilter = {
+  shotType: "all" | "2pt" | "3pt";
+  quarters: number[];
+  gameRange: [number, number];
 };
 
 export type Meta = {
@@ -76,10 +136,10 @@ export type Meta = {
 };
 
 export type AppData = {
-  ranking: RankingRow[];
+  playerProfiles: PlayerProfile[];
+  teamProfiles: TeamProfile[];
+  gameLogs: GameLogEntry[];
+  patterns: Pattern[];
   shots: ShotsMap;
-  hex: HexData;
-  fold_metrics: FoldMetrics;
-  calibration: CalibrationData;
   meta: Meta;
 };

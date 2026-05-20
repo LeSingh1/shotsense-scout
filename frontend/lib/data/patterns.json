@@ -1,0 +1,5303 @@
+[
+  {
+    "player_name": "Donte DiVincenzo",
+    "player_id": 1628978,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.1538,
+      "games": 4,
+      "fg_pcts": [
+        0.4444,
+        0.6667,
+        0.4615,
+        0.0
+      ],
+      "first_game_fg": 0.4444,
+      "last_game_fg": 0.0
+    },
+    "summary": "Donte DiVincenzo's per-game FG% trended from 44.4% to 0.0% over 4 games (slope -0.1538/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25"
+    ]
+  },
+  {
+    "player_name": "Kevin Huerter",
+    "player_id": 1628989,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.1666,
+      "games": 3,
+      "fg_pcts": [
+        0.3333,
+        0.5,
+        0.0
+      ],
+      "first_game_fg": 0.3333,
+      "last_game_fg": 0.0
+    },
+    "summary": "Kevin Huerter's per-game FG% trended from 33.3% to 0.0% over 3 games (slope -0.1666/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25"
+    ]
+  },
+  {
+    "player_name": "Adou Thiero",
+    "player_id": 1642876,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.3334,
+      "games": 3,
+      "fg_pcts": [
+        1.0,
+        1.0,
+        0.3333
+      ],
+      "first_game_fg": 1.0,
+      "last_game_fg": 0.3333
+    },
+    "summary": "Adou Thiero's per-game FG% trended from 100.0% to 33.3% over 3 games (slope -0.3334/game).",
+    "games_window": [
+      "2026-04-26",
+      "2026-05-01",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Luke Kornet",
+    "player_id": 1628436,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 4.0,
+      "recent_avg_spg": 2.0,
+      "change_pct": -0.5
+    },
+    "summary": "Luke Kornet's shot volume decreased from 4.0 to 2.0 shots/game over last 3 games (-50%).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jamal Shead",
+    "player_id": 1642347,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.42,
+      "q4_ot_fg_pct": 0.1333,
+      "delta": -0.2867,
+      "early_attempts": 50,
+      "late_attempts": 15
+    },
+    "summary": "Jamal Shead's Q4+OT FG% (13.3%) is 28.7 ppt below Q1-Q3 (42.0%) (15 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Karl-Anthony Towns",
+    "player_id": 1626157,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.6329,
+      "q4_ot_fg_pct": 0.3077,
+      "delta": -0.3252,
+      "early_attempts": 79,
+      "late_attempts": 13
+    },
+    "summary": "Karl-Anthony Towns's Q4+OT FG% (30.8%) is 32.5 ppt below Q1-Q3 (63.3%) (13 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Mikal Bridges",
+    "player_id": 1628969,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.625,
+      "q4_ot_fg_pct": 0.3636,
+      "delta": -0.2614,
+      "early_attempts": 80,
+      "late_attempts": 11
+    },
+    "summary": "Mikal Bridges's Q4+OT FG% (36.4%) is 26.1 ppt below Q1-Q3 (62.5%) (11 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Paul George",
+    "player_id": 202331,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 1.0,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.5041,
+      "q4_ot_fg_pct": 0.1905,
+      "delta": -0.3137,
+      "early_attempts": 121,
+      "late_attempts": 21
+    },
+    "summary": "Paul George's Q4+OT FG% (19.0%) is 31.4 ppt below Q1-Q3 (50.4%) (21 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Ron Harper Jr.",
+    "player_id": 1631199,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.9524,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.1429,
+      "games": 6,
+      "fg_pcts": [
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.3333,
+        0.0
+      ],
+      "first_game_fg": 1.0,
+      "last_game_fg": 0.0
+    },
+    "summary": "Ron Harper Jr.'s per-game FG% trended from 100.0% to 0.0% over 6 games (slope -0.1429/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Daniss Jenkins",
+    "player_id": 1642450,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.9333,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4,
+      "q4_ot_fg_pct": 0.1667,
+      "delta": -0.2333,
+      "early_attempts": 60,
+      "late_attempts": 18
+    },
+    "summary": "Daniss Jenkins's Q4+OT FG% (16.7%) is 23.3 ppt below Q1-Q3 (40.0%) (18 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Landry Shamet",
+    "player_id": 1629013,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.9247,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 3.88,
+      "recent_avg_spg": 5.67,
+      "change_pct": 0.4624
+    },
+    "summary": "Landry Shamet's shot volume increased from 3.9 to 5.7 shots/game over last 3 games (+46%).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Neemias Queta",
+    "player_id": 1629674,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.8824,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 4.86,
+      "recent_avg_spg": 7.0,
+      "change_pct": 0.4412
+    },
+    "summary": "Neemias Queta's shot volume increased from 4.9 to 7.0 shots/game over last 3 games (+44%).",
+    "games_window": [
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Cameron Johnson",
+    "player_id": 1629661,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.8794,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.5532,
+      "q4_ot_fg_pct": 0.3333,
+      "delta": -0.2199,
+      "early_attempts": 47,
+      "late_attempts": 15
+    },
+    "summary": "Cameron Johnson's Q4+OT FG% (33.3%) is 22.0 ppt below Q1-Q3 (55.3%) (15 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Jamal Shead",
+    "player_id": 1642347,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.8718,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 9.29,
+      "recent_avg_spg": 13.33,
+      "change_pct": 0.4359
+    },
+    "summary": "Jamal Shead's shot volume increased from 9.3 to 13.3 shots/game over last 3 games (+44%).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Scoot Henderson",
+    "player_id": 1630703,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.8355,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.1253,
+      "games": 5,
+      "fg_pcts": [
+        0.6364,
+        0.6471,
+        0.4444,
+        0.0,
+        0.3333
+      ],
+      "first_game_fg": 0.6364,
+      "last_game_fg": 0.3333
+    },
+    "summary": "Scoot Henderson's per-game FG% trended from 63.6% to 33.3% over 5 games (slope -0.1253/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Thomas Bryant",
+    "player_id": 1628418,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.8333,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.125,
+      "games": 3,
+      "fg_pcts": [
+        0.5,
+        0.0,
+        0.25
+      ],
+      "first_game_fg": 0.5,
+      "last_game_fg": 0.25
+    },
+    "summary": "Thomas Bryant's per-game FG% trended from 50.0% to 25.0% over 3 games (slope -0.1250/game).",
+    "games_window": [
+      "2026-04-23",
+      "2026-05-01",
+      "2026-05-05"
+    ]
+  },
+  {
+    "player_name": "Kyle Anderson",
+    "player_id": 203937,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.8205,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 2.6,
+      "recent_avg_spg": 3.67,
+      "change_pct": 0.4103
+    },
+    "summary": "Kyle Anderson's shot volume increased from 2.6 to 3.7 shots/game over last 3 games (+41%).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-27",
+      "2026-05-06"
+    ]
+  },
+  {
+    "player_name": "Neemias Queta",
+    "player_id": 1629674,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.7667,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.7917,
+      "q4_ot_fg_pct": 0.6,
+      "delta": -0.1917,
+      "early_attempts": 24,
+      "late_attempts": 10
+    },
+    "summary": "Neemias Queta's Q4+OT FG% (60.0%) is 19.2 ppt below Q1-Q3 (79.2%) (10 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Jordan Clarkson",
+    "player_id": 203903,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.7353,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.5588,
+      "q4_ot_fg_pct": 0.375,
+      "delta": -0.1838,
+      "early_attempts": 34,
+      "late_attempts": 16
+    },
+    "summary": "Jordan Clarkson's Q4+OT FG% (37.5%) is 18.4 ppt below Q1-Q3 (55.9%) (16 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Daniss Jenkins",
+    "player_id": 1642450,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.735,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 7.8,
+      "recent_avg_spg": 10.67,
+      "change_pct": 0.3675
+    },
+    "summary": "Daniss Jenkins's shot volume increased from 7.8 to 10.7 shots/game over last 3 games (+37%).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Gabe Vincent",
+    "player_id": 1629216,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.7273,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 3.67,
+      "recent_avg_spg": 5.0,
+      "change_pct": 0.3636
+    },
+    "summary": "Gabe Vincent's shot volume increased from 3.7 to 5.0 shots/game over last 3 games (+36%).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Corey Kispert",
+    "player_id": 1630557,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.7273,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 4.4,
+      "recent_avg_spg": 6.0,
+      "change_pct": 0.3636
+    },
+    "summary": "Corey Kispert's shot volume increased from 4.4 to 6.0 shots/game over last 3 games (+36%).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Mikal Bridges",
+    "player_id": 1628969,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.7106,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 9.1,
+      "recent_avg_spg": 12.33,
+      "change_pct": 0.3553
+    },
+    "summary": "Mikal Bridges's shot volume increased from 9.1 to 12.3 shots/game over last 3 games (+36%).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Brandon Ingram",
+    "player_id": 1627742,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.7002,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.105,
+      "games": 5,
+      "fg_pcts": [
+        0.5556,
+        0.2,
+        0.5556,
+        0.2609,
+        0.0
+      ],
+      "first_game_fg": 0.5556,
+      "last_game_fg": 0.0
+    },
+    "summary": "Brandon Ingram's per-game FG% trended from 55.6% to 0.0% over 5 games (slope -0.1050/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-26",
+      "2026-04-29"
+    ]
+  },
+  {
+    "player_name": "Corey Kispert",
+    "player_id": 1630557,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.6984,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.1048,
+      "games": 5,
+      "fg_pcts": [
+        0.6667,
+        0.0,
+        0.1429,
+        0.0,
+        0.1429
+      ],
+      "first_game_fg": 0.6667,
+      "last_game_fg": 0.1429
+    },
+    "summary": "Corey Kispert's per-game FG% trended from 66.7% to 14.3% over 5 games (slope -0.1048/game).",
+    "games_window": [
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Isaiah Hartenstein",
+    "player_id": 1628392,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.6933,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.84,
+      "q4_ot_fg_pct": 0.6667,
+      "delta": -0.1733,
+      "early_attempts": 25,
+      "late_attempts": 12
+    },
+    "summary": "Isaiah Hartenstein's Q4+OT FG% (66.7%) is 17.3 ppt below Q1-Q3 (84.0%) (12 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Terrence Shannon Jr.",
+    "player_id": 1630545,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.6905,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.1036,
+      "games": 7,
+      "fg_pcts": [
+        1.0,
+        0.6,
+        0.45,
+        0.3846,
+        0.3333,
+        0.3333,
+        0.25
+      ],
+      "first_game_fg": 1.0,
+      "last_game_fg": 0.25
+    },
+    "summary": "Terrence Shannon Jr.'s per-game FG% trended from 100.0% to 25.0% over 7 games (slope -0.1036/game).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Mike Conley",
+    "player_id": 201144,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6875,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 3.56,
+      "recent_avg_spg": 2.33,
+      "change_pct": -0.3437
+    },
+    "summary": "Mike Conley's shot volume decreased from 3.6 to 2.3 shots/game over last 3 games (-34%).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Ajay Mitchell",
+    "player_id": 1642349,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.6807,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4928,
+      "q4_ot_fg_pct": 0.3226,
+      "delta": -0.1702,
+      "early_attempts": 69,
+      "late_attempts": 31
+    },
+    "summary": "Ajay Mitchell's Q4+OT FG% (32.3%) is 17.0 ppt below Q1-Q3 (49.3%) (31 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Anthony Black",
+    "player_id": 1641710,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.679,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 7.71,
+      "recent_avg_spg": 10.33,
+      "change_pct": 0.3395
+    },
+    "summary": "Anthony Black's shot volume increased from 7.7 to 10.3 shots/game over last 3 games (+34%).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Alperen Sengun",
+    "player_id": 1630578,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 16.5,
+      "recent_avg_spg": 11.0,
+      "change_pct": -0.3333
+    },
+    "summary": "Alperen Sengun's shot volume decreased from 16.5 to 11.0 shots/game over last 3 games (-33%).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Jordan Clarkson",
+    "player_id": 203903,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 5.0,
+      "recent_avg_spg": 3.33,
+      "change_pct": -0.3333
+    },
+    "summary": "Jordan Clarkson's shot volume decreased from 5.0 to 3.3 shots/game over last 3 games (-33%).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jabari Walker",
+    "player_id": 1631133,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 2.0,
+      "recent_avg_spg": 1.33,
+      "change_pct": -0.3333
+    },
+    "summary": "Jabari Walker's shot volume decreased from 2.0 to 1.3 shots/game over last 3 games (-33%).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jae'Sean Tate",
+    "player_id": 1630256,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 2.5,
+      "recent_avg_spg": 1.67,
+      "change_pct": -0.3333
+    },
+    "summary": "Jae'Sean Tate's shot volume decreased from 2.5 to 1.7 shots/game over last 3 games (-33%).",
+    "games_window": [
+      "2026-04-21",
+      "2026-04-26",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Baylor Scheierman",
+    "player_id": 1631248,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.6667,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.5,
+      "q4_ot_fg_pct": 0.3333,
+      "delta": -0.1667,
+      "early_attempts": 14,
+      "late_attempts": 12
+    },
+    "summary": "Baylor Scheierman's Q4+OT FG% (33.3%) is 16.7 ppt below Q1-Q3 (50.0%) (12 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Kenrich Williams",
+    "player_id": 1629026,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.6666,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.1,
+      "games": 4,
+      "fg_pcts": [
+        0.3333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "first_game_fg": 0.3333,
+      "last_game_fg": 0.0
+    },
+    "summary": "Kenrich Williams's per-game FG% trended from 33.3% to 0.0% over 4 games (slope -0.1000/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-25",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Ja'Kobe Walter",
+    "player_id": 1642266,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6468,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 9.57,
+      "recent_avg_spg": 12.67,
+      "change_pct": 0.3234
+    },
+    "summary": "Ja'Kobe Walter's shot volume increased from 9.6 to 12.7 shots/game over last 3 games (+32%).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Joel Embiid",
+    "player_id": 203954,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6452,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 17.71,
+      "recent_avg_spg": 12.0,
+      "change_pct": -0.3226
+    },
+    "summary": "Joel Embiid's shot volume decreased from 17.7 to 12.0 shots/game over last 3 games (-32%).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Spencer Jones",
+    "player_id": 1642461,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6316,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 3.8,
+      "recent_avg_spg": 5.0,
+      "change_pct": 0.3158
+    },
+    "summary": "Spencer Jones's shot volume increased from 3.8 to 5.0 shots/game over last 3 games (+32%).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Josh Hart",
+    "player_id": 1628404,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.6272,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4568,
+      "q4_ot_fg_pct": 0.3,
+      "delta": -0.1568,
+      "early_attempts": 81,
+      "late_attempts": 10
+    },
+    "summary": "Josh Hart's Q4+OT FG% (30.0%) is 15.7 ppt below Q1-Q3 (45.7%) (10 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jaylon Tyson",
+    "player_id": 1642281,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6164,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 5.3,
+      "recent_avg_spg": 3.67,
+      "change_pct": -0.3082
+    },
+    "summary": "Jaylon Tyson's shot volume decreased from 5.3 to 3.7 shots/game over last 3 games (-31%).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Stephon Castle",
+    "player_id": 1642264,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.6073,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.47,
+      "q4_ot_fg_pct": 0.3182,
+      "delta": -0.1518,
+      "early_attempts": 100,
+      "late_attempts": 22
+    },
+    "summary": "Stephon Castle's Q4+OT FG% (31.8%) is 15.2 ppt below Q1-Q3 (47.0%) (22 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jaylon Tyson",
+    "player_id": 1642281,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.6007,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4359,
+      "q4_ot_fg_pct": 0.2857,
+      "delta": -0.1502,
+      "early_attempts": 39,
+      "late_attempts": 14
+    },
+    "summary": "Jaylon Tyson's Q4+OT FG% (28.6%) is 15.0 ppt below Q1-Q3 (43.6%) (14 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Carter Bryant",
+    "player_id": 1642868,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.6,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 3.33,
+      "recent_avg_spg": 2.33,
+      "change_pct": -0.3
+    },
+    "summary": "Carter Bryant's shot volume decreased from 3.3 to 2.3 shots/game over last 3 games (-30%).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Ausar Thompson",
+    "player_id": 1641709,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.6,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.55,
+      "q4_ot_fg_pct": 0.4,
+      "delta": -0.15,
+      "early_attempts": 60,
+      "late_attempts": 15
+    },
+    "summary": "Ausar Thompson's Q4+OT FG% (40.0%) is 15.0 ppt below Q1-Q3 (55.0%) (15 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "VJ Edgecombe",
+    "player_id": 1642845,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.5991,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4355,
+      "q4_ot_fg_pct": 0.2857,
+      "delta": -0.1498,
+      "early_attempts": 124,
+      "late_attempts": 21
+    },
+    "summary": "VJ Edgecombe's Q4+OT FG% (28.6%) is 15.0 ppt below Q1-Q3 (43.5%) (21 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Mouhamed Gueye",
+    "player_id": 1631243,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5714,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 2.33,
+      "recent_avg_spg": 1.67,
+      "change_pct": -0.2857
+    },
+    "summary": "Mouhamed Gueye's shot volume decreased from 2.3 to 1.7 shots/game over last 3 games (-29%).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Gabe Vincent",
+    "player_id": 1629216,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.5669,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.085,
+      "games": 6,
+      "fg_pcts": [
+        0.5,
+        0.5,
+        0.3333,
+        0.5,
+        0.2857,
+        0.0
+      ],
+      "first_game_fg": 0.5,
+      "last_game_fg": 0.0
+    },
+    "summary": "Gabe Vincent's per-game FG% trended from 50.0% to 0.0% over 6 games (slope -0.0850/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Dalen Terry",
+    "player_id": 1631207,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5641,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 2.6,
+      "recent_avg_spg": 3.33,
+      "change_pct": 0.2821
+    },
+    "summary": "Dalen Terry's shot volume increased from 2.6 to 3.3 shots/game over last 3 games (+28%).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Payton Pritchard",
+    "player_id": 1630202,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.5558,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4571,
+      "q4_ot_fg_pct": 0.3182,
+      "delta": -0.139,
+      "early_attempts": 70,
+      "late_attempts": 22
+    },
+    "summary": "Payton Pritchard's Q4+OT FG% (31.8%) is 13.9 ppt below Q1-Q3 (45.7%) (22 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Christian Braun",
+    "player_id": 1631128,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5556,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 6.0,
+      "recent_avg_spg": 4.33,
+      "change_pct": -0.2778
+    },
+    "summary": "Christian Braun's shot volume decreased from 6.0 to 4.3 shots/game over last 3 games (-28%).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Ronald Holland II",
+    "player_id": 1641842,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.5555,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0833,
+      "games": 4,
+      "fg_pcts": [
+        0.5,
+        0.0,
+        0.6667,
+        0.0
+      ],
+      "first_game_fg": 0.5,
+      "last_game_fg": 0.0
+    },
+    "summary": "Ronald Holland II's per-game FG% trended from 50.0% to 0.0% over 4 games (slope -0.0833/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-05-05",
+      "2026-05-07"
+    ]
+  },
+  {
+    "player_name": "Aaron Holiday",
+    "player_id": 1628988,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5455,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 3.67,
+      "recent_avg_spg": 4.67,
+      "change_pct": 0.2727
+    },
+    "summary": "Aaron Holiday's shot volume increased from 3.7 to 4.7 shots/game over last 3 games (+27%).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Landry Shamet",
+    "player_id": 1629013,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.5455,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.5,
+      "q4_ot_fg_pct": 0.3636,
+      "delta": -0.1364,
+      "early_attempts": 20,
+      "late_attempts": 11
+    },
+    "summary": "Landry Shamet's Q4+OT FG% (36.4%) is 13.6 ppt below Q1-Q3 (50.0%) (11 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Collin Murray-Boyles",
+    "player_id": 1642867,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5417,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 9.14,
+      "recent_avg_spg": 6.67,
+      "change_pct": -0.2708
+    },
+    "summary": "Collin Murray-Boyles's shot volume decreased from 9.1 to 6.7 shots/game over last 3 games (-27%).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Harrison Barnes",
+    "player_id": 203084,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5397,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 2.62,
+      "recent_avg_spg": 3.33,
+      "change_pct": 0.2698
+    },
+    "summary": "Harrison Barnes's shot volume increased from 2.6 to 3.3 shots/game over last 3 games (+27%).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Tyler Kolek",
+    "player_id": 1642278,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.5333,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.08,
+      "games": 6,
+      "fg_pcts": [
+        1.0,
+        0.0,
+        0.4,
+        0.6,
+        0.0,
+        0.4
+      ],
+      "first_game_fg": 1.0,
+      "last_game_fg": 0.4
+    },
+    "summary": "Tyler Kolek's per-game FG% trended from 100.0% to 40.0% over 6 games (slope -0.0800/game).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Dean Wade",
+    "player_id": 1629731,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5333,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 5.0,
+      "recent_avg_spg": 3.67,
+      "change_pct": -0.2667
+    },
+    "summary": "Dean Wade's shot volume decreased from 5.0 to 3.7 shots/game over last 3 games (-27%).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Rui Hachimura",
+    "player_id": 1629060,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.5327,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.5732,
+      "q4_ot_fg_pct": 0.44,
+      "delta": -0.1332,
+      "early_attempts": 82,
+      "late_attempts": 25
+    },
+    "summary": "Rui Hachimura's Q4+OT FG% (44.0%) is 13.3 ppt below Q1-Q3 (57.3%) (25 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jalen Green",
+    "player_id": 1630224,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.5282,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4237,
+      "q4_ot_fg_pct": 0.2917,
+      "delta": -0.1321,
+      "early_attempts": 59,
+      "late_attempts": 24
+    },
+    "summary": "Jalen Green's Q4+OT FG% (29.2%) is 13.2 ppt below Q1-Q3 (42.4%) (24 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27"
+    ]
+  },
+  {
+    "player_name": "Jamison Battle",
+    "player_id": 1642419,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5263,
+    "direction": "positive",
+    "evidence": {
+      "playoff_avg_spg": 3.17,
+      "recent_avg_spg": 4.0,
+      "change_pct": 0.2632
+    },
+    "summary": "Jamison Battle's shot volume increased from 3.2 to 4.0 shots/game over last 3 games (+26%).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Baylor Scheierman",
+    "player_id": 1631248,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.5238,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0786,
+      "games": 7,
+      "fg_pcts": [
+        0.4,
+        1.0,
+        0.5,
+        0.4,
+        0.5,
+        0.5,
+        0.0
+      ],
+      "first_game_fg": 0.4,
+      "last_game_fg": 0.0
+    },
+    "summary": "Baylor Scheierman's per-game FG% trended from 40.0% to 0.0% over 7 games (slope -0.0786/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Bones Hyland",
+    "player_id": 1630538,
+    "pattern_type": "volume_change",
+    "zone": null,
+    "severity": 0.5116,
+    "direction": "negative",
+    "evidence": {
+      "playoff_avg_spg": 5.38,
+      "recent_avg_spg": 4.0,
+      "change_pct": -0.2558
+    },
+    "summary": "Bones Hyland's shot volume decreased from 5.4 to 4.0 shots/game over last 3 games (-26%).",
+    "games_window": [
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06"
+    ]
+  },
+  {
+    "player_name": "Robert Williams III",
+    "player_id": 1629057,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.5079,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0762,
+      "games": 5,
+      "fg_pcts": [
+        0.7143,
+        0.8333,
+        0.625,
+        0.5,
+        0.5
+      ],
+      "first_game_fg": 0.7143,
+      "last_game_fg": 0.5
+    },
+    "summary": "Robert Williams III's per-game FG% trended from 71.4% to 50.0% over 5 games (slope -0.0762/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Desmond Bane",
+    "player_id": 1630217,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.5016,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4217,
+      "q4_ot_fg_pct": 0.2963,
+      "delta": -0.1254,
+      "early_attempts": 83,
+      "late_attempts": 27
+    },
+    "summary": "Desmond Bane's Q4+OT FG% (29.6%) is 12.5 ppt below Q1-Q3 (42.2%) (27 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Bruce Brown",
+    "player_id": 1628971,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.4762,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0714,
+      "games": 6,
+      "fg_pcts": [
+        0.4286,
+        0.5,
+        0.5714,
+        0.4286,
+        0.4286,
+        0.0
+      ],
+      "first_game_fg": 0.4286,
+      "last_game_fg": 0.0
+    },
+    "summary": "Bruce Brown's per-game FG% trended from 42.9% to 0.0% over 6 games (slope -0.0714/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Nikola Joki\u0107",
+    "player_id": 203999,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.4639,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4731,
+      "q4_ot_fg_pct": 0.3571,
+      "delta": -0.116,
+      "early_attempts": 93,
+      "late_attempts": 28
+    },
+    "summary": "Nikola Joki\u0107's Q4+OT FG% (35.7%) is 11.6 ppt below Q1-Q3 (47.3%) (28 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Jaylen Brown",
+    "player_id": 1627759,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.4583,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4746,
+      "q4_ot_fg_pct": 0.36,
+      "delta": -0.1146,
+      "early_attempts": 118,
+      "late_attempts": 25
+    },
+    "summary": "Jaylen Brown's Q4+OT FG% (36.0%) is 11.5 ppt below Q1-Q3 (47.5%) (25 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Caris LeVert",
+    "player_id": 1627747,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.4574,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0686,
+      "games": 9,
+      "fg_pcts": [
+        1.0,
+        0.3333,
+        1.0,
+        0.25,
+        0.25,
+        0.0,
+        0.0,
+        0.6,
+        0.3333
+      ],
+      "first_game_fg": 1.0,
+      "last_game_fg": 0.3333
+    },
+    "summary": "Caris LeVert's per-game FG% trended from 100.0% to 33.3% over 9 games (slope -0.0686/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Aaron Gordon",
+    "player_id": 203932,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.4547,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0682,
+      "games": 3,
+      "fg_pcts": [
+        0.5,
+        0.3333,
+        0.3636
+      ],
+      "first_game_fg": 0.5,
+      "last_game_fg": 0.3636
+    },
+    "summary": "Aaron Gordon's per-game FG% trended from 50.0% to 36.4% over 3 games (slope -0.0682/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-25"
+    ]
+  },
+  {
+    "player_name": "Deni Avdija",
+    "player_id": 1630166,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.4464,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4688,
+      "q4_ot_fg_pct": 0.3571,
+      "delta": -0.1116,
+      "early_attempts": 64,
+      "late_attempts": 14
+    },
+    "summary": "Deni Avdija's Q4+OT FG% (35.7%) is 11.2 ppt below Q1-Q3 (46.9%) (14 late-game attempts).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Jaden McDaniels",
+    "player_id": 1630183,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.4273,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.4818,
+      "q4_ot_fg_pct": 0.375,
+      "delta": -0.1068,
+      "early_attempts": 110,
+      "late_attempts": 40
+    },
+    "summary": "Jaden McDaniels's Q4+OT FG% (37.5%) is 10.7 ppt below Q1-Q3 (48.2%) (40 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Kelly Oubre Jr.",
+    "player_id": 1626162,
+    "pattern_type": "hot_zone",
+    "zone": "right_corner_3",
+    "severity": 0.4154,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.3846,
+      "recent_fg_pct": 0.8,
+      "delta": 0.4154,
+      "recent_attempts": 5,
+      "total_attempts": 13
+    },
+    "summary": "Kelly Oubre Jr.'s right corner 3 FG% rose from 38.5% to 80.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jamal Murray",
+    "player_id": 1627750,
+    "pattern_type": "late_game_fade",
+    "zone": null,
+    "severity": 0.4008,
+    "direction": "negative",
+    "evidence": {
+      "q1_q3_fg_pct": 0.3814,
+      "q4_ot_fg_pct": 0.2812,
+      "delta": -0.1002,
+      "early_attempts": 97,
+      "late_attempts": 32
+    },
+    "summary": "Jamal Murray's Q4+OT FG% (28.1%) is 10.0 ppt below Q1-Q3 (38.1%) (32 late-game attempts).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Alex Caruso",
+    "player_id": 1627936,
+    "pattern_type": "cold_zone",
+    "zone": "right_corner_3",
+    "severity": 0.4,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4,
+      "recent_fg_pct": 0.0,
+      "delta": -0.4,
+      "recent_attempts": 5,
+      "total_attempts": 10
+    },
+    "summary": "Alex Caruso's right corner 3 FG% dropped from 40.0% to 0.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Bones Hyland",
+    "player_id": 1630538,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.3951,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0593,
+      "games": 8,
+      "fg_pcts": [
+        0.0,
+        0.8,
+        0.4,
+        0.3333,
+        0.5556,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "first_game_fg": 0.0,
+      "last_game_fg": 0.0
+    },
+    "summary": "Bones Hyland's per-game FG% trended from 0.0% to 0.0% over 8 games (slope -0.0593/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06"
+    ]
+  },
+  {
+    "player_name": "Ayo Dosunmu",
+    "player_id": 1630245,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.3848,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0577,
+      "games": 8,
+      "fg_pcts": [
+        0.5,
+        0.5,
+        0.6667,
+        0.7647,
+        0.5,
+        0.0,
+        0.3333,
+        0.25
+      ],
+      "first_game_fg": 0.5,
+      "last_game_fg": 0.25
+    },
+    "summary": "Ayo Dosunmu's per-game FG% trended from 50.0% to 25.0% over 8 games (slope -0.0577/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-27",
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Dalton Knecht",
+    "player_id": 1642261,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.375,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.625,
+      "recent_share": 0.25,
+      "delta": -0.375,
+      "recent_attempts": 1,
+      "total_attempts": 5
+    },
+    "summary": "Dalton Knecht's above break 3 shot share decreased from 62.5% to 25.0% over last 3 games (1 of 4 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Neemias Queta",
+    "player_id": 1629674,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.375,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0563,
+      "games": 7,
+      "fg_pcts": [
+        1.0,
+        0.75,
+        1.0,
+        1.0,
+        0.5,
+        0.4,
+        0.875
+      ],
+      "first_game_fg": 1.0,
+      "last_game_fg": 0.875
+    },
+    "summary": "Neemias Queta's per-game FG% trended from 100.0% to 87.5% over 7 games (slope -0.0563/game).",
+    "games_window": [
+      "2026-04-19",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Tari Eason",
+    "player_id": 1631106,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.3728,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0559,
+      "games": 6,
+      "fg_pcts": [
+        1.0,
+        0.2857,
+        0.2222,
+        0.7,
+        0.5455,
+        0.3571
+      ],
+      "first_game_fg": 1.0,
+      "last_game_fg": 0.3571
+    },
+    "summary": "Tari Eason's per-game FG% trended from 100.0% to 35.7% over 6 games (slope -0.0559/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-21",
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Ayo Dosunmu",
+    "player_id": 1630245,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.3667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.7667,
+      "recent_fg_pct": 0.4,
+      "delta": -0.3667,
+      "recent_attempts": 5,
+      "total_attempts": 30
+    },
+    "summary": "Ayo Dosunmu's restricted area FG% dropped from 76.7% to 40.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Onyeka Okongwu",
+    "player_id": 1630168,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.3556,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0533,
+      "games": 6,
+      "fg_pcts": [
+        0.6667,
+        0.6667,
+        0.5714,
+        0.5714,
+        0.6,
+        0.3333
+      ],
+      "first_game_fg": 0.6667,
+      "last_game_fg": 0.3333
+    },
+    "summary": "Onyeka Okongwu's per-game FG% trended from 66.7% to 33.3% over 6 games (slope -0.0533/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "RJ Barrett",
+    "player_id": 1629628,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.35,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0525,
+      "games": 7,
+      "fg_pcts": [
+        0.5385,
+        0.7692,
+        0.6316,
+        0.3636,
+        0.4737,
+        0.381,
+        0.36
+      ],
+      "first_game_fg": 0.5385,
+      "last_game_fg": 0.36
+    },
+    "summary": "RJ Barrett's per-game FG% trended from 53.8% to 36.0% over 7 games (slope -0.0525/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "CJ McCollum",
+    "player_id": 203468,
+    "pattern_type": "efficiency_drop",
+    "zone": null,
+    "severity": 0.3497,
+    "direction": "negative",
+    "evidence": {
+      "slope": -0.0525,
+      "games": 6,
+      "fg_pcts": [
+        0.55,
+        0.5455,
+        0.4211,
+        0.5333,
+        0.3,
+        0.3077
+      ],
+      "first_game_fg": 0.55,
+      "last_game_fg": 0.3077
+    },
+    "summary": "CJ McCollum's per-game FG% trended from 55.0% to 30.8% over 6 games (slope -0.0525/game).",
+    "games_window": [
+      "2026-04-18",
+      "2026-04-20",
+      "2026-04-23",
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Scoot Henderson",
+    "player_id": 1630703,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.3333,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.3333,
+      "recent_fg_pct": 0.0,
+      "delta": -0.3333,
+      "recent_attempts": 5,
+      "total_attempts": 12
+    },
+    "summary": "Scoot Henderson's paint non ra FG% dropped from 33.3% to 0.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Adem Bona",
+    "player_id": 1641737,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.3333,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.5,
+      "recent_fg_pct": 0.8333,
+      "delta": 0.3333,
+      "recent_attempts": 6,
+      "total_attempts": 10
+    },
+    "summary": "Adem Bona's restricted area FG% rose from 50.0% to 83.3% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "De'Aaron Fox",
+    "player_id": 1628368,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.3167,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.5667,
+      "recent_fg_pct": 0.25,
+      "delta": -0.3167,
+      "recent_attempts": 8,
+      "total_attempts": 30
+    },
+    "summary": "De'Aaron Fox's restricted area FG% dropped from 56.7% to 25.0% over last 3 games (8 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Dominick Barlow",
+    "player_id": 1631230,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.3077,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.6923,
+      "recent_fg_pct": 1.0,
+      "delta": 0.3077,
+      "recent_attempts": 6,
+      "total_attempts": 13
+    },
+    "summary": "Dominick Barlow's restricted area FG% rose from 69.2% to 100.0% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Reed Sheppard",
+    "player_id": 1642263,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.3,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.5,
+      "recent_fg_pct": 0.8,
+      "delta": 0.3,
+      "recent_attempts": 5,
+      "total_attempts": 10
+    },
+    "summary": "Reed Sheppard's restricted area FG% rose from 50.0% to 80.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Mikal Bridges",
+    "player_id": 1628969,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.2941,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.2941,
+      "recent_fg_pct": 0.0,
+      "delta": -0.2941,
+      "recent_attempts": 5,
+      "total_attempts": 17
+    },
+    "summary": "Mikal Bridges's above break 3 FG% dropped from 29.4% to 0.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jrue Holiday",
+    "player_id": 201950,
+    "pattern_type": "hot_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.2917,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.375,
+      "recent_fg_pct": 0.6667,
+      "delta": 0.2917,
+      "recent_attempts": 9,
+      "total_attempts": 16
+    },
+    "summary": "Jrue Holiday's paint non ra FG% rose from 37.5% to 66.7% over last 3 games (9 attempts).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Wendell Carter Jr.",
+    "player_id": 1628976,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.2917,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.4792,
+      "recent_share": 0.1875,
+      "delta": -0.2917,
+      "recent_attempts": 3,
+      "total_attempts": 23
+    },
+    "summary": "Wendell Carter Jr.'s restricted area shot share decreased from 47.9% to 18.8% over last 3 games (3 of 16 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Isaiah Stewart",
+    "player_id": 1630191,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.2917,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.7083,
+      "recent_share": 1.0,
+      "delta": 0.2917,
+      "recent_attempts": 6,
+      "total_attempts": 17
+    },
+    "summary": "Isaiah Stewart's restricted area shot share increased from 70.8% to 100.0% over last 3 games (6 of 6 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Scoot Henderson",
+    "player_id": 1630703,
+    "pattern_type": "cold_zone",
+    "zone": "midrange",
+    "severity": 0.2878,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4545,
+      "recent_fg_pct": 0.1667,
+      "delta": -0.2878,
+      "recent_attempts": 6,
+      "total_attempts": 11
+    },
+    "summary": "Scoot Henderson's midrange FG% dropped from 45.5% to 16.7% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Shaedon Sharpe",
+    "player_id": 1631101,
+    "pattern_type": "cold_zone",
+    "zone": "midrange",
+    "severity": 0.2878,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4545,
+      "recent_fg_pct": 0.1667,
+      "delta": -0.2878,
+      "recent_attempts": 6,
+      "total_attempts": 11
+    },
+    "summary": "Shaedon Sharpe's midrange FG% dropped from 45.5% to 16.7% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Harrison Barnes",
+    "player_id": 203084,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.2857,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2857,
+      "recent_share": 0.0,
+      "delta": -0.2857,
+      "recent_attempts": 0,
+      "total_attempts": 6
+    },
+    "summary": "Harrison Barnes's right corner 3 shot share decreased from 28.6% to 0.0% over last 3 games (0 of 10 recent shots).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Keon Ellis",
+    "player_id": 1631165,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.2727,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2727,
+      "recent_share": 0.0,
+      "delta": -0.2727,
+      "recent_attempts": 0,
+      "total_attempts": 3
+    },
+    "summary": "Keon Ellis's left corner 3 shot share decreased from 27.3% to 0.0% over last 3 games (0 of 6 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-05-05",
+      "2026-05-07"
+    ]
+  },
+  {
+    "player_name": "Ayo Dosunmu",
+    "player_id": 1630245,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.2681,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4348,
+      "recent_fg_pct": 0.1667,
+      "delta": -0.2681,
+      "recent_attempts": 6,
+      "total_attempts": 23
+    },
+    "summary": "Ayo Dosunmu's above break 3 FG% dropped from 43.5% to 16.7% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Ajay Mitchell",
+    "player_id": 1642349,
+    "pattern_type": "hot_zone",
+    "zone": "midrange",
+    "severity": 0.2667,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.3333,
+      "recent_fg_pct": 0.6,
+      "delta": 0.2667,
+      "recent_attempts": 5,
+      "total_attempts": 12
+    },
+    "summary": "Ajay Mitchell's midrange FG% rose from 33.3% to 60.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jabari Smith Jr.",
+    "player_id": 1631095,
+    "pattern_type": "hot_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.2667,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.3333,
+      "recent_fg_pct": 0.6,
+      "delta": 0.2667,
+      "recent_attempts": 5,
+      "total_attempts": 9
+    },
+    "summary": "Jabari Smith Jr.'s paint non ra FG% rose from 33.3% to 60.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Harrison Barnes",
+    "player_id": 203084,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.2619,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2381,
+      "recent_share": 0.5,
+      "delta": 0.2619,
+      "recent_attempts": 5,
+      "total_attempts": 5
+    },
+    "summary": "Harrison Barnes's above break 3 shot share increased from 23.8% to 50.0% over last 3 games (5 of 10 recent shots).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-06",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jarrett Allen",
+    "player_id": 1628386,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.2529,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.338,
+      "recent_share": 0.5909,
+      "delta": 0.2529,
+      "recent_attempts": 13,
+      "total_attempts": 24
+    },
+    "summary": "Jarrett Allen's paint non ra shot share increased from 33.8% to 59.1% over last 3 games (13 of 22 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Deandre Ayton",
+    "player_id": 1629028,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.25,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.5,
+      "recent_fg_pct": 0.25,
+      "delta": -0.25,
+      "recent_attempts": 8,
+      "total_attempts": 30
+    },
+    "summary": "Deandre Ayton's paint non ra FG% dropped from 50.0% to 25.0% over last 3 games (8 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Bones Hyland",
+    "player_id": 1630538,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.25,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.25,
+      "recent_fg_pct": 0.0,
+      "delta": -0.25,
+      "recent_attempts": 8,
+      "total_attempts": 28
+    },
+    "summary": "Bones Hyland's above break 3 FG% dropped from 25.0% to 0.0% over last 3 games (8 attempts).",
+    "games_window": [
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06"
+    ]
+  },
+  {
+    "player_name": "Mike Conley",
+    "player_id": 201144,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.25,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.25,
+      "recent_share": 0.0,
+      "delta": -0.25,
+      "recent_attempts": 0,
+      "total_attempts": 8
+    },
+    "summary": "Mike Conley's paint non ra shot share decreased from 25.0% to 0.0% over last 3 games (0 of 7 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Dalton Knecht",
+    "player_id": 1642261,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.25,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.25,
+      "recent_share": 0.5,
+      "delta": 0.25,
+      "recent_attempts": 2,
+      "total_attempts": 2
+    },
+    "summary": "Dalton Knecht's paint non ra shot share increased from 25.0% to 50.0% over last 3 games (2 of 4 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "LeBron James",
+    "player_id": 2544,
+    "pattern_type": "hot_zone",
+    "zone": "midrange",
+    "severity": 0.24,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.56,
+      "recent_fg_pct": 0.8,
+      "delta": 0.24,
+      "recent_attempts": 5,
+      "total_attempts": 25
+    },
+    "summary": "LeBron James's midrange FG% rose from 56.0% to 80.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Julius Randle",
+    "player_id": 203944,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.2377,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.3488,
+      "recent_fg_pct": 0.1111,
+      "delta": -0.2377,
+      "recent_attempts": 9,
+      "total_attempts": 43
+    },
+    "summary": "Julius Randle's paint non ra FG% dropped from 34.9% to 11.1% over last 3 games (9 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Baylor Scheierman",
+    "player_id": 1631248,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.2375,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4375,
+      "recent_fg_pct": 0.2,
+      "delta": -0.2375,
+      "recent_attempts": 5,
+      "total_attempts": 16
+    },
+    "summary": "Baylor Scheierman's above break 3 FG% dropped from 43.8% to 20.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Andre Drummond",
+    "player_id": 203083,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.236,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.4783,
+      "recent_share": 0.7143,
+      "delta": 0.236,
+      "recent_attempts": 5,
+      "total_attempts": 11
+    },
+    "summary": "Andre Drummond's restricted area shot share increased from 47.8% to 71.4% over last 3 games (5 of 7 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Kelly Oubre Jr.",
+    "player_id": 1626162,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.2333,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4,
+      "recent_fg_pct": 0.1667,
+      "delta": -0.2333,
+      "recent_attempts": 6,
+      "total_attempts": 20
+    },
+    "summary": "Kelly Oubre Jr.'s paint non ra FG% dropped from 40.0% to 16.7% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Marcus Smart",
+    "player_id": 203935,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.2333,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.3333,
+      "recent_fg_pct": 0.1,
+      "delta": -0.2333,
+      "recent_attempts": 10,
+      "total_attempts": 33
+    },
+    "summary": "Marcus Smart's above break 3 FG% dropped from 33.3% to 10.0% over last 3 games (10 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jose Alvarado",
+    "player_id": 1630631,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.2323,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.4545,
+      "recent_share": 0.2222,
+      "delta": -0.2323,
+      "recent_attempts": 2,
+      "total_attempts": 15
+    },
+    "summary": "Jose Alvarado's above break 3 shot share decreased from 45.5% to 22.2% over last 3 games (2 of 9 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Duncan Robinson",
+    "player_id": 1629130,
+    "pattern_type": "hot_zone",
+    "zone": "above_break_3",
+    "severity": 0.2316,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.4,
+      "recent_fg_pct": 0.6316,
+      "delta": 0.2316,
+      "recent_attempts": 19,
+      "total_attempts": 60
+    },
+    "summary": "Duncan Robinson's above break 3 FG% rose from 40.0% to 63.2% over last 3 games (19 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Mitchell Robinson",
+    "player_id": 1629011,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.2286,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.8,
+      "recent_fg_pct": 0.5714,
+      "delta": -0.2286,
+      "recent_attempts": 7,
+      "total_attempts": 25
+    },
+    "summary": "Mitchell Robinson's restricted area FG% dropped from 80.0% to 57.1% over last 3 games (7 attempts).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jarrett Allen",
+    "player_id": 1628386,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.2279,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.5915,
+      "recent_share": 0.3636,
+      "delta": -0.2279,
+      "recent_attempts": 8,
+      "total_attempts": 42
+    },
+    "summary": "Jarrett Allen's restricted area shot share decreased from 59.2% to 36.4% over last 3 games (8 of 22 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Terrence Shannon Jr.",
+    "player_id": 1630545,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.2226,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.5862,
+      "recent_fg_pct": 0.3636,
+      "delta": -0.2226,
+      "recent_attempts": 11,
+      "total_attempts": 29
+    },
+    "summary": "Terrence Shannon Jr.'s restricted area FG% dropped from 58.6% to 36.4% over last 3 games (11 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jalen Duren",
+    "player_id": 1631105,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.2174,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.2174,
+      "recent_fg_pct": 0.0,
+      "delta": -0.2174,
+      "recent_attempts": 6,
+      "total_attempts": 23
+    },
+    "summary": "Jalen Duren's paint non ra FG% dropped from 21.7% to 0.0% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Daniss Jenkins",
+    "player_id": 1642450,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.2143,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.2143,
+      "recent_fg_pct": 0.0,
+      "delta": -0.2143,
+      "recent_attempts": 5,
+      "total_attempts": 14
+    },
+    "summary": "Daniss Jenkins's paint non ra FG% dropped from 21.4% to 0.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Luke Kennard",
+    "player_id": 1628379,
+    "pattern_type": "hot_zone",
+    "zone": "above_break_3",
+    "severity": 0.2143,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.5357,
+      "recent_fg_pct": 0.75,
+      "delta": 0.2143,
+      "recent_attempts": 8,
+      "total_attempts": 28
+    },
+    "summary": "Luke Kennard's above break 3 FG% rose from 53.6% to 75.0% over last 3 games (8 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Tyrese Maxey",
+    "player_id": 1630178,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.2122,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.6545,
+      "recent_fg_pct": 0.8667,
+      "delta": 0.2122,
+      "recent_attempts": 15,
+      "total_attempts": 55
+    },
+    "summary": "Tyrese Maxey's restricted area FG% rose from 65.5% to 86.7% over last 3 games (15 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "OG Anunoby",
+    "player_id": 1628384,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.2102,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.7273,
+      "recent_fg_pct": 0.9375,
+      "delta": 0.2102,
+      "recent_attempts": 16,
+      "total_attempts": 44
+    },
+    "summary": "OG Anunoby's restricted area FG% rose from 72.7% to 93.8% over last 3 games (16 attempts).",
+    "games_window": [
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06"
+    ]
+  },
+  {
+    "player_name": "Jalen Suggs",
+    "player_id": 1630591,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.2102,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2184,
+      "recent_share": 0.4286,
+      "delta": 0.2102,
+      "recent_attempts": 12,
+      "total_attempts": 19
+    },
+    "summary": "Jalen Suggs's paint non ra shot share increased from 21.8% to 42.9% over last 3 games (12 of 28 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Jared McCain",
+    "player_id": 1642272,
+    "pattern_type": "hot_zone",
+    "zone": "above_break_3",
+    "severity": 0.2045,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.5455,
+      "recent_fg_pct": 0.75,
+      "delta": 0.2045,
+      "recent_attempts": 8,
+      "total_attempts": 11
+    },
+    "summary": "Jared McCain's above break 3 FG% rose from 54.5% to 75.0% over last 3 games (8 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jaden McDaniels",
+    "player_id": 1630183,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.2,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.7,
+      "recent_fg_pct": 0.5,
+      "delta": -0.2,
+      "recent_attempts": 8,
+      "total_attempts": 40
+    },
+    "summary": "Jaden McDaniels's restricted area FG% dropped from 70.0% to 50.0% over last 3 games (8 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jabari Walker",
+    "player_id": 1631133,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.2,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.3,
+      "recent_share": 0.5,
+      "delta": 0.2,
+      "recent_attempts": 2,
+      "total_attempts": 3
+    },
+    "summary": "Jabari Walker's paint non ra shot share increased from 30.0% to 50.0% over last 3 games (2 of 4 recent shots).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jae'Sean Tate",
+    "player_id": 1630256,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.2,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.6,
+      "recent_share": 0.4,
+      "delta": -0.2,
+      "recent_attempts": 2,
+      "total_attempts": 6
+    },
+    "summary": "Jae'Sean Tate's restricted area shot share decreased from 60.0% to 40.0% over last 3 games (2 of 5 recent shots).",
+    "games_window": [
+      "2026-04-21",
+      "2026-04-26",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Jamal Cain",
+    "player_id": 1631288,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1989,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2759,
+      "recent_share": 0.0769,
+      "delta": -0.1989,
+      "recent_attempts": 1,
+      "total_attempts": 8
+    },
+    "summary": "Jamal Cain's restricted area shot share decreased from 27.6% to 7.7% over last 3 games (1 of 13 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Tyrese Maxey",
+    "player_id": 1630178,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1983,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.3521,
+      "recent_fg_pct": 0.1538,
+      "delta": -0.1983,
+      "recent_attempts": 13,
+      "total_attempts": 71
+    },
+    "summary": "Tyrese Maxey's above break 3 FG% dropped from 35.2% to 15.4% over last 3 games (13 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Keon Ellis",
+    "player_id": 1631165,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.197,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.6364,
+      "recent_share": 0.8333,
+      "delta": 0.197,
+      "recent_attempts": 5,
+      "total_attempts": 7
+    },
+    "summary": "Keon Ellis's above break 3 shot share increased from 63.6% to 83.3% over last 3 games (5 of 6 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-05-05",
+      "2026-05-07"
+    ]
+  },
+  {
+    "player_name": "Karl-Anthony Towns",
+    "player_id": 1626157,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1957,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.5,
+      "recent_share": 0.3043,
+      "delta": -0.1957,
+      "recent_attempts": 7,
+      "total_attempts": 46
+    },
+    "summary": "Karl-Anthony Towns's restricted area shot share decreased from 50.0% to 30.4% over last 3 games (7 of 23 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Deni Avdija",
+    "player_id": 1630166,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.1905,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.1905,
+      "recent_fg_pct": 0.0,
+      "delta": -0.1905,
+      "recent_attempts": 7,
+      "total_attempts": 21
+    },
+    "summary": "Deni Avdija's paint non ra FG% dropped from 19.1% to 0.0% over last 3 games (7 attempts).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Ronald Holland II",
+    "player_id": 1641842,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1905,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.3333,
+      "recent_share": 0.1429,
+      "delta": -0.1905,
+      "recent_attempts": 1,
+      "total_attempts": 3
+    },
+    "summary": "Ronald Holland II's restricted area shot share decreased from 33.3% to 14.3% over last 3 games (1 of 7 recent shots).",
+    "games_window": [
+      "2026-04-22",
+      "2026-05-05",
+      "2026-05-07"
+    ]
+  },
+  {
+    "player_name": "Christian Braun",
+    "player_id": 1631128,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1902,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1944,
+      "recent_share": 0.3846,
+      "delta": 0.1902,
+      "recent_attempts": 5,
+      "total_attempts": 7
+    },
+    "summary": "Christian Braun's above break 3 shot share increased from 19.4% to 38.5% over last 3 games (5 of 13 recent shots).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-27",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Joel Embiid",
+    "player_id": 203954,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.1852,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.5185,
+      "recent_fg_pct": 0.3333,
+      "delta": -0.1852,
+      "recent_attempts": 6,
+      "total_attempts": 27
+    },
+    "summary": "Joel Embiid's paint non ra FG% dropped from 51.8% to 33.3% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "CJ McCollum",
+    "player_id": 203468,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1852,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.2963,
+      "recent_fg_pct": 0.1111,
+      "delta": -0.1852,
+      "recent_attempts": 9,
+      "total_attempts": 27
+    },
+    "summary": "CJ McCollum's above break 3 FG% dropped from 29.6% to 11.1% over last 3 games (9 attempts).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Chet Holmgren",
+    "player_id": 1631096,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.1849,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4706,
+      "recent_fg_pct": 0.2857,
+      "delta": -0.1849,
+      "recent_attempts": 7,
+      "total_attempts": 17
+    },
+    "summary": "Chet Holmgren's paint non ra FG% dropped from 47.1% to 28.6% over last 3 games (7 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Cade Cunningham",
+    "player_id": 1630595,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.1842,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.6842,
+      "recent_fg_pct": 0.5,
+      "delta": -0.1842,
+      "recent_attempts": 14,
+      "total_attempts": 38
+    },
+    "summary": "Cade Cunningham's restricted area FG% dropped from 68.4% to 50.0% over last 3 games (14 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Dean Wade",
+    "player_id": 1629731,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1836,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.18,
+      "recent_share": 0.3636,
+      "delta": 0.1836,
+      "recent_attempts": 4,
+      "total_attempts": 9
+    },
+    "summary": "Dean Wade's left corner 3 shot share increased from 18.0% to 36.4% over last 3 games (4 of 11 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Scottie Barnes",
+    "player_id": 1630567,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1833,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.35,
+      "recent_fg_pct": 0.1667,
+      "delta": -0.1833,
+      "recent_attempts": 6,
+      "total_attempts": 20
+    },
+    "summary": "Scottie Barnes's above break 3 FG% dropped from 35.0% to 16.7% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Paul George",
+    "player_id": 202331,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1805,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4746,
+      "recent_fg_pct": 0.2941,
+      "delta": -0.1805,
+      "recent_attempts": 17,
+      "total_attempts": 59
+    },
+    "summary": "Paul George's above break 3 FG% dropped from 47.5% to 29.4% over last 3 games (17 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Anthony Black",
+    "player_id": 1641710,
+    "pattern_type": "hot_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.1778,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.2222,
+      "recent_fg_pct": 0.4,
+      "delta": 0.1778,
+      "recent_attempts": 10,
+      "total_attempts": 18
+    },
+    "summary": "Anthony Black's paint non ra FG% rose from 22.2% to 40.0% over last 3 games (10 attempts).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "James Harden",
+    "player_id": 201935,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.175,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.3,
+      "recent_fg_pct": 0.125,
+      "delta": -0.175,
+      "recent_attempts": 16,
+      "total_attempts": 60
+    },
+    "summary": "James Harden's above break 3 FG% dropped from 30.0% to 12.5% over last 3 games (16 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Scottie Barnes",
+    "player_id": 1630567,
+    "pattern_type": "shot_profile_shift",
+    "zone": "midrange",
+    "severity": 0.1728,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2586,
+      "recent_share": 0.4314,
+      "delta": 0.1728,
+      "recent_attempts": 22,
+      "total_attempts": 30
+    },
+    "summary": "Scottie Barnes's midrange shot share increased from 25.9% to 43.1% over last 3 games (22 of 51 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "OG Anunoby",
+    "player_id": 1628384,
+    "pattern_type": "cold_zone",
+    "zone": "midrange",
+    "severity": 0.1714,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.5714,
+      "recent_fg_pct": 0.4,
+      "delta": -0.1714,
+      "recent_attempts": 5,
+      "total_attempts": 7
+    },
+    "summary": "OG Anunoby's midrange FG% dropped from 57.1% to 40.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06"
+    ]
+  },
+  {
+    "player_name": "Onyeka Okongwu",
+    "player_id": 1630168,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1714,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.5714,
+      "recent_fg_pct": 0.4,
+      "delta": -0.1714,
+      "recent_attempts": 5,
+      "total_attempts": 14
+    },
+    "summary": "Onyeka Okongwu's above break 3 FG% dropped from 57.1% to 40.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Cason Wallace",
+    "player_id": 1641717,
+    "pattern_type": "hot_zone",
+    "zone": "above_break_3",
+    "severity": 0.1714,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.4,
+      "recent_fg_pct": 0.5714,
+      "delta": 0.1714,
+      "recent_attempts": 7,
+      "total_attempts": 15
+    },
+    "summary": "Cason Wallace's above break 3 FG% rose from 40.0% to 57.1% over last 3 games (7 attempts).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jalen Suggs",
+    "player_id": 1630591,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.1711,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.4211,
+      "recent_fg_pct": 0.25,
+      "delta": -0.1711,
+      "recent_attempts": 12,
+      "total_attempts": 19
+    },
+    "summary": "Jalen Suggs's paint non ra FG% dropped from 42.1% to 25.0% over last 3 games (12 attempts).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Jamal Cain",
+    "player_id": 1631288,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1698,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1379,
+      "recent_share": 0.3077,
+      "delta": 0.1698,
+      "recent_attempts": 4,
+      "total_attempts": 4
+    },
+    "summary": "Jamal Cain's above break 3 shot share increased from 13.8% to 30.8% over last 3 games (4 of 13 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Ayo Dosunmu",
+    "player_id": 1630245,
+    "pattern_type": "cold_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.1689,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.28,
+      "recent_fg_pct": 0.1111,
+      "delta": -0.1689,
+      "recent_attempts": 9,
+      "total_attempts": 25
+    },
+    "summary": "Ayo Dosunmu's paint non ra FG% dropped from 28.0% to 11.1% over last 3 games (9 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Keldon Johnson",
+    "player_id": 1629640,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1675,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.5167,
+      "recent_share": 0.6842,
+      "delta": 0.1675,
+      "recent_attempts": 13,
+      "total_attempts": 31
+    },
+    "summary": "Keldon Johnson's restricted area shot share increased from 51.7% to 68.4% over last 3 games (13 of 19 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Kelly Oubre Jr.",
+    "player_id": 1626162,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.1667,
+      "recent_fg_pct": 0.0,
+      "delta": -0.1667,
+      "recent_attempts": 6,
+      "total_attempts": 18
+    },
+    "summary": "Kelly Oubre Jr.'s above break 3 FG% dropped from 16.7% to 0.0% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "CJ McCollum",
+    "player_id": 203468,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.1667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.6667,
+      "recent_fg_pct": 0.5,
+      "delta": -0.1667,
+      "recent_attempts": 8,
+      "total_attempts": 18
+    },
+    "summary": "CJ McCollum's restricted area FG% dropped from 66.7% to 50.0% over last 3 games (8 attempts).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Gabe Vincent",
+    "player_id": 1629216,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.1667,
+      "recent_fg_pct": 0.0,
+      "delta": -0.1667,
+      "recent_attempts": 7,
+      "total_attempts": 12
+    },
+    "summary": "Gabe Vincent's above break 3 FG% dropped from 16.7% to 0.0% over last 3 games (7 attempts).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Tyler Kolek",
+    "player_id": 1642278,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1667,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1667,
+      "recent_share": 0.0,
+      "delta": -0.1667,
+      "recent_attempts": 0,
+      "total_attempts": 3
+    },
+    "summary": "Tyler Kolek's paint non ra shot share decreased from 16.7% to 0.0% over last 3 games (0 of 11 recent shots).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Julian Champagnie",
+    "player_id": 1630577,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1658,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.5294,
+      "recent_fg_pct": 0.3636,
+      "delta": -0.1658,
+      "recent_attempts": 11,
+      "total_attempts": 34
+    },
+    "summary": "Julian Champagnie's above break 3 FG% dropped from 52.9% to 36.4% over last 3 games (11 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Payton Pritchard",
+    "player_id": 1630202,
+    "pattern_type": "cold_zone",
+    "zone": "above_break_3",
+    "severity": 0.1639,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.3404,
+      "recent_fg_pct": 0.1765,
+      "delta": -0.1639,
+      "recent_attempts": 17,
+      "total_attempts": 47
+    },
+    "summary": "Payton Pritchard's above break 3 FG% dropped from 34.0% to 17.6% over last 3 games (17 attempts).",
+    "games_window": [
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Jose Alvarado",
+    "player_id": 1630631,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1616,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.0606,
+      "recent_share": 0.2222,
+      "delta": 0.1616,
+      "recent_attempts": 2,
+      "total_attempts": 2
+    },
+    "summary": "Jose Alvarado's right corner 3 shot share increased from 6.1% to 22.2% over last 3 games (2 of 9 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Karl-Anthony Towns",
+    "player_id": 1626157,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.1614,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.6957,
+      "recent_fg_pct": 0.8571,
+      "delta": 0.1614,
+      "recent_attempts": 7,
+      "total_attempts": 46
+    },
+    "summary": "Karl-Anthony Towns's restricted area FG% rose from 69.6% to 85.7% over last 3 games (7 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Ja'Kobe Walter",
+    "player_id": 1642266,
+    "pattern_type": "hot_zone",
+    "zone": "above_break_3",
+    "severity": 0.1612,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.3125,
+      "recent_fg_pct": 0.4737,
+      "delta": 0.1612,
+      "recent_attempts": 19,
+      "total_attempts": 32
+    },
+    "summary": "Ja'Kobe Walter's above break 3 FG% rose from 31.2% to 47.4% over last 3 games (19 attempts).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Mike Conley",
+    "player_id": 201144,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1607,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.125,
+      "recent_share": 0.2857,
+      "delta": 0.1607,
+      "recent_attempts": 2,
+      "total_attempts": 4
+    },
+    "summary": "Mike Conley's right corner 3 shot share increased from 12.5% to 28.6% over last 3 games (2 of 7 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Desmond Bane",
+    "player_id": 1630217,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.1556,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.4444,
+      "recent_fg_pct": 0.6,
+      "delta": 0.1556,
+      "recent_attempts": 5,
+      "total_attempts": 18
+    },
+    "summary": "Desmond Bane's restricted area FG% rose from 44.4% to 60.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Anthony Edwards",
+    "player_id": 1630162,
+    "pattern_type": "hot_zone",
+    "zone": "midrange",
+    "severity": 0.1553,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.3947,
+      "recent_fg_pct": 0.55,
+      "delta": 0.1553,
+      "recent_attempts": 20,
+      "total_attempts": 38
+    },
+    "summary": "Anthony Edwards's midrange FG% rose from 39.5% to 55.0% over last 3 games (20 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jabari Smith Jr.",
+    "player_id": 1631095,
+    "pattern_type": "cold_zone",
+    "zone": "midrange",
+    "severity": 0.1538,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.1538,
+      "recent_fg_pct": 0.0,
+      "delta": -0.1538,
+      "recent_attempts": 5,
+      "total_attempts": 13
+    },
+    "summary": "Jabari Smith Jr.'s midrange FG% dropped from 15.4% to 0.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Karl-Anthony Towns",
+    "player_id": 1626157,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1522,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1522,
+      "recent_share": 0.3043,
+      "delta": 0.1522,
+      "recent_attempts": 7,
+      "total_attempts": 14
+    },
+    "summary": "Karl-Anthony Towns's paint non ra shot share increased from 15.2% to 30.4% over last 3 games (7 of 23 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jonathan Kuminga",
+    "player_id": 1630228,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1519,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.3,
+      "recent_share": 0.1481,
+      "delta": -0.1519,
+      "recent_attempts": 4,
+      "total_attempts": 18
+    },
+    "summary": "Jonathan Kuminga's restricted area shot share decreased from 30.0% to 14.8% over last 3 games (4 of 27 recent shots).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Jaden McDaniels",
+    "player_id": 1630183,
+    "pattern_type": "hot_zone",
+    "zone": "above_break_3",
+    "severity": 0.1515,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.1818,
+      "recent_fg_pct": 0.3333,
+      "delta": 0.1515,
+      "recent_attempts": 6,
+      "total_attempts": 22
+    },
+    "summary": "Jaden McDaniels's above break 3 FG% rose from 18.2% to 33.3% over last 3 games (6 attempts).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Desmond Bane",
+    "player_id": 1630217,
+    "pattern_type": "hot_zone",
+    "zone": "paint_non_ra",
+    "severity": 0.1503,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.2941,
+      "recent_fg_pct": 0.4444,
+      "delta": 0.1503,
+      "recent_attempts": 9,
+      "total_attempts": 17
+    },
+    "summary": "Desmond Bane's paint non ra FG% rose from 29.4% to 44.4% over last 3 games (9 attempts).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Scoot Henderson",
+    "player_id": 1630703,
+    "pattern_type": "cold_zone",
+    "zone": "restricted_area",
+    "severity": 0.15,
+    "direction": "negative",
+    "evidence": {
+      "playoff_fg_pct": 0.75,
+      "recent_fg_pct": 0.6,
+      "delta": -0.15,
+      "recent_attempts": 5,
+      "total_attempts": 8
+    },
+    "summary": "Scoot Henderson's restricted area FG% dropped from 75.0% to 60.0% over last 3 games (5 attempts).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Oso Ighodaro",
+    "player_id": 1642345,
+    "pattern_type": "hot_zone",
+    "zone": "restricted_area",
+    "severity": 0.15,
+    "direction": "positive",
+    "evidence": {
+      "playoff_fg_pct": 0.6,
+      "recent_fg_pct": 0.75,
+      "delta": 0.15,
+      "recent_attempts": 12,
+      "total_attempts": 15
+    },
+    "summary": "Oso Ighodaro's restricted area FG% rose from 60.0% to 75.0% over last 3 games (12 attempts).",
+    "games_window": [
+      "2026-04-22",
+      "2026-04-25",
+      "2026-04-27"
+    ]
+  },
+  {
+    "player_name": "Caris LeVert",
+    "player_id": 1627747,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.15,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.4,
+      "recent_share": 0.25,
+      "delta": -0.15,
+      "recent_attempts": 3,
+      "total_attempts": 12
+    },
+    "summary": "Caris LeVert's restricted area shot share decreased from 40.0% to 25.0% over last 3 games (3 of 12 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Aaron Wiggins",
+    "player_id": 1630598,
+    "pattern_type": "shot_profile_shift",
+    "zone": "midrange",
+    "severity": 0.15,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.25,
+      "recent_share": 0.4,
+      "delta": 0.15,
+      "recent_attempts": 2,
+      "total_attempts": 2
+    },
+    "summary": "Aaron Wiggins's midrange shot share increased from 25.0% to 40.0% over last 3 games (2 of 5 recent shots).",
+    "games_window": [
+      "2026-04-27",
+      "2026-05-05",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Ayo Dosunmu",
+    "player_id": 1630245,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1475,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.3261,
+      "recent_share": 0.1786,
+      "delta": -0.1475,
+      "recent_attempts": 5,
+      "total_attempts": 30
+    },
+    "summary": "Ayo Dosunmu's restricted area shot share decreased from 32.6% to 17.9% over last 3 games (5 of 28 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Keldon Johnson",
+    "player_id": 1629640,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1474,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2,
+      "recent_share": 0.0526,
+      "delta": -0.1474,
+      "recent_attempts": 1,
+      "total_attempts": 12
+    },
+    "summary": "Keldon Johnson's paint non ra shot share decreased from 20.0% to 5.3% over last 3 games (1 of 19 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jamal Cain",
+    "player_id": 1631288,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1432,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2414,
+      "recent_share": 0.3846,
+      "delta": 0.1432,
+      "recent_attempts": 5,
+      "total_attempts": 7
+    },
+    "summary": "Jamal Cain's paint non ra shot share increased from 24.1% to 38.5% over last 3 games (5 of 13 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Aaron Holiday",
+    "player_id": 1628988,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1429,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.5,
+      "recent_share": 0.3571,
+      "delta": -0.1429,
+      "recent_attempts": 5,
+      "total_attempts": 11
+    },
+    "summary": "Aaron Holiday's above break 3 shot share decreased from 50.0% to 35.7% over last 3 games (5 of 14 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Kenrich Williams",
+    "player_id": 1629026,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1429,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1429,
+      "recent_share": 0.0,
+      "delta": -0.1429,
+      "recent_attempts": 0,
+      "total_attempts": 1
+    },
+    "summary": "Kenrich Williams's restricted area shot share decreased from 14.3% to 0.0% over last 3 games (0 of 4 recent shots).",
+    "games_window": [
+      "2026-04-25",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Luke Kornet",
+    "player_id": 1628436,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1389,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1944,
+      "recent_share": 0.3333,
+      "delta": 0.1389,
+      "recent_attempts": 2,
+      "total_attempts": 7
+    },
+    "summary": "Luke Kornet's paint non ra shot share increased from 19.4% to 33.3% over last 3 games (2 of 6 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Tristan da Silva",
+    "player_id": 1641783,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1379,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1379,
+      "recent_share": 0.0,
+      "delta": -0.1379,
+      "recent_attempts": 0,
+      "total_attempts": 4
+    },
+    "summary": "Tristan da Silva's right corner 3 shot share decreased from 13.8% to 0.0% over last 3 games (0 of 14 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Carter Bryant",
+    "player_id": 1642868,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1357,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.15,
+      "recent_share": 0.2857,
+      "delta": 0.1357,
+      "recent_attempts": 2,
+      "total_attempts": 3
+    },
+    "summary": "Carter Bryant's left corner 3 shot share increased from 15.0% to 28.6% over last 3 games (2 of 7 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Caris LeVert",
+    "player_id": 1627747,
+    "pattern_type": "shot_profile_shift",
+    "zone": "midrange",
+    "severity": 0.1333,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2,
+      "recent_share": 0.3333,
+      "delta": 0.1333,
+      "recent_attempts": 4,
+      "total_attempts": 6
+    },
+    "summary": "Caris LeVert's midrange shot share increased from 20.0% to 33.3% over last 3 games (4 of 12 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Goga Bitadze",
+    "player_id": 1629048,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1333,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.7333,
+      "recent_share": 0.6,
+      "delta": -0.1333,
+      "recent_attempts": 6,
+      "total_attempts": 11
+    },
+    "summary": "Goga Bitadze's restricted area shot share decreased from 73.3% to 60.0% over last 3 games (6 of 10 recent shots).",
+    "games_window": [
+      "2026-04-27",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Goga Bitadze",
+    "player_id": 1629048,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1333,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2667,
+      "recent_share": 0.4,
+      "delta": 0.1333,
+      "recent_attempts": 4,
+      "total_attempts": 4
+    },
+    "summary": "Goga Bitadze's paint non ra shot share increased from 26.7% to 40.0% over last 3 games (4 of 10 recent shots).",
+    "games_window": [
+      "2026-04-27",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Collin Murray-Boyles",
+    "player_id": 1642867,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1312,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2188,
+      "recent_share": 0.35,
+      "delta": 0.1312,
+      "recent_attempts": 7,
+      "total_attempts": 14
+    },
+    "summary": "Collin Murray-Boyles's paint non ra shot share increased from 21.9% to 35.0% over last 3 games (7 of 20 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Andre Drummond",
+    "player_id": 203083,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1304,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1304,
+      "recent_share": 0.0,
+      "delta": -0.1304,
+      "recent_attempts": 0,
+      "total_attempts": 3
+    },
+    "summary": "Andre Drummond's right corner 3 shot share decreased from 13.0% to 0.0% over last 3 games (0 of 7 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Isaiah Joe",
+    "player_id": 1630198,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.125,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.75,
+      "recent_share": 0.625,
+      "delta": -0.125,
+      "recent_attempts": 10,
+      "total_attempts": 27
+    },
+    "summary": "Isaiah Joe's above break 3 shot share decreased from 75.0% to 62.5% over last 3 games (10 of 16 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Isaiah Stewart",
+    "player_id": 1630191,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.125,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.125,
+      "recent_share": 0.0,
+      "delta": -0.125,
+      "recent_attempts": 0,
+      "total_attempts": 3
+    },
+    "summary": "Isaiah Stewart's above break 3 shot share decreased from 12.5% to 0.0% over last 3 games (0 of 6 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Isaiah Stewart",
+    "player_id": 1630191,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.125,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.125,
+      "recent_share": 0.0,
+      "delta": -0.125,
+      "recent_attempts": 0,
+      "total_attempts": 3
+    },
+    "summary": "Isaiah Stewart's paint non ra shot share decreased from 12.5% to 0.0% over last 3 games (0 of 6 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Aaron Wiggins",
+    "player_id": 1630598,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.125,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.125,
+      "recent_share": 0.0,
+      "delta": -0.125,
+      "recent_attempts": 0,
+      "total_attempts": 1
+    },
+    "summary": "Aaron Wiggins's left corner 3 shot share decreased from 12.5% to 0.0% over last 3 games (0 of 5 recent shots).",
+    "games_window": [
+      "2026-04-27",
+      "2026-05-05",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Dalton Knecht",
+    "player_id": 1642261,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.125,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.125,
+      "recent_share": 0.25,
+      "delta": 0.125,
+      "recent_attempts": 1,
+      "total_attempts": 1
+    },
+    "summary": "Dalton Knecht's restricted area shot share increased from 12.5% to 25.0% over last 3 games (1 of 4 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jamison Battle",
+    "player_id": 1642419,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1228,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2105,
+      "recent_share": 0.3333,
+      "delta": 0.1228,
+      "recent_attempts": 4,
+      "total_attempts": 4
+    },
+    "summary": "Jamison Battle's restricted area shot share increased from 21.1% to 33.3% over last 3 games (4 of 12 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Isaiah Hartenstein",
+    "player_id": 1628392,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1216,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.6216,
+      "recent_share": 0.5,
+      "delta": -0.1216,
+      "recent_attempts": 8,
+      "total_attempts": 23
+    },
+    "summary": "Isaiah Hartenstein's restricted area shot share decreased from 62.2% to 50.0% over last 3 games (8 of 16 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jose Alvarado",
+    "player_id": 1630631,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1212,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2121,
+      "recent_share": 0.3333,
+      "delta": 0.1212,
+      "recent_attempts": 3,
+      "total_attempts": 7
+    },
+    "summary": "Jose Alvarado's paint non ra shot share increased from 21.2% to 33.3% over last 3 games (3 of 9 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Justin Edwards",
+    "player_id": 1642348,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1161,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1875,
+      "recent_share": 0.0714,
+      "delta": -0.1161,
+      "recent_attempts": 1,
+      "total_attempts": 6
+    },
+    "summary": "Justin Edwards's restricted area shot share decreased from 18.8% to 7.1% over last 3 games (1 of 14 recent shots).",
+    "games_window": [
+      "2026-05-02",
+      "2026-05-04",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Baylor Scheierman",
+    "player_id": 1631248,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1154,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.6154,
+      "recent_share": 0.5,
+      "delta": -0.1154,
+      "recent_attempts": 5,
+      "total_attempts": 16
+    },
+    "summary": "Baylor Scheierman's above break 3 shot share decreased from 61.5% to 50.0% over last 3 games (5 of 10 recent shots).",
+    "games_window": [
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Mohamed Diawara",
+    "player_id": 1642885,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1154,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.3846,
+      "recent_share": 0.5,
+      "delta": 0.1154,
+      "recent_attempts": 5,
+      "total_attempts": 5
+    },
+    "summary": "Mohamed Diawara's above break 3 shot share increased from 38.5% to 50.0% over last 3 games (5 of 10 recent shots).",
+    "games_window": [
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Carter Bryant",
+    "player_id": 1642868,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1143,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.4,
+      "recent_share": 0.2857,
+      "delta": -0.1143,
+      "recent_attempts": 2,
+      "total_attempts": 8
+    },
+    "summary": "Carter Bryant's above break 3 shot share decreased from 40.0% to 28.6% over last 3 games (2 of 7 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Mouhamed Gueye",
+    "player_id": 1631243,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1143,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2857,
+      "recent_share": 0.4,
+      "delta": 0.1143,
+      "recent_attempts": 2,
+      "total_attempts": 4
+    },
+    "summary": "Mouhamed Gueye's left corner 3 shot share increased from 28.6% to 40.0% over last 3 games (2 of 5 recent shots).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Ayo Dosunmu",
+    "player_id": 1630245,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1134,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.0652,
+      "recent_share": 0.1786,
+      "delta": 0.1134,
+      "recent_attempts": 5,
+      "total_attempts": 6
+    },
+    "summary": "Ayo Dosunmu's right corner 3 shot share increased from 6.5% to 17.9% over last 3 games (5 of 28 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Stephon Castle",
+    "player_id": 1642264,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1126,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2295,
+      "recent_share": 0.3421,
+      "delta": 0.1126,
+      "recent_attempts": 13,
+      "total_attempts": 28
+    },
+    "summary": "Stephon Castle's paint non ra shot share increased from 23.0% to 34.2% over last 3 games (13 of 38 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Miles McBride",
+    "player_id": 1630540,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1124,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.0781,
+      "recent_share": 0.1905,
+      "delta": 0.1124,
+      "recent_attempts": 4,
+      "total_attempts": 5
+    },
+    "summary": "Miles McBride's left corner 3 shot share increased from 7.8% to 19.0% over last 3 games (4 of 21 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Tari Eason",
+    "player_id": 1631106,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1121,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1692,
+      "recent_share": 0.0571,
+      "delta": -0.1121,
+      "recent_attempts": 2,
+      "total_attempts": 11
+    },
+    "summary": "Tari Eason's paint non ra shot share decreased from 16.9% to 5.7% over last 3 games (2 of 35 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Paolo Banchero",
+    "player_id": 1631094,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1115,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2168,
+      "recent_share": 0.1053,
+      "delta": -0.1115,
+      "recent_attempts": 8,
+      "total_attempts": 31
+    },
+    "summary": "Paolo Banchero's restricted area shot share decreased from 21.7% to 10.5% over last 3 games (8 of 76 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Evan Mobley",
+    "player_id": 1630596,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1111,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.2222,
+      "recent_share": 0.3333,
+      "delta": 0.1111,
+      "recent_attempts": 9,
+      "total_attempts": 24
+    },
+    "summary": "Evan Mobley's above break 3 shot share increased from 22.2% to 33.3% over last 3 games (9 of 27 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Luke Kornet",
+    "player_id": 1628436,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1111,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.7778,
+      "recent_share": 0.6667,
+      "delta": -0.1111,
+      "recent_attempts": 4,
+      "total_attempts": 28
+    },
+    "summary": "Luke Kornet's restricted area shot share decreased from 77.8% to 66.7% over last 3 games (4 of 6 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jaylin Williams",
+    "player_id": 1631119,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1111,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1111,
+      "recent_share": 0.0,
+      "delta": -0.1111,
+      "recent_attempts": 0,
+      "total_attempts": 3
+    },
+    "summary": "Jaylin Williams's paint non ra shot share decreased from 11.1% to 0.0% over last 3 games (0 of 9 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Ron Harper Jr.",
+    "player_id": 1631199,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1111,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1111,
+      "recent_share": 0.0,
+      "delta": -0.1111,
+      "recent_attempts": 0,
+      "total_attempts": 1
+    },
+    "summary": "Ron Harper Jr.'s restricted area shot share decreased from 11.1% to 0.0% over last 3 games (0 of 5 recent shots).",
+    "games_window": [
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Deni Avdija",
+    "player_id": 1630166,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1101,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2692,
+      "recent_share": 0.1591,
+      "delta": -0.1101,
+      "recent_attempts": 7,
+      "total_attempts": 21
+    },
+    "summary": "Deni Avdija's paint non ra shot share decreased from 26.9% to 15.9% over last 3 games (7 of 44 recent shots).",
+    "games_window": [
+      "2026-04-24",
+      "2026-04-26",
+      "2026-04-28"
+    ]
+  },
+  {
+    "player_name": "Ajay Mitchell",
+    "player_id": 1642349,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1089,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.18,
+      "recent_share": 0.2889,
+      "delta": 0.1089,
+      "recent_attempts": 13,
+      "total_attempts": 18
+    },
+    "summary": "Ajay Mitchell's restricted area shot share increased from 18.0% to 28.9% over last 3 games (13 of 45 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Sam Hauser",
+    "player_id": 1630573,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1087,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1087,
+      "recent_share": 0.0,
+      "delta": -0.1087,
+      "recent_attempts": 0,
+      "total_attempts": 5
+    },
+    "summary": "Sam Hauser's left corner 3 shot share decreased from 10.9% to 0.0% over last 3 games (0 of 20 recent shots).",
+    "games_window": [
+      "2026-04-28",
+      "2026-04-30",
+      "2026-05-02"
+    ]
+  },
+  {
+    "player_name": "Kenrich Williams",
+    "player_id": 1629026,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1071,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1429,
+      "recent_share": 0.25,
+      "delta": 0.1071,
+      "recent_attempts": 1,
+      "total_attempts": 1
+    },
+    "summary": "Kenrich Williams's left corner 3 shot share increased from 14.3% to 25.0% over last 3 games (1 of 4 recent shots).",
+    "games_window": [
+      "2026-04-25",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Collin Murray-Boyles",
+    "player_id": 1642867,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1062,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.6562,
+      "recent_share": 0.55,
+      "delta": -0.1062,
+      "recent_attempts": 11,
+      "total_attempts": 42
+    },
+    "summary": "Collin Murray-Boyles's restricted area shot share decreased from 65.6% to 55.0% over last 3 games (11 of 20 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Corey Kispert",
+    "player_id": 1630557,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1061,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2727,
+      "recent_share": 0.1667,
+      "delta": -0.1061,
+      "recent_attempts": 3,
+      "total_attempts": 6
+    },
+    "summary": "Corey Kispert's restricted area shot share decreased from 27.3% to 16.7% over last 3 games (3 of 18 recent shots).",
+    "games_window": [
+      "2026-04-25",
+      "2026-04-28",
+      "2026-04-30"
+    ]
+  },
+  {
+    "player_name": "Tyler Kolek",
+    "player_id": 1642278,
+    "pattern_type": "shot_profile_shift",
+    "zone": "midrange",
+    "severity": 0.1061,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1667,
+      "recent_share": 0.2727,
+      "delta": 0.1061,
+      "recent_attempts": 3,
+      "total_attempts": 3
+    },
+    "summary": "Tyler Kolek's midrange shot share increased from 16.7% to 27.3% over last 3 games (3 of 11 recent shots).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Josh Okogie",
+    "player_id": 1629006,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1057,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.32,
+      "recent_share": 0.2143,
+      "delta": -0.1057,
+      "recent_attempts": 3,
+      "total_attempts": 8
+    },
+    "summary": "Josh Okogie's restricted area shot share decreased from 32.0% to 21.4% over last 3 games (3 of 14 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Jamison Battle",
+    "player_id": 1642419,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1053,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1053,
+      "recent_share": 0.0,
+      "delta": -0.1053,
+      "recent_attempts": 0,
+      "total_attempts": 2
+    },
+    "summary": "Jamison Battle's left corner 3 shot share decreased from 10.5% to 0.0% over last 3 games (0 of 12 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Luke Kennard",
+    "player_id": 1628379,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1046,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.0533,
+      "recent_share": 0.1579,
+      "delta": 0.1046,
+      "recent_attempts": 3,
+      "total_attempts": 4
+    },
+    "summary": "Luke Kennard's right corner 3 shot share increased from 5.3% to 15.8% over last 3 games (3 of 19 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Isaiah Joe",
+    "player_id": 1630198,
+    "pattern_type": "shot_profile_shift",
+    "zone": "midrange",
+    "severity": 0.1042,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.0833,
+      "recent_share": 0.1875,
+      "delta": 0.1042,
+      "recent_attempts": 3,
+      "total_attempts": 3
+    },
+    "summary": "Isaiah Joe's midrange shot share increased from 8.3% to 18.8% over last 3 games (3 of 16 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "A.J. Lawson",
+    "player_id": 1630639,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1042,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.4375,
+      "recent_share": 0.3333,
+      "delta": -0.1042,
+      "recent_attempts": 3,
+      "total_attempts": 7
+    },
+    "summary": "A.J. Lawson's restricted area shot share decreased from 43.8% to 33.3% over last 3 games (3 of 9 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "Devin Vassell",
+    "player_id": 1630170,
+    "pattern_type": "shot_profile_shift",
+    "zone": "midrange",
+    "severity": 0.1039,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2857,
+      "recent_share": 0.1818,
+      "delta": -0.1039,
+      "recent_attempts": 6,
+      "total_attempts": 30
+    },
+    "summary": "Devin Vassell's midrange shot share decreased from 28.6% to 18.2% over last 3 games (6 of 33 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Aaron Holiday",
+    "player_id": 1628988,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1039,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1818,
+      "recent_share": 0.2857,
+      "delta": 0.1039,
+      "recent_attempts": 4,
+      "total_attempts": 4
+    },
+    "summary": "Aaron Holiday's restricted area shot share increased from 18.2% to 28.6% over last 3 games (4 of 14 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Dorian Finney-Smith",
+    "player_id": 1627827,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1032,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.2143,
+      "recent_share": 0.1111,
+      "delta": -0.1032,
+      "recent_attempts": 1,
+      "total_attempts": 3
+    },
+    "summary": "Dorian Finney-Smith's left corner 3 shot share decreased from 21.4% to 11.1% over last 3 games (1 of 9 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Justin Edwards",
+    "player_id": 1642348,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1027,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.4688,
+      "recent_share": 0.5714,
+      "delta": 0.1027,
+      "recent_attempts": 8,
+      "total_attempts": 15
+    },
+    "summary": "Justin Edwards's above break 3 shot share increased from 46.9% to 57.1% over last 3 games (8 of 14 recent shots).",
+    "games_window": [
+      "2026-05-02",
+      "2026-05-04",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Mike Conley",
+    "player_id": 201144,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1027,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.4688,
+      "recent_share": 0.5714,
+      "delta": 0.1027,
+      "recent_attempts": 4,
+      "total_attempts": 15
+    },
+    "summary": "Mike Conley's above break 3 shot share increased from 46.9% to 57.1% over last 3 games (4 of 7 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Miles McBride",
+    "player_id": 1630540,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1019,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.5781,
+      "recent_share": 0.4762,
+      "delta": -0.1019,
+      "recent_attempts": 10,
+      "total_attempts": 37
+    },
+    "summary": "Miles McBride's above break 3 shot share decreased from 57.8% to 47.6% over last 3 games (10 of 21 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Daniss Jenkins",
+    "player_id": 1642450,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1018,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.3205,
+      "recent_share": 0.2188,
+      "delta": -0.1018,
+      "recent_attempts": 7,
+      "total_attempts": 25
+    },
+    "summary": "Daniss Jenkins's above break 3 shot share decreased from 32.1% to 21.9% over last 3 games (7 of 32 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Daniss Jenkins",
+    "player_id": 1642450,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1018,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1795,
+      "recent_share": 0.2812,
+      "delta": 0.1018,
+      "recent_attempts": 9,
+      "total_attempts": 14
+    },
+    "summary": "Daniss Jenkins's restricted area shot share increased from 17.9% to 28.1% over last 3 games (9 of 32 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jabari Smith Jr.",
+    "player_id": 1631095,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1011,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.4118,
+      "recent_share": 0.5128,
+      "delta": 0.1011,
+      "recent_attempts": 20,
+      "total_attempts": 35
+    },
+    "summary": "Jabari Smith Jr.'s above break 3 shot share increased from 41.2% to 51.3% over last 3 games (20 of 39 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-04-29",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Scottie Barnes",
+    "player_id": 1630567,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1009,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.3362,
+      "recent_share": 0.2353,
+      "delta": -0.1009,
+      "recent_attempts": 12,
+      "total_attempts": 39
+    },
+    "summary": "Scottie Barnes's restricted area shot share decreased from 33.6% to 23.5% over last 3 games (12 of 51 recent shots).",
+    "games_window": [
+      "2026-04-29",
+      "2026-05-01",
+      "2026-05-03"
+    ]
+  },
+  {
+    "player_name": "De'Aaron Fox",
+    "player_id": 1628368,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1004,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.3611,
+      "recent_share": 0.4615,
+      "delta": 0.1004,
+      "recent_attempts": 24,
+      "total_attempts": 52
+    },
+    "summary": "De'Aaron Fox's paint non ra shot share increased from 36.1% to 46.2% over last 3 games (24 of 52 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jaden McDaniels",
+    "player_id": 1630183,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1001,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.3467,
+      "recent_share": 0.4468,
+      "delta": 0.1001,
+      "recent_attempts": 21,
+      "total_attempts": 52
+    },
+    "summary": "Jaden McDaniels's paint non ra shot share increased from 34.7% to 44.7% over last 3 games (21 of 47 recent shots).",
+    "games_window": [
+      "2026-05-06",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Caris LeVert",
+    "player_id": 1627747,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1,
+      "recent_share": 0.0,
+      "delta": -0.1,
+      "recent_attempts": 0,
+      "total_attempts": 3
+    },
+    "summary": "Caris LeVert's left corner 3 shot share decreased from 10.0% to 0.0% over last 3 games (0 of 12 recent shots).",
+    "games_window": [
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-09"
+    ]
+  },
+  {
+    "player_name": "Jabari Walker",
+    "player_id": 1631133,
+    "pattern_type": "shot_profile_shift",
+    "zone": "left_corner_3",
+    "severity": 0.1,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1,
+      "recent_share": 0.0,
+      "delta": -0.1,
+      "recent_attempts": 0,
+      "total_attempts": 1
+    },
+    "summary": "Jabari Walker's left corner 3 shot share decreased from 10.0% to 0.0% over last 3 games (0 of 4 recent shots).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jabari Walker",
+    "player_id": 1631133,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1,
+      "recent_share": 0.0,
+      "delta": -0.1,
+      "recent_attempts": 0,
+      "total_attempts": 1
+    },
+    "summary": "Jabari Walker's right corner 3 shot share decreased from 10.0% to 0.0% over last 3 games (0 of 4 recent shots).",
+    "games_window": [
+      "2026-05-04",
+      "2026-05-08",
+      "2026-05-10"
+    ]
+  },
+  {
+    "player_name": "Jaylen Clark",
+    "player_id": 1641740,
+    "pattern_type": "shot_profile_shift",
+    "zone": "restricted_area",
+    "severity": 0.1,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1,
+      "recent_share": 0.0,
+      "delta": -0.1,
+      "recent_attempts": 0,
+      "total_attempts": 1
+    },
+    "summary": "Jaylen Clark's restricted area shot share decreased from 10.0% to 0.0% over last 3 games (0 of 9 recent shots).",
+    "games_window": [
+      "2026-04-30",
+      "2026-05-04",
+      "2026-05-06"
+    ]
+  },
+  {
+    "player_name": "Jae'Sean Tate",
+    "player_id": 1630256,
+    "pattern_type": "shot_profile_shift",
+    "zone": "right_corner_3",
+    "severity": 0.1,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1,
+      "recent_share": 0.2,
+      "delta": 0.1,
+      "recent_attempts": 1,
+      "total_attempts": 1
+    },
+    "summary": "Jae'Sean Tate's right corner 3 shot share increased from 10.0% to 20.0% over last 3 games (1 of 5 recent shots).",
+    "games_window": [
+      "2026-04-21",
+      "2026-04-26",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Jae'Sean Tate",
+    "player_id": 1630256,
+    "pattern_type": "shot_profile_shift",
+    "zone": "above_break_3",
+    "severity": 0.1,
+    "direction": "positive",
+    "evidence": {
+      "playoff_share": 0.1,
+      "recent_share": 0.2,
+      "delta": 0.1,
+      "recent_attempts": 1,
+      "total_attempts": 1
+    },
+    "summary": "Jae'Sean Tate's above break 3 shot share increased from 10.0% to 20.0% over last 3 games (1 of 5 recent shots).",
+    "games_window": [
+      "2026-04-21",
+      "2026-04-26",
+      "2026-05-01"
+    ]
+  },
+  {
+    "player_name": "Bronny James",
+    "player_id": 1642355,
+    "pattern_type": "shot_profile_shift",
+    "zone": "paint_non_ra",
+    "severity": 0.1,
+    "direction": "negative",
+    "evidence": {
+      "playoff_share": 0.1,
+      "recent_share": 0.0,
+      "delta": -0.1,
+      "recent_attempts": 0,
+      "total_attempts": 1
+    },
+    "summary": "Bronny James's paint non ra shot share decreased from 10.0% to 0.0% over last 3 games (0 of 7 recent shots).",
+    "games_window": [
+      "2026-04-26",
+      "2026-05-01",
+      "2026-05-09"
+    ]
+  }
+]

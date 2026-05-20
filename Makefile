@@ -1,4 +1,4 @@
-.PHONY: help install smoke import embeddings dev replay clean
+.PHONY: help install smoke import embeddings stats patterns build-data dev replay clean
 
 # Use the project venv's python if it exists, otherwise system python3.
 PY ?= $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
@@ -35,6 +35,14 @@ import:
 
 embeddings:
 	$(PY) scripts/build_embeddings.py
+
+stats:
+	$(PY) scripts/build_stats.py
+
+patterns:
+	$(PY) scripts/detect_patterns.py
+
+build-data: stats patterns
 
 dev:
 	cd frontend && npm run dev
